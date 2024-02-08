@@ -55,8 +55,14 @@ jobs:
       
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2.0.0
         
+      - name: Restore NuGet
+        run: nuget restore orcToDh.sln
+
       - name: Build the solution
         run: msbuild orcToDh.sln
-        
+
         
