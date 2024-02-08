@@ -2,8 +2,8 @@ name: .NET CI
 
 on:
   push:
-    tags:
-      - '*'
+    branches:
+      - releases
 
 jobs:
   build:
@@ -22,6 +22,8 @@ jobs:
       run: dotnet build --no-restore --output ./build
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: Zip the build output
+      run: Compress-Archive -Path ./build/* -DestinationPath ./build.zip
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -39,6 +41,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./build
+        asset_path: ./build.zip
         asset_name: build.zip
         asset_content_type: application/zip
