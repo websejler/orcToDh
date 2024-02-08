@@ -57,6 +57,6 @@ jobs:
         uses: microsoft/setup-msbuild@v2
         
       - name: Build the solution
-        run: msbuilld orcToDh.orcToDh.sln
+        run: msbuilld orcToDh.sln
         
         
