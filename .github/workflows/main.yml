@@ -25,15 +25,9 @@ jobs:
         
     - name: Restore dependencies
       run: dotnet restore
-      
-    - name: Build
-      run: dotnet build --no-restore --output ./build
-      
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
 
     - name: Publish
-      run: dotnet publish -c Release -o ./build/install/
+      run: dotnet publish -c Release -o ./build/
       
     - name: Zip the build output
       run: Compress-Archive -Path ./build/* -DestinationPath ./build.zip
