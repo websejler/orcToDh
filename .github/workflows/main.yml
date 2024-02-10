@@ -1,46 +1,46 @@
-name: .NET CI
+name: CI
 
 on:
   push:
-    branches:
-      - releases
+    branches: [ master ]
 
 jobs:
   build:
-
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '8.0.x'
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore --output ./build
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
-    - name: Zip the build output
-      run: Compress-Archive -Path ./build/* -DestinationPath ./build.zip
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Get the date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y%m%d%H%M%S')"
+      shell: bash
+
+    - name: Build project
+      run: echo "Building the project" # Replace with your build command
+
+    - name: Test project
+      run: echo "Testing the project" # Replace with your test command
+
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.current_time.outputs.time }} # This will create a tag with the current date and time
-        release_name: orcToDh ${{ github.ref_name }}
+        tag_name: ${{ steps.date.outputs.date }}
+        release_name: Release ${{ steps.date.outputs.date }}
         draft: false
-        prerelease: true
+        prerelease: false
+
     - name: Upload Release Asset
-      id: upload-release-asset 
+      id: upload_release_asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./build.zip
-        asset_name: build.zip
-        asset_content_type: application/zip
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: ./your-asset-path # Replace with the path to your asset
+        asset_name: your-asset-name # Replace with the name of your asset
+        asset_content_type: application/zip # Replace with the correct content type
