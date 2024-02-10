@@ -31,6 +31,9 @@ jobs:
       
     - name: Test
       run: dotnet test --no-build --verbosity normal
+
+    - name: Publish
+      run: dotnet publish --no-build -c Release -o ./build/install/
       
     - name: Zip the build output
       run: Compress-Archive -Path ./build/* -DestinationPath ./build.zip
