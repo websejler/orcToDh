@@ -11,29 +11,42 @@ jobs:
     runs-on: windows-latest
 
     steps:
+    - name: Checkout code
     - uses: actions/checkout@v2
+    
+    - name: Get the date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y%m%d%H%M%S')"
+      shell: bash
+      
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '8.0.x'
+        
     - name: Restore dependencies
       run: dotnet restore
+      
     - name: Build
       run: dotnet build --no-restore --output ./build
+      
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      
     - name: Zip the build output
       run: Compress-Archive -Path ./build/* -DestinationPath ./build.zip
+      
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
       with:
-        tag_name: test
+        tag_name: ${{ steps.date.outputs.date }}
         release_name: Release ${{ github.ref_name }}
         draft: false
-        prerelease: false
+        prerelease: true
+        
     - name: Upload Release Asset
       id: upload-release-asset 
       uses: actions/upload-release-asset@v1
