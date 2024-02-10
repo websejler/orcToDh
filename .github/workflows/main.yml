@@ -35,12 +35,12 @@ jobs:
         prerelease: false
 
     - name: Upload Release Asset
-      id: upload_release_asset
+      id: upload-release-asset 
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} 
-        asset_path: ./your-asset-path # Replace with the path to your asset
-        asset_name: your-asset-name # Replace with the name of your asset
-        asset_content_type: application/zip # Replace with the correct content type
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./build.zip
+        asset_name: build.zip
+        asset_content_type: application/zip
