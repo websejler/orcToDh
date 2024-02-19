@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace orcToDh
 {
@@ -32,7 +33,7 @@ namespace orcToDh
             label.Location = new Point(10, 60);
             this.Controls.Add(label);
 
-            using (StreamReader file = new StreamReader(ofsetFile))
+            using (StreamReader file = new(ofsetFile, new ASCIIEncoding()))
             {
                 OfsetFile ofset = new OfsetFile(file);
             }

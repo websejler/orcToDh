@@ -6,15 +6,16 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Transactions;
 using orcToDh.Exceptions;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using static System.Windows.Forms.LinkLabel;
 
 namespace orcToDh
 {
     public class OfsetFile
     {
         Metadata metadata;
-        MetericSystem metericSystem;
 
         public OfsetFile(StreamReader file)
         {
@@ -24,23 +25,9 @@ namespace orcToDh
                 {
                     throw new ArgumentNullException("file");
                 }
-
-                string line = readLine(file);
-
-                if (string.IsNullOrEmpty(line))
-                {
-                    throw new WrongDataFormatExeception("file is empty");
-                }
-
-                metadata = new Metadata(line);
-
-                string line1 = readLine(file);
-                string line2 = readLine(file);
-
-                metericSystem = new MetericSystem(line1, line2);
+                metadata = new Metadata(file);
 
                 Console.WriteLine("metadata: " + metadata.ToString());
-                Console.WriteLine("metericSystem: " + metericSystem.ToString());
             }
             catch (Exception e)
             {
@@ -48,41 +35,7 @@ namespace orcToDh
             }
         }
 
-        private class MetericSystem
-        {
-            public double sffps, ffpvs, safps, fapvs;
-            public double sffpp, ffpvp, safpp, fapvp;
-
-            public MetericSystem(string line1, string line2)
-            {
-                string[] line1Values = line1.Split(',');
-                string[] line2Values = line2.Split(',');
-
-                if (line1Values.Length != 5 || line2Values.Length != 5)
-                {
-                    throw new WrongDataFormatExeception("Invalid number of values in line1 or line2");
-                }
-
-                double.TryParse(line1Values[0].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out sffps);
-                double.TryParse(line1Values[0].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out sffps);
-                double.TryParse(line1Values[1].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out ffpvs);
-                double.TryParse(line1Values[2].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out safps);
-                double.TryParse(line1Values[3].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out fapvs);
-
-                double.TryParse(line2Values[0].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out sffpp);
-                double.TryParse(line2Values[1].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out ffpvp);
-                double.TryParse(line2Values[2].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out safpp);
-                double.TryParse(line2Values[3].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out fapvp);
-            }
-
-            public override string ToString()
-            {
-                string str = "";
-                str += "SFFPs: " + sffps + " - FFPVs: " + ffpvs + " - SAPFs: " + safps + " - FAPVs: " + fapvs + "\n";
-                str += "SFFPp: " + sffpp + " - FFPVp: " + ffpvp + " - SAPFp: " + safpp + " - FAPVp: " + fapvp + "\n";
-                return str;
-            }
-        }
+        
 
         private class Metadata
         {
@@ -93,35 +46,38 @@ namespace orcToDh
             string classboat;
             string ageDate;
 
-            /// <summary>
-            /// gets data from a line of text from the ofset file
-            /// </summary>
-            /// <param name="line"></param>
-            /// <exception cref="WrongDataFormatExeception">if the line is not the right length</exception>
-            public Metadata(string line)
-            {
+            double sffps, ffpvs, safps, fapvs;
+            double sffpp, ffpvp, safpp, fapvp;
+
+            int nst;
+            double loa, sfj, sfbi;
+
+            public Metadata(StreamReader file)
+            {   
+                //read date and time
+                string line = readLine(file);
                 string[] data = line.Split(',');
                 if (data.Length != 8)
                 {
-                    throw new WrongDataFormatExeception(string.Format("line for metadata is not the right length  nr of dataFields in line: {0}", data.Length));
+                    throw new WrongDataFormatExeception(string.Format("line1 for metadata is not the right length  nr of dataFields in line: {0}", data.Length));
                 }
 
                 MatchCollection matches = Regex.Matches(data[1], @"\b\d{2}\b");
 
                 int dd = int.Parse(matches[0].ToString());
                 int mm = int.Parse(matches[1].ToString());
-                int yy = int.Parse(matches[2].ToString());
+                int yyyy = int.Parse(matches[2].ToString());
                 int currentYear = DateTime.Now.Year;
-                if (yy + 2000 > currentYear)
+                if (yyyy + 2000 > currentYear)
                 {
-                    yy += 1900;
+                    yyyy += 1900;
                 }
                 else
                 {
-                    yy += 2000;
+                    yyyy += 2000;
                 }
 
-                string dateString = yy + "-" + mm + "-" + dd;
+                string dateString = yyyy + "-" + mm + "-" + dd;
                 DateOnly dateOnly = DateOnly.ParseExact(dateString, "yyyy-mm-dd", null);
 
 
@@ -136,20 +92,59 @@ namespace orcToDh
 
                 date = new DateTime(dateOnly, time);
 
-                measuresCode = data[2];
-                machineCode = data[3];
-                filename = data[4];
-                classboat = data[5];
-                ageDate = data[6];
+                measuresCode = data[2].Trim();
+                machineCode = data[3].Trim();
+                filename = data[4].Trim();
+                classboat = data[5].Trim();
+                ageDate = data[6].Trim();
+
+
+                //read Metrec system
+                string[] line1Values = readLine(file).Split(',');
+                string[] line2Values = readLine(file).Split(',');
+
+                if (line1Values.Length != 5 || line2Values.Length != 5)
+                {
+                    throw new WrongDataFormatExeception("Invalid number of values in line2 or line3");
+                }
+
+                double.TryParse(line1Values[0].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out sffps);
+                double.TryParse(line1Values[0].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out sffps);
+                double.TryParse(line1Values[1].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out ffpvs);
+                double.TryParse(line1Values[2].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out safps);
+                double.TryParse(line1Values[3].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out fapvs);
+
+                double.TryParse(line2Values[0].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out sffpp);
+                double.TryParse(line2Values[1].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out ffpvp);
+                double.TryParse(line2Values[2].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out safpp);
+                double.TryParse(line2Values[3].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out fapvp);
+
+                //read misc
+                line = readLine(file);
+                data = line.Split(',');
+                if (data.Length != 5)
+                {
+                    throw new WrongDataFormatExeception("Invalid number of values in line 4");
+                }
+
+                int.TryParse(data[0].Trim(), out nst);
+                double.TryParse(data[1].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out loa);
+                double.TryParse(data[2].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out sfj);
+                double.TryParse(data[3].Trim(), NumberStyles.Any, CultureInfo.InvariantCulture, out sfbi);
+
             }
 
             public override string ToString()
             {
-                return $"Date: {date}, MeasuresCode: {measuresCode}, MachineCode: {machineCode}, Filename: {filename}, Classboat: {classboat}, AgeDate: {ageDate}";
+                string str = $"Date: {date}, MeasuresCode: {measuresCode}, MachineCode: {machineCode}, Filename: {filename}, Classboat: {classboat}, AgeDate: {ageDate}\n";
+                str += "SFFPs: " + sffps + " - FFPVs: " + ffpvs + " - SAPFs: " + safps + " - FAPVs: " + fapvs + "\n";
+                str += "SFFPp: " + sffpp + " - FFPVp: " + ffpvp + " - SAPFp: " + safpp + " - FAPVp: " + fapvp + "\n";
+                str += "NST: " + nst + " - LOA: " + loa + " - SFJ: " + sfj + " - SFBI: " + sfbi + "\n";
+                return str;
             }
         }
 
-        private string readLine(StreamReader file)
+        protected static string readLine(StreamReader file)
         {
             if (file == null)
             {
