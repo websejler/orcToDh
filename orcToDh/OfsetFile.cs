@@ -38,7 +38,7 @@ namespace orcToDh
                 for (int j = 0; j < station.NPT; j++)
                 {
                     line = readLine(file);
-                    dataPoint point = new dataPoint(line);
+                    DataPoint point = new DataPoint(line);
                     Console.WriteLine("point: " + point.ToString());
                 }
             }
