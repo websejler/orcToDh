@@ -256,7 +256,7 @@ namespace orcToDh
                 16 Force a clip at this point.
              */
 
-            public dataPoint(string line)
+            public DataPoint(string line)
             {
                 string[] data = line.Split(',');
                 if (data.Length < 3)
