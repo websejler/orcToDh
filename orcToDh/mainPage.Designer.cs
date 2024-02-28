@@ -30,6 +30,8 @@
         {
             openFileDialog1 = new OpenFileDialog();
             openFileButton = new Button();
+            statusLable = new Label();
+            bMAXButton = new Button();
             SuspendLayout();
             // 
             // openFileDialog1
@@ -46,20 +48,45 @@
             openFileButton.UseVisualStyleBackColor = true;
             openFileButton.Click += openFileButton_Click;
             // 
-            // Form1
+            // statusLable
+            // 
+            statusLable.AutoSize = true;
+            statusLable.Location = new Point(111, 21);
+            statusLable.Name = "statusLable";
+            statusLable.Size = new Size(66, 15);
+            statusLable.TabIndex = 1;
+            statusLable.Text = "statusLable";
+            // 
+            // bMAXButton
+            // 
+            bMAXButton.Enabled = false;
+            bMAXButton.Location = new Point(16, 66);
+            bMAXButton.Name = "bMAXButton";
+            bMAXButton.Size = new Size(75, 23);
+            bMAXButton.TabIndex = 2;
+            bMAXButton.Text = "Cal BMAX";
+            bMAXButton.UseVisualStyleBackColor = true;
+            bMAXButton.Click += bMAXButton_Click;
+            // 
+            // mainPage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(bMAXButton);
+            Controls.Add(statusLable);
             Controls.Add(openFileButton);
-            Name = "Form1";
+            Name = "mainPage";
             Text = "Form1";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private OpenFileDialog openFileDialog1;
         private Button openFileButton;
+        private Label statusLable;
+        private Button bMAXButton;
     }
 }

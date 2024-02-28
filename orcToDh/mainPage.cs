@@ -8,13 +8,15 @@ namespace orcToDh
     {
         [DllImport("kernel32.dll", SetLastError = true)]
         static extern bool AllocConsole();
+        public const string status = "Status: ";
 
         public mainPage()
         {
             InitializeComponent();
-            #if DEBUG
+#if DEBUG
             AllocConsole();
-            #endif
+#endif
+            statusLable.Text = status + "Indlæs fil for at fortsætte";
         }
 
         private void openFileButton_Click(object sender, EventArgs e)
@@ -27,19 +29,18 @@ namespace orcToDh
                 return;
             }
             string ofsetFile = openFileDialog.FileName;
-            Label label = new Label();
-            label.Text = ofsetFile;
-            label.AutoSize = true;
-            label.Location = new Point(10, 60);
-            this.Controls.Add(label);
 
             using (StreamReader file = new(ofsetFile, new ASCIIEncoding()))
             {
                 OfsetFile ofset = new OfsetFile(file);
             }
+            statusLable.Text = status + "Fil indlæst, klar til beregning";
+            bMAXButton.Enabled = true;
+        }
 
-
-
+        private void bMAXButton_Click(object sender, EventArgs e)
+        {
+            //cal BMAX
         }
     }
 }
