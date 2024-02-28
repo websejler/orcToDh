@@ -16,6 +16,7 @@ namespace orcToDh
     public class OfsetFile
     {
         Metadata metadata;
+        List<Station> stations;
 
         public OfsetFile(StreamReader file)
         {
@@ -25,29 +26,30 @@ namespace orcToDh
                 throw new ArgumentNullException("file");
             }
             metadata = new Metadata(file);
-
-            Console.WriteLine("metadata: " + metadata.ToString());
+            stations = new List<Station>();
 
             for (int i = 0; i < metadata.nst; i++)
             {
                 // read station
                 string line = readLine(file);
                 Station station = new Station(line);
-                Console.WriteLine("station: " + station.ToString());
-                // read data points for first station
+                stations.Add(station);
                 for (int j = 0; j < station.NPT; j++)
                 {
                     line = readLine(file);
                     DataPoint point = new DataPoint(line);
-                    Console.WriteLine("point: " + point.ToString());
+                    station.dataPoints.Add(point);
                 }
             }
 
-
+            PrintAll();
         }
 
-
-
+        //inner classes
+        // Metadata
+        // Station
+        // DataPoint
+        #region innerClasses
         private class Metadata
         {
             public DateTime date;
@@ -178,6 +180,8 @@ namespace orcToDh
             public StationLabel SCD { get; } // Station label: Forward freeboard, Aft freeboard, Prop shaft exit point, Propeller hub point
             public int STA { get; } // Station count, not necessary but included for convenience
 
+            public List<DataPoint> dataPoints;
+
             public Station(string line)
             {
                 string[] data = line.Split(',');
@@ -198,6 +202,8 @@ namespace orcToDh
                     STA = 0;
                 }
 
+                dataPoints = new List<DataPoint>();
+
             }
 
             public override string ToString()
@@ -205,7 +211,13 @@ namespace orcToDh
                 return $"X: {X}, NPT: {NPT}, SID: {SID}, SCD: {SCD}, STA: {STA}";
             }
 
-
+            public void PrintDataPoints()
+            {
+                foreach (var point in dataPoints)
+                {
+                    Console.WriteLine(point.ToString());
+                }
+            }
         }
 
         private class DataPoint
@@ -274,6 +286,17 @@ namespace orcToDh
             }
 
         }
+        #endregion
+
+        // This function prints all the stations and their data points in the offset file
+        private void PrintAll()
+        {
+            foreach (var station in stations)
+            {
+                Console.WriteLine(station.ToString());
+                station.PrintDataPoints();
+            }
+        }
 
         protected static string readLine(StreamReader file)
         {
@@ -291,7 +314,4 @@ namespace orcToDh
             return line;
         }
     }
-
-
-
 }
