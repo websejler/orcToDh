@@ -17,6 +17,8 @@ namespace orcToDh
     {
         Metadata metadata;
         List<Station> stations;
+        private List<Station> portStations;
+        private List<Station> starboardStations;
 
         public OfsetFile(StreamReader file)
         {
@@ -27,6 +29,9 @@ namespace orcToDh
             }
             metadata = new Metadata(file);
             stations = new List<Station>();
+            portStations = null;
+            starboardStations = null;
+
 
             for (int i = 0; i < metadata.nst; i++)
             {
@@ -157,7 +162,7 @@ namespace orcToDh
             }
         }
 
-        private class Station
+        public class Station
         {
             public enum SideCode
             {
@@ -220,7 +225,7 @@ namespace orcToDh
             }
         }
 
-        private class DataPoint
+        public class DataPoint
         {
 
             public enum PointCode
@@ -288,7 +293,30 @@ namespace orcToDh
         }
         #endregion
 
-        // This function prints all the stations and their data points in the offset file
+        public List<Station> PortStations
+        {
+            get
+            {
+                if (portStations == null)
+                {
+                    portStations = stations.Where(s => s.SID == Station.SideCode.Port).ToList();
+                }
+                return portStations;
+            }
+        }
+
+        public List<Station> StarboardStations
+        {
+            get
+            {
+                if (starboardStations == null)
+                {
+                    starboardStations = stations.Where(s => s.SID == Station.SideCode.Starboard).ToList();
+                }
+                return starboardStations;
+            }
+        }
+
         private void PrintAll()
         {
             foreach (var station in stations)
