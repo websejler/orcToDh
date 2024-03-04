@@ -1,11 +1,14 @@
 using System.Runtime.InteropServices;
 using System.Text;
+using orcToDh.Calculators;
 
 namespace orcToDh
 {
     public partial class mainPage : Form
-
     {
+        OfsetFile ofset;
+
+
         [DllImport("kernel32.dll", SetLastError = true)]
         static extern bool AllocConsole();
         public const string status = "Status: ";
@@ -17,6 +20,7 @@ namespace orcToDh
             AllocConsole();
 #endif
             statusLable.Text = status + "Indlæs fil for at fortsætte";
+            ofset = null;
         }
 
         private void openFileButton_Click(object sender, EventArgs e)
@@ -32,7 +36,7 @@ namespace orcToDh
 
             using (StreamReader file = new(ofsetFile, new ASCIIEncoding()))
             {
-                OfsetFile ofset = new OfsetFile(file);
+                ofset = new OfsetFile(file);
             }
             statusLable.Text = status + "Fil indlæst, klar til beregning";
             bMAXButton.Enabled = true;
@@ -40,7 +44,8 @@ namespace orcToDh
 
         private void bMAXButton_Click(object sender, EventArgs e)
         {
-            //cal BMAX
+            BMax bMax = new(ofset);
+            bMax.ShowDialog();
         }
     }
 }
