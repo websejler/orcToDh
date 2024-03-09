@@ -9,6 +9,7 @@ namespace orcToDh
         OpenFileDialog openFileDialog;
         OfsetFile? ofset;
         BMax? bMaxCalculator;
+        GMax? gMaxCalculator;
 
 
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -35,7 +36,9 @@ namespace orcToDh
             }
             statusLable.Text = status + "Fil indlæst, klar til beregning";
             bMAXButton.Enabled = true;
+            gMaxButton.Enabled = true;
             bMaxCalculator = new(ofset);
+            gMaxCalculator = new(ofset);
         }
 
         private void bMAXButton_Click(object sender, EventArgs e)
@@ -45,6 +48,15 @@ namespace orcToDh
                 throw new Exception("bMaxCalculator is null");
             }
             bMaxCalculator.ShowDialog();
+        }
+
+        private void gMaxButton_Click(object sender, EventArgs e)
+        {
+            if (gMaxCalculator is null)
+            {
+                throw new Exception("gMaxCalculator is null");
+            }
+            gMaxCalculator.ShowDialog();
         }
     }
 }
