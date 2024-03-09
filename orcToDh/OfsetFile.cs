@@ -15,12 +15,12 @@ namespace orcToDh
 {
     public class OfsetFile
     {
-        Metadata metadata;
+        Metadata? metadata;
         List<Station> stations;
-        private List<Station> portStations;
-        private List<Station> starboardStations;
+        private List<Station>? portStations;
+        private List<Station>? starboardStations;
 
-        public OfsetFile(StreamReader file)
+        public OfsetFile(StreamReader file) 
         {
 
             if (file == null)
@@ -29,8 +29,6 @@ namespace orcToDh
             }
             metadata = new Metadata(file);
             stations = new List<Station>();
-            portStations = null;
-            starboardStations = null;
 
 
             for (int i = 0; i < metadata.nst; i++)
@@ -47,7 +45,7 @@ namespace orcToDh
                 }
             }
 
-            PrintAll();
+            //PrintAll();
         }
 
         //inner classes
@@ -202,7 +200,7 @@ namespace orcToDh
                 {
                     STA = int.Parse(data[4]);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     STA = 0;
                 }
