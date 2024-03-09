@@ -6,7 +6,9 @@ namespace orcToDh
 {
     public partial class mainPage : Form
     {
-        OfsetFile ofset;
+        OpenFileDialog openFileDialog;
+        OfsetFile? ofset;
+        BMax? bMaxCalculator;
 
 
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -18,14 +20,8 @@ namespace orcToDh
             InitializeComponent();
 #if DEBUG
             AllocConsole();
-#endif
-            statusLable.Text = status + "Indlæs fil for at fortsætte";
-            ofset = null;
-        }
-
-        private void openFileButton_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+#endif  
+            openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "ofset files (*.off)|*.off";
             openFileDialog.Title = "Select an ofset file";
             if (openFileDialog.ShowDialog() != DialogResult.OK)
@@ -33,19 +29,22 @@ namespace orcToDh
                 return;
             }
             string ofsetFile = openFileDialog.FileName;
-
             using (StreamReader file = new(ofsetFile, new ASCIIEncoding()))
             {
                 ofset = new OfsetFile(file);
             }
             statusLable.Text = status + "Fil indlæst, klar til beregning";
             bMAXButton.Enabled = true;
+            bMaxCalculator = new(ofset);
         }
 
         private void bMAXButton_Click(object sender, EventArgs e)
         {
-            BMax bMax = new(ofset);
-            bMax.ShowDialog();
+            if (bMaxCalculator is null)
+            {
+                throw new Exception("bMaxCalculator is null");
+            }
+            bMaxCalculator.ShowDialog();
         }
     }
 }

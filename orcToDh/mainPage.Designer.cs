@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             openFileDialog1 = new OpenFileDialog();
-            openFileButton = new Button();
             statusLable = new Label();
             bMAXButton = new Button();
             SuspendLayout();
@@ -38,20 +37,10 @@
             // 
             openFileDialog1.FileName = "openFileDialog1";
             // 
-            // openFileButton
-            // 
-            openFileButton.Location = new Point(16, 17);
-            openFileButton.Name = "openFileButton";
-            openFileButton.Size = new Size(75, 23);
-            openFileButton.TabIndex = 0;
-            openFileButton.Text = "openFile";
-            openFileButton.UseVisualStyleBackColor = true;
-            openFileButton.Click += openFileButton_Click;
-            // 
             // statusLable
             // 
             statusLable.AutoSize = true;
-            statusLable.Location = new Point(111, 21);
+            statusLable.Location = new Point(12, 9);
             statusLable.Name = "statusLable";
             statusLable.Size = new Size(66, 15);
             statusLable.TabIndex = 1;
@@ -60,7 +49,7 @@
             // bMAXButton
             // 
             bMAXButton.Enabled = false;
-            bMAXButton.Location = new Point(16, 66);
+            bMAXButton.Location = new Point(12, 27);
             bMAXButton.Name = "bMAXButton";
             bMAXButton.Size = new Size(75, 23);
             bMAXButton.TabIndex = 2;
@@ -75,7 +64,6 @@
             ClientSize = new Size(800, 450);
             Controls.Add(bMAXButton);
             Controls.Add(statusLable);
-            Controls.Add(openFileButton);
             Name = "mainPage";
             Text = "Form1";
             ResumeLayout(false);
@@ -85,7 +73,6 @@
         #endregion
 
         private OpenFileDialog openFileDialog1;
-        private Button openFileButton;
         private Label statusLable;
         private Button bMAXButton;
     }
