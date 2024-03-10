@@ -31,6 +31,7 @@
             openFileDialog1 = new OpenFileDialog();
             statusLable = new Label();
             bMAXButton = new Button();
+            gMaxButton = new Button();
             SuspendLayout();
             // 
             // openFileDialog1
@@ -57,11 +58,23 @@
             bMAXButton.UseVisualStyleBackColor = true;
             bMAXButton.Click += bMAXButton_Click;
             // 
+            // gMaxButton
+            // 
+            gMaxButton.Enabled = false;
+            gMaxButton.Location = new Point(12, 56);
+            gMaxButton.Name = "gMaxButton";
+            gMaxButton.Size = new Size(75, 23);
+            gMaxButton.TabIndex = 3;
+            gMaxButton.Text = "Cal GMax";
+            gMaxButton.UseVisualStyleBackColor = true;
+            gMaxButton.Click += gMaxButton_Click;
+            // 
             // mainPage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(gMaxButton);
             Controls.Add(bMAXButton);
             Controls.Add(statusLable);
             Name = "mainPage";
@@ -75,5 +88,6 @@
         private OpenFileDialog openFileDialog1;
         private Label statusLable;
         private Button bMAXButton;
+        private Button gMaxButton;
     }
 }

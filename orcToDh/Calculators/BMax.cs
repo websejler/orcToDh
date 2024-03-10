@@ -17,7 +17,7 @@ namespace orcToDh.Calculators
             DrawChart();
         }
 
-        public void DrawChart()
+        private void DrawChart()
         {
 
 
