@@ -32,6 +32,7 @@
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            gMaxLengthLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)chart).BeginInit();
             SuspendLayout();
             // 
@@ -51,20 +52,32 @@
             chart.TabIndex = 0;
             chart.Text = "chart1";
             // 
+            // gMaxLengthLabel
+            // 
+            gMaxLengthLabel.AutoSize = true;
+            gMaxLengthLabel.Location = new Point(12, 692);
+            gMaxLengthLabel.Name = "gMaxLengthLabel";
+            gMaxLengthLabel.Size = new Size(100, 15);
+            gMaxLengthLabel.TabIndex = 1;
+            gMaxLengthLabel.Text = "GMax Line length";
+            // 
             // GMax
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 804);
+            Controls.Add(gMaxLengthLabel);
             Controls.Add(chart);
             Name = "GMax";
             Text = "GMax";
             ((System.ComponentModel.ISupportInitialize)chart).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private System.Windows.Forms.DataVisualization.Charting.Chart chart;
+        private Label gMaxLengthLabel;
     }
 }
