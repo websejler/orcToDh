@@ -16,7 +16,7 @@ namespace orcToDh
     public class OfsetFile
     {
         Metadata? metadata;
-        List<Station> stations;
+        public List<Station> stations;
         private List<Station>? portStations;
         private List<Station>? starboardStations;
 

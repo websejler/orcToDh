@@ -17,12 +17,14 @@ namespace orcToDh.Calculators
 
         private void calGmax()
         {
-            List<OfsetFile.Station> portStations = ofsetFile.PortStations.OrderBy(s => s.X).ToList();
+            //List<OfsetFile.Station> portStations = ofsetFile.PortStations.OrderBy(s => s.X).ToList();
+            List<OfsetFile.Station> portStations = ofsetFile.stations;
             OfsetFile.Station bestGmaxPortStation = portStations[0];
             List<OfsetFile.DataPoint> bestGmaxPortDataPoints = portStations[0].dataPoints;
             double bestGmaxPort = 0;
 
-            List<OfsetFile.Station> starboardStations = ofsetFile.StarboardStations.OrderBy(s => s.X).ToList();
+            //<OfsetFile.Station> starboardStations = ofsetFile.StarboardStations.OrderBy(s => s.X).ToList();
+            List<OfsetFile.Station> starboardStations = ofsetFile.stations;
             OfsetFile.Station bestGmaxStarboardStation = starboardStations[0];
             List<OfsetFile.DataPoint> bestGmaxStarboardDataPoints = portStations[0].dataPoints;
             double bestGmaxStarboard = 0;
@@ -111,6 +113,8 @@ namespace orcToDh.Calculators
                 chart.Series["GMaxLine"].Points.Add(chartPoint);
             }
             gMaxLengthLabel.Text = "GMax: " + bestGmax.ToString("0.00");
+            PortStationLabel.Text = "Port Station - x: " + bestGmaxPortStation.X + " - gmax: " + bestGmaxPort;
+            StarboardStationLabel.Text = "Starboard Station - x: " + bestGmaxStarboardStation.X + " - gmax: " + bestGmaxStarboard;
         }
 
         private double calGMaxOnStation(OfsetFile.Station station, out List<OfsetFile.DataPoint> dataPoints)
@@ -154,6 +158,7 @@ namespace orcToDh.Calculators
                 double distance = Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2));
                 gMax += distance;
             }
+            Console.WriteLine("Station.x;" + station.X + ";GMax;" + gMax);
             return gMax;
         }
     }

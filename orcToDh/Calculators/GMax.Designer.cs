@@ -33,6 +33,8 @@
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             gMaxLengthLabel = new Label();
+            StarboardStationLabel = new Label();
+            PortStationLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)chart).BeginInit();
             SuspendLayout();
             // 
@@ -61,11 +63,31 @@
             gMaxLengthLabel.TabIndex = 1;
             gMaxLengthLabel.Text = "GMax Line length";
             // 
+            // StarboardStationLabel
+            // 
+            StarboardStationLabel.AutoSize = true;
+            StarboardStationLabel.Location = new Point(12, 722);
+            StarboardStationLabel.Name = "StarboardStationLabel";
+            StarboardStationLabel.Size = new Size(98, 15);
+            StarboardStationLabel.TabIndex = 6;
+            StarboardStationLabel.Text = "Starboard Station";
+            // 
+            // PortStationLabel
+            // 
+            PortStationLabel.AutoSize = true;
+            PortStationLabel.Location = new Point(12, 707);
+            PortStationLabel.Name = "PortStationLabel";
+            PortStationLabel.Size = new Size(69, 15);
+            PortStationLabel.TabIndex = 5;
+            PortStationLabel.Text = "Port Station";
+            // 
             // GMax
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 804);
+            Controls.Add(StarboardStationLabel);
+            Controls.Add(PortStationLabel);
             Controls.Add(gMaxLengthLabel);
             Controls.Add(chart);
             Name = "GMax";
@@ -79,5 +101,7 @@
 
         private System.Windows.Forms.DataVisualization.Charting.Chart chart;
         private Label gMaxLengthLabel;
+        private Label StarboardStationLabel;
+        private Label PortStationLabel;
     }
 }
