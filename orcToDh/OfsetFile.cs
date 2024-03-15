@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Numerics;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -286,6 +287,11 @@ namespace orcToDh
             public override string ToString()
             {
                 return $"Z: {Z}, Y: {Y}, PTC: {PTC}";
+            }
+
+            public Vector2 GetVector2()
+            {
+                return new Vector2((float)Y, (float)Z);
             }
 
         }
