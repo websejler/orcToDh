@@ -39,6 +39,8 @@ namespace orcToDh
             gMaxButton.Enabled = true;
             bMaxCalculator = new(ofset);
             gMaxCalculator = new(ofset);
+
+            UpdateDetection.CheckForUpdate();
         }
 
         private void bMAXButton_Click(object sender, EventArgs e)
