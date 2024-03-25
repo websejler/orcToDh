@@ -315,6 +315,14 @@ namespace orcToDh
             }
         }
 
+        public List<Station> Stations
+        {
+            get
+            {
+                return stations;
+            }
+        }
+
         private void PrintAll()
         {
             foreach (var station in stations)
