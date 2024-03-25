@@ -28,28 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             BMaxLabel = new Label();
             PortStationLabel = new Label();
-            StarboardStationLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)chart).BeginInit();
             SuspendLayout();
             // 
             // chart
             // 
-            chartArea2.Name = "ChartArea1";
-            chart.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            chart.Legends.Add(legend2);
+            chartArea1.Name = "ChartArea1";
+            chart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            chart.Legends.Add(legend1);
             chart.Location = new Point(12, 12);
             chart.Name = "chart";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            chart.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            chart.Series.Add(series1);
             chart.Size = new Size(776, 576);
             chart.TabIndex = 0;
             chart.Text = "chart1";
@@ -72,21 +71,11 @@
             PortStationLabel.TabIndex = 3;
             PortStationLabel.Text = "Port Station";
             // 
-            // StarboardStationLabel
-            // 
-            StarboardStationLabel.AutoSize = true;
-            StarboardStationLabel.Location = new Point(12, 621);
-            StarboardStationLabel.Name = "StarboardStationLabel";
-            StarboardStationLabel.Size = new Size(98, 15);
-            StarboardStationLabel.TabIndex = 4;
-            StarboardStationLabel.Text = "Starboard Station";
-            // 
             // BMax
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 702);
-            Controls.Add(StarboardStationLabel);
             Controls.Add(PortStationLabel);
             Controls.Add(BMaxLabel);
             Controls.Add(chart);
@@ -102,6 +91,5 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart chart;
         private Label BMaxLabel;
         private Label PortStationLabel;
-        private Label StarboardStationLabel;
     }
 }
