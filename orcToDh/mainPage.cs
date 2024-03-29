@@ -22,6 +22,14 @@ namespace orcToDh
 #if DEBUG
             AllocConsole();
 #endif  
+            Task.Run(() =>
+            {
+                if (UpdateDetection.CheckForUpdate())
+                {
+                    MessageBox.Show("Der er en opdatering tilgængelig");
+                }
+            });
+
             openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "ofset files (*.off)|*.off";
             openFileDialog.Title = "Select an ofset file";
@@ -39,6 +47,9 @@ namespace orcToDh
             gMaxButton.Enabled = true;
             bMaxCalculator = new(ofset);
             gMaxCalculator = new(ofset);
+
+
+
         }
 
         private void bMAXButton_Click(object sender, EventArgs e)
