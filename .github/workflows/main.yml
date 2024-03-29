@@ -28,9 +28,14 @@ jobs:
 
     - name: Publish
       run: dotnet publish -c Release -o ./build/
+    - name: Create INI file
+      run: |
+        echo "[Settings]" > setting.ini
+        echo "BD=${{ steps.date.outputs.date }}" >> setting.ini
+      shell: bash
       
     - name: Zip the build output
-      run: Compress-Archive -Path ./build/* -DestinationPath ./build.zip
+      run: Compress-Archive -Path ./build/*, ./setting.ini -DestinationPath ./build.zip
       
     - name: Create Release
       id: create_release
