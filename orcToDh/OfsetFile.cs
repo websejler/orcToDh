@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Numerics;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -16,11 +17,11 @@ namespace orcToDh
     public class OfsetFile
     {
         Metadata? metadata;
-        List<Station> stations;
+        public List<Station> stations;
         private List<Station>? portStations;
         private List<Station>? starboardStations;
 
-        public OfsetFile(StreamReader file) 
+        public OfsetFile(StreamReader file)
         {
 
             if (file == null)
@@ -73,7 +74,7 @@ namespace orcToDh
                 //read date and time
                 string line = readLine(file);
                 string[] data = line.Split(',');
-                if (data.Length != 8)
+                if (!(data.Length == 7 || data.Length == 8))
                 {
                     throw new WrongDataFormatExeception(string.Format("line1 for metadata is not the right length  nr of dataFields in line: {0}", data.Length));
                 }
@@ -92,8 +93,7 @@ namespace orcToDh
                 {
                     yyyy += 2000;
                 }
-
-                string dateString = yyyy + "-" + mm + "-" + dd;
+                string dateString = yyyy + "-" + (mm < 10 ? "0" + mm : mm) + "-" + (dd < 10 ? "0" + dd : dd);
                 DateOnly dateOnly = DateOnly.ParseExact(dateString, "yyyy-mm-dd", null);
 
 
@@ -119,7 +119,18 @@ namespace orcToDh
                 string[] line1Values = readLine(file).Split(',');
                 string[] line2Values = readLine(file).Split(',');
 
-                if (line1Values.Length != 5 || line2Values.Length != 5)
+                for (int i = 0; i < line1Values.Length; i++)
+                {
+                    string item = line1Values[i];
+                    item = item.Replace('.', ',');
+                }
+                for (int i = 0; i < line2Values.Length; i++)
+                {
+                    string item = line2Values[i];
+                    item = item.Replace('.', ',');
+                }
+
+                if (!(line1Values.Length >= 4 && line2Values.Length >= 4))
                 {
                     throw new WrongDataFormatExeception("Invalid number of values in line2 or line3");
                 }
@@ -138,7 +149,7 @@ namespace orcToDh
                 //read misc
                 line = readLine(file);
                 data = line.Split(',');
-                if (data.Length != 5)
+                if (data.Length < 4)
                 {
                     throw new WrongDataFormatExeception("Invalid number of values in line 4");
                 }
@@ -188,6 +199,10 @@ namespace orcToDh
             public Station(string line)
             {
                 string[] data = line.Split(',');
+                for (int i = 0; i < data.Length; i++)
+                {
+                    data[i] = data[i].Replace('.', ',');
+                }
                 if (data.Length != 5 && data.Length != 6)
                 {
                     throw new WrongDataFormatExeception("Invalid number of values in line");
@@ -278,6 +293,12 @@ namespace orcToDh
                 {
                     throw new WrongDataFormatExeception("Invalid number of values in line");
                 }
+
+                for (int i = 0; i < data.Length; i++)
+                {
+                    data[i] = data[i].Replace('.', ',');
+                }
+
                 Z = double.Parse(data[0]);
                 Y = double.Parse(data[1]);
                 PTC = (PointCode)Enum.Parse(typeof(PointCode), data[2]);
@@ -286,6 +307,11 @@ namespace orcToDh
             public override string ToString()
             {
                 return $"Z: {Z}, Y: {Y}, PTC: {PTC}";
+            }
+
+            public Vector2 GetVector2()
+            {
+                return new Vector2((float)Y, (float)Z);
             }
 
         }
@@ -312,6 +338,14 @@ namespace orcToDh
                     starboardStations = stations.Where(s => s.SID == Station.SideCode.Starboard).ToList();
                 }
                 return starboardStations;
+            }
+        }
+
+        public List<Station> Stations
+        {
+            get
+            {
+                return stations;
             }
         }
 
