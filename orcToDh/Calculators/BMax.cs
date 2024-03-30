@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Data;
 using System.Windows.Forms.DataVisualization.Charting;
-using static orcToDh.OfsetFile;
+using static orcToDh.OffsetFile;
 
 namespace orcToDh.Calculators
 {
     public partial class BMax : Form
     {
-        OfsetFile ofsetFile;
+        OffsetFile ofsetFile;
         public double bMax = 0.0;
 
-        public BMax(OfsetFile ofsetFile)
+        public BMax(OffsetFile ofsetFile)
         {
             InitializeComponent();
             this.ofsetFile = ofsetFile;
@@ -91,7 +91,7 @@ namespace orcToDh.Calculators
 
             List<Station> stations = ofsetFile.Stations;
             Station bestBMaxStation = stations[0];
-            List<OfsetFile.DataPoint> bestBMaxDataPoints = stations[0].dataPoints;
+            List<OffsetFile.DataPoint> bestBMaxDataPoints = stations[0].dataPoints;
             double bestBMax = 0;
             double bestBMaxHight = 0;
             int maxBMaxIndex = 0;
@@ -99,7 +99,7 @@ namespace orcToDh.Calculators
             {
                 double bMax = 0;
                 double bMaxHight = 0;
-                foreach (OfsetFile.DataPoint dataPoint in stations[i].dataPoints)
+                foreach (OffsetFile.DataPoint dataPoint in stations[i].dataPoints)
                 {
                     if (dataPoint.Y > bMax)
                     {
@@ -125,13 +125,13 @@ namespace orcToDh.Calculators
             chart.Series.Add(new Series("BMax"));
 
             // map the datapoints in starboardStations and portStations to the chart form with maxBMaxIndex
-            foreach (OfsetFile.DataPoint dataPoint in bestBMaxDataPoints.ToArray().Reverse())
+            foreach (OffsetFile.DataPoint dataPoint in bestBMaxDataPoints.ToArray().Reverse())
             {
                 if (dataPoint.Y > 0)
                     chart.Series[0].Points.AddXY(-dataPoint.Y, dataPoint.Z);
             }
 
-            foreach (OfsetFile.DataPoint dataPoint in bestBMaxDataPoints.ToArray())
+            foreach (OffsetFile.DataPoint dataPoint in bestBMaxDataPoints.ToArray())
             {
                 if (dataPoint.Y > 0)
                     chart.Series[1].Points.AddXY(dataPoint.Y, dataPoint.Z);

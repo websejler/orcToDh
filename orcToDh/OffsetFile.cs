@@ -14,14 +14,14 @@ using static System.Windows.Forms.LinkLabel;
 
 namespace orcToDh
 {
-    public class OfsetFile
+    public class OffsetFile
     {
         Metadata? metadata;
         public List<Station> stations;
         private List<Station>? portStations;
         private List<Station>? starboardStations;
 
-        public OfsetFile(StreamReader file)
+        public OffsetFile(StreamReader file)
         {
 
             if (file == null)
@@ -119,16 +119,16 @@ namespace orcToDh
                 string[] line1Values = readLine(file).Split(',');
                 string[] line2Values = readLine(file).Split(',');
 
-                for (int i = 0; i < line1Values.Length; i++)
-                {
-                    string item = line1Values[i];
-                    item = item.Replace('.', ',');
-                }
-                for (int i = 0; i < line2Values.Length; i++)
-                {
-                    string item = line2Values[i];
-                    item = item.Replace('.', ',');
-                }
+                //for (int i = 0; i < line1Values.Length; i++)
+                //{
+                //    string item = line1Values[i];
+                //    item = item.Replace('.', ',');
+                //}
+                //for (int i = 0; i < line2Values.Length; i++)
+                //{
+                //    string item = line2Values[i];
+                //    item = item.Replace('.', ',');
+                //}
 
                 if (!(line1Values.Length >= 4 && line2Values.Length >= 4))
                 {
@@ -199,15 +199,15 @@ namespace orcToDh
             public Station(string line)
             {
                 string[] data = line.Split(',');
-                for (int i = 0; i < data.Length; i++)
-                {
-                    data[i] = data[i].Replace('.', ',');
-                }
+                //for (int i = 0; i < data.Length; i++)
+                //{
+                //    data[i] = data[i].Replace('.', ',');
+                //}
                 if (data.Length != 5 && data.Length != 6)
                 {
                     throw new WrongDataFormatExeception("Invalid number of values in line");
                 }
-                X = double.Parse(data[0]);
+                X = double.Parse(data[0],NumberStyles.Any, CultureInfo.InvariantCulture);
                 NPT = int.Parse(data[1]);
                 SID = (SideCode)Enum.Parse(typeof(SideCode), data[2]);
                 SCD = (StationLabel)Enum.Parse(typeof(StationLabel), data[3]);
@@ -294,13 +294,13 @@ namespace orcToDh
                     throw new WrongDataFormatExeception("Invalid number of values in line");
                 }
 
-                for (int i = 0; i < data.Length; i++)
-                {
-                    data[i] = data[i].Replace('.', ',');
-                }
+                //for (int i = 0; i < data.Length; i++)
+                //{
+                //    data[i] = data[i].Replace('.', ',');
+                //}
 
-                Z = double.Parse(data[0]);
-                Y = double.Parse(data[1]);
+                Z = double.Parse(data[0], NumberStyles.Any, CultureInfo.InvariantCulture);
+                Y = double.Parse(data[1], NumberStyles.Any, CultureInfo.InvariantCulture);
                 PTC = (PointCode)Enum.Parse(typeof(PointCode), data[2]);
             }
 

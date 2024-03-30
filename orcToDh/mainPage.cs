@@ -7,7 +7,7 @@ namespace orcToDh
     public partial class mainPage : Form
     {
         OpenFileDialog openFileDialog;
-        OfsetFile? ofset;
+        OffsetFile? ofset;
         BMax? bMaxCalculator;
         GMax? gMaxCalculator;
 
@@ -40,7 +40,7 @@ namespace orcToDh
             string ofsetFile = openFileDialog.FileName;
             using (StreamReader file = new(ofsetFile, new ASCIIEncoding()))
             {
-                ofset = new OfsetFile(file);
+                ofset = new OffsetFile(file);
             }
             statusLable.Text = status + "Fil indlæst, klar til beregning";
             bMAXButton.Enabled = true;

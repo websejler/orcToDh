@@ -4,14 +4,14 @@ using System.Data;
 using System.IO;
 using System.Numerics;
 using System.Windows.Forms.DataVisualization.Charting;
-using static orcToDh.OfsetFile;
+using static orcToDh.OffsetFile;
 
 namespace orcToDh.Calculators
 {
     public partial class GMax : Form
     {
-        OfsetFile ofsetFile;
-        public GMax(OfsetFile ofsetFile)
+        OffsetFile ofsetFile;
+        public GMax(OffsetFile ofsetFile)
         {
             InitializeComponent();
             this.ofsetFile = ofsetFile;
@@ -21,9 +21,9 @@ namespace orcToDh.Calculators
         private void calGmax()
         {
             //List<OfsetFile.Station> portStations = ofsetFile.PortStations.OrderBy(s => s.X).ToList();
-            List<OfsetFile.Station> stations = ofsetFile.stations;
-            OfsetFile.Station bestGmaxStation = stations[0];
-            List<OfsetFile.DataPoint> bestGmaxDataPoints = stations[0].dataPoints;
+            List<OffsetFile.Station> stations = ofsetFile.stations;
+            OffsetFile.Station bestGmaxStation = stations[0];
+            List<OffsetFile.DataPoint> bestGmaxDataPoints = stations[0].dataPoints;
             double bestGmax = 0;
 
 
@@ -32,7 +32,7 @@ namespace orcToDh.Calculators
             //cal gmax  over all stations and keep the best
             while (index < stations.Count)
             {
-                double gMax = calGMaxOnStation(stations[index], out List<OfsetFile.DataPoint> dataPoints);
+                double gMax = calGMaxOnStation(stations[index], out List<OffsetFile.DataPoint> dataPoints);
 
                 double distanceBetweenLowerDataPoints = dataPoints[0].Y >= 0 ? dataPoints[0].Y : 0.0;
 
@@ -56,7 +56,7 @@ namespace orcToDh.Calculators
             chart.Series["StarboardLine"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             chart.Series["GMaxLine"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
 
-            foreach (OfsetFile.DataPoint datePoint in bestGmaxStation.dataPoints)
+            foreach (OffsetFile.DataPoint datePoint in bestGmaxStation.dataPoints)
             {
                 var chartPoint = new System.Windows.Forms.DataVisualization.Charting.DataPoint(datePoint.Y, datePoint.Z);
                 chartPoint.MarkerStyle = MarkerStyle.Circle;
@@ -84,7 +84,7 @@ namespace orcToDh.Calculators
             //    chart.Series["GMaxLine"].Points.Add(chartPoint);
             //}
 
-            foreach (OfsetFile.DataPoint dataPoint in bestGmaxDataPoints)
+            foreach (OffsetFile.DataPoint dataPoint in bestGmaxDataPoints)
             {
                 var chartPoint = new System.Windows.Forms.DataVisualization.Charting.DataPoint(dataPoint.Y, dataPoint.Z);
                 chartPoint.MarkerStyle = MarkerStyle.Circle;
@@ -97,7 +97,7 @@ namespace orcToDh.Calculators
 
         }
 
-        private double calGMaxOnStationOld(OfsetFile.Station station, out List<OfsetFile.DataPoint> dataPoints)
+        private double calGMaxOnStationOld(OffsetFile.Station station, out List<OffsetFile.DataPoint> dataPoints)
         {
             dataPoints = new();
             dataPoints.Add(station.dataPoints[0]);
@@ -142,7 +142,7 @@ namespace orcToDh.Calculators
             return gMax;
         }
 
-        private double calGMaxOnStation(OfsetFile.Station station, out List<OfsetFile.DataPoint> dataPoints)
+        private double calGMaxOnStation(OffsetFile.Station station, out List<OffsetFile.DataPoint> dataPoints)
         {
             dataPoints = new();
             dataPoints.Add(station.dataPoints[0]);
@@ -152,7 +152,7 @@ namespace orcToDh.Calculators
             {
                 int smallestAngleIndex = -1;
                 double smallestAngle = double.MaxValue;
-                List<OfsetFile.DataPoint> points = station.dataPoints.Skip(i).ToList();
+                List<OffsetFile.DataPoint> points = station.dataPoints.Skip(i).ToList();
                 for (int j = 1; j < points.Count; j++)
                 {
                     Vector2 v = Vector2.Subtract(points[0].GetVector2(), points[j].GetVector2());
