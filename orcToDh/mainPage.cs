@@ -38,36 +38,48 @@ namespace orcToDh
                 return;
             }
             string ofsetFile = openFileDialog.FileName;
+            bool useXML = false;
             using (StreamReader file = new(ofsetFile, new ASCIIEncoding()))
             {
-                ofset = new OffsetFile(file);
+                useXML = file.ReadLine().Contains("xml");
+            }
+            if (useXML)
+            {
+                ofset = OffsetFile.ParseOffsetFile(ofsetFile);
+            }
+            else
+            {
+                using (StreamReader file = new(ofsetFile, new ASCIIEncoding()))
+                {
+                    ofset = new OffsetFile(file);
+                }
             }
             statusLable.Text = status + "Fil indlæst, klar til beregning";
-            bMAXButton.Enabled = true;
-            gMaxButton.Enabled = true;
-            bMaxCalculator = new(ofset);
-            gMaxCalculator = new(ofset);
+                bMAXButton.Enabled = true;
+                gMaxButton.Enabled = true;
+                bMaxCalculator = new(ofset);
+                gMaxCalculator = new(ofset);
 
 
 
-        }
-
-        private void bMAXButton_Click(object sender, EventArgs e)
-        {
-            if (bMaxCalculator is null)
-            {
-                throw new Exception("bMaxCalculator is null");
             }
-            bMaxCalculator.ShowDialog();
-        }
 
-        private void gMaxButton_Click(object sender, EventArgs e)
-        {
-            if (gMaxCalculator is null)
+            private void bMAXButton_Click(object sender, EventArgs e)
             {
-                throw new Exception("gMaxCalculator is null");
+                if (bMaxCalculator is null)
+                {
+                    throw new Exception("bMaxCalculator is null");
+                }
+                bMaxCalculator.ShowDialog();
             }
-            gMaxCalculator.ShowDialog();
+
+            private void gMaxButton_Click(object sender, EventArgs e)
+            {
+                if (gMaxCalculator is null)
+                {
+                    throw new Exception("gMaxCalculator is null");
+                }
+                gMaxCalculator.ShowDialog();
+            }
         }
     }
-}
