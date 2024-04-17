@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Transactions;
+using System.Xml.Linq;
 using orcToDh.Exceptions;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using static System.Windows.Forms.LinkLabel;
@@ -17,7 +18,7 @@ namespace orcToDh
     public class OffsetFile
     {
         Metadata? metadata;
-        public List<Station> stations;
+        public List<Station>? stations;
         private List<Station>? portStations;
         private List<Station>? starboardStations;
 
@@ -28,6 +29,7 @@ namespace orcToDh
             {
                 throw new ArgumentNullException("file");
             }
+
             metadata = new Metadata(file);
             stations = new List<Station>();
 
@@ -49,6 +51,10 @@ namespace orcToDh
             //PrintAll();
         }
 
+        public OffsetFile()
+        {
+        }
+
         //inner classes
         // Metadata
         // Station
@@ -56,12 +62,12 @@ namespace orcToDh
         #region innerClasses
         private class Metadata
         {
-            public DateTime date;
-            public string measuresCode;
-            public string machineCode;
-            public string filename;
-            public string classboat;
-            public string ageDate;
+            public DateTime? date;
+            public string? measuresCode;
+            public string? machineCode;
+            public string? filename;
+            public string? classboat;
+            public string? ageDate;
 
             public double sffps, ffpvs, safps, fapvs;
             public double sffpp, ffpvp, safpp, fapvp;
@@ -161,6 +167,11 @@ namespace orcToDh
 
             }
 
+            public Metadata()
+            {
+
+            }
+
             public override string ToString()
             {
                 string str = $"Date: {date}, MeasuresCode: {measuresCode}, MachineCode: {machineCode}, Filename: {filename}, Classboat: {classboat}, AgeDate: {ageDate}\n";
@@ -188,13 +199,13 @@ namespace orcToDh
                 PropellerHubPoint = 4
             }
 
-            public double X { get; } // Distance from the stem for each station in millimeters for metric units, in hundredths of feet for imperial units
-            public int NPT { get; } // Number of points in a section. Important to be correct.
-            public SideCode SID { get; } // Side code: Port, Starboard, Both
-            public StationLabel SCD { get; } // Station label: Forward freeboard, Aft freeboard, Prop shaft exit point, Propeller hub point
+            public double X { get; set; } // Distance from the stem for each station in millimeters for metric units, in hundredths of feet for imperial units
+            public int NPT { get; set; } // Number of points in a section. Important to be correct.
+            public SideCode SID { get; set; } // Side code: Port, Starboard, Both
+            public StationLabel SCD { get; set; } // Station label: Forward freeboard, Aft freeboard, Prop shaft exit point, Propeller hub point
             public int STA { get; } // Station count, not necessary but included for convenience
 
-            public List<DataPoint> dataPoints;
+            public List<DataPoint>? dataPoints;
 
             public Station(string line)
             {
@@ -207,7 +218,7 @@ namespace orcToDh
                 {
                     throw new WrongDataFormatExeception("Invalid number of values in line");
                 }
-                X = double.Parse(data[0],NumberStyles.Any, CultureInfo.InvariantCulture);
+                X = double.Parse(data[0], NumberStyles.Any, CultureInfo.InvariantCulture);
                 NPT = int.Parse(data[1]);
                 SID = (SideCode)Enum.Parse(typeof(SideCode), data[2]);
                 SCD = (StationLabel)Enum.Parse(typeof(StationLabel), data[3]);
@@ -222,6 +233,10 @@ namespace orcToDh
 
                 dataPoints = new List<DataPoint>();
 
+            }
+
+            public Station()
+            {
             }
 
             public override string ToString()
@@ -262,8 +277,8 @@ namespace orcToDh
                 ForceClipAtSpecificPoint = 16
             }
 
-            public double Z { get; } // Vertical co-ordinate for points on a half section, positive up, negative down in millimeters for metric units, in hundredths Of feet for imperial units
-            public double Y { get; } // Horizontal distance from the centerline for points on a half section. Negative only in the gap in section for example, between the canoe body and the trailing edge where point code PTC is set to 2.
+            public double Z { get; set; } // Vertical co-ordinate for points on a half section, positive up, negative down in millimeters for metric units, in hundredths Of feet for imperial units
+            public double Y { get; set; } // Horizontal distance from the centerline for points on a half section. Negative only in the gap in section for example, between the canoe body and the trailing edge where point code PTC is set to 2.
             public PointCode PTC;
             /*
                 POINT CODES:
@@ -302,6 +317,10 @@ namespace orcToDh
                 Z = double.Parse(data[0], NumberStyles.Any, CultureInfo.InvariantCulture);
                 Y = double.Parse(data[1], NumberStyles.Any, CultureInfo.InvariantCulture);
                 PTC = (PointCode)Enum.Parse(typeof(PointCode), data[2]);
+            }
+
+            public DataPoint()
+            {
             }
 
             public override string ToString()
@@ -372,6 +391,37 @@ namespace orcToDh
                 throw new WrongDataFormatExeception("file is empty");
             }
             return line;
+        }
+        public static OffsetFile ParseOffsetFile(string filePath)
+        {
+            XDocument doc = XDocument.Load(filePath);
+            XElement root = doc.Element("ORC").Element("offset");
+
+            OffsetFile offsetFile = new OffsetFile
+            {
+                metadata = new Metadata
+                {
+                    date = DateTime.Parse(root.Attribute("date").Value),
+                    measuresCode = root.Attribute("measurer").Value,
+                    machineCode = root.Attribute("machine").Value,
+                    filename = root.Attribute("filename").Value,
+                    classboat = root.Attribute("yachtname").Value,
+                    // Add other properties as needed
+                },
+                stations = root.Elements("station").Select(station => new Station
+                {
+                    X = double.Parse(station.Attribute("x").Value),
+                    // Add other properties as needed
+                    dataPoints = station.Elements("point").Select(point => new DataPoint
+                    {
+                        Y = double.Parse(point.Attribute("y").Value),
+                        Z = double.Parse(point.Attribute("z").Value),
+                        // Add other properties as needed
+                    }).ToList()
+                }).ToList()
+            };
+
+            return offsetFile;
         }
     }
 }
