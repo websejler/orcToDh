@@ -38,9 +38,21 @@ namespace orcToDh
                 return;
             }
             string ofsetFile = openFileDialog.FileName;
+            bool useXML = false;
             using (StreamReader file = new(ofsetFile, new ASCIIEncoding()))
             {
-                ofset = new OffsetFile(file);
+                useXML = file.ReadLine().Contains("xml");
+            }
+            if (useXML)
+            {
+                ofset = OffsetFile.ParseOffsetFile(ofsetFile);
+            }
+            else
+            {
+                using (StreamReader file = new(ofsetFile, new ASCIIEncoding()))
+                {
+                    ofset = new OffsetFile(file);
+                }
             }
             statusLable.Text = status + "Fil indlæst, klar til beregning";
             bMAXButton.Enabled = true;

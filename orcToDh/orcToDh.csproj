@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.59" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.60" />
     <PackageReference Include="ini-parser" Version="2.5.2" />
     <PackageReference Include="WinForms.DataVisualization" Version="1.9.2" />
   </ItemGroup>
