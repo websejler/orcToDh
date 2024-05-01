@@ -90,29 +90,34 @@ namespace orcToDh
                 int dd = int.Parse(matches[0].ToString());
                 int mm = int.Parse(matches[1].ToString());
                 int yyyy = int.Parse(matches[2].ToString());
-                int currentYear = DateTime.Now.Year;
-                if (yyyy + 2000 > currentYear)
+                if (dd == 0 && mm == 0 && yyyy == 0)
                 {
-                    yyyy += 1900;
+                    date = null;
                 }
                 else
                 {
-                    yyyy += 2000;
+                    int currentYear = DateTime.Now.Year;
+                    if (yyyy + 2000 > currentYear)
+                    {
+                        yyyy += 1900;
+                    }
+                    else
+                    {
+                        yyyy += 2000;
+                    }
+                    string dateString = yyyy + "-" + (mm < 10 ? "0" + mm : mm) + "-" + (dd < 10 ? "0" + dd : dd);
+                    DateOnly dateOnly = DateOnly.ParseExact(dateString, "yyyy-mm-dd", null);
+
+                    matches = Regex.Matches(data[0], @"\b\d{2}\b");
+
+                    int hh = int.Parse(matches[0].ToString());
+                    mm = int.Parse(matches[1].ToString());
+                    int ss = int.Parse(matches[2].ToString());
+
+                    TimeOnly time = new TimeOnly(hh, mm, ss);
+
+                    date = new DateTime(dateOnly, time);
                 }
-                string dateString = yyyy + "-" + (mm < 10 ? "0" + mm : mm) + "-" + (dd < 10 ? "0" + dd : dd);
-                DateOnly dateOnly = DateOnly.ParseExact(dateString, "yyyy-mm-dd", null);
-
-
-                matches = Regex.Matches(data[0], @"\b\d{2}\b");
-
-                int hh = int.Parse(matches[0].ToString());
-                mm = int.Parse(matches[1].ToString());
-                int ss = int.Parse(matches[2].ToString());
-
-                TimeOnly time = new TimeOnly(hh, mm, ss);
-
-
-                date = new DateTime(dateOnly, time);
 
                 measuresCode = data[2].Trim();
                 machineCode = data[3].Trim();
@@ -214,7 +219,7 @@ namespace orcToDh
                 //{
                 //    data[i] = data[i].Replace('.', ',');
                 //}
-                if (data.Length != 5 && data.Length != 6)
+                if (data.Length < 4)
                 {
                     throw new WrongDataFormatExeception("Invalid number of values in line");
                 }
@@ -399,15 +404,15 @@ namespace orcToDh
 
             OffsetFile offsetFile = new OffsetFile
             {
-                metadata = new Metadata
-                {
-                    date = DateTime.Parse(root.Attribute("date").Value),
-                    measuresCode = root.Attribute("measurer").Value,
-                    machineCode = root.Attribute("machine").Value,
-                    filename = root.Attribute("filename").Value,
-                    classboat = root.Attribute("yachtname").Value,
-                    // Add other properties as needed
-                },
+                //metadata = new Metadata
+                //{
+                //    date = DateTime.Parse(root.Attribute("date").Value + " " + root.Attribute("time").Value),
+                //    measuresCode = root.Attribute("measurer").Value,
+                //    machineCode = root.Attribute("machine").Value,
+                //    filename = root.Attribute("filename").Value,
+                //    classboat = root.Attribute("yachtname").Value,
+                //    // Add other properties as needed
+                //},
                 stations = root.Elements("station").Select(station => new Station
                 {
                     X = double.Parse(station.Attribute("x").Value),
