@@ -14,12 +14,10 @@ namespace orcToDh
 {
     public class UpdateDetection
     {
-        public const string PATH_TO_SERVER = "https://www.dr.dk/";
+        public const string PATH_TO_SERVER = "https://github.com/websejler/orcToDh/releases";
 
-        public static async Task<string> GetHtmlFromWebsite(string urlee)
+        public static async Task<string> GetHtmlFromWebsite(string url)
         {
-            string url = "https://github.com/websejler/orcToDh/releases"; // URL of the GitHub website or any specific page
-
             // Load HTML content from the URL
             string htmlContent;
             try
