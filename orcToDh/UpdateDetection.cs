@@ -54,8 +54,22 @@ namespace orcToDh
             //Console.WriteLine("Number of matches: " + matchList.Count);
             //Console.WriteLine("Current working directory: " + Environment.CurrentDirectory);
 
-            var parser = new FileIniDataParser();
-            IniData data = parser.ReadFile("setting.ini");
+            IniData data;
+            FileIniDataParser parser;
+
+            //check id the ini file exists
+            if (!System.IO.File.Exists(Utill.IniPath))
+            {
+                //create the ini file
+                data = new IniData();
+                data["Settings"]["BD"] = "20240329203801";
+                parser = new FileIniDataParser();
+                parser.WriteFile(Utill.IniPath, data);
+
+            }
+
+            parser = new FileIniDataParser();
+            data = parser.ReadFile(Utill.IniPath);
 
             string bdValue = data["Settings"]["BD"];
             DateTime BD = GetDateTime(bdValue);
