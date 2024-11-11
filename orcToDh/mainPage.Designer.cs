@@ -32,6 +32,9 @@
             statusLable = new Label();
             bMAXButton = new Button();
             gMaxButton = new Button();
+            fileLable = new Label();
+            loadFileButton = new Button();
+            profileButton = new Button();
             SuspendLayout();
             // 
             // openFileDialog1
@@ -41,7 +44,7 @@
             // statusLable
             // 
             statusLable.AutoSize = true;
-            statusLable.Location = new Point(12, 9);
+            statusLable.Location = new Point(12, 53);
             statusLable.Name = "statusLable";
             statusLable.Size = new Size(66, 15);
             statusLable.TabIndex = 1;
@@ -50,9 +53,9 @@
             // bMAXButton
             // 
             bMAXButton.Enabled = false;
-            bMAXButton.Location = new Point(12, 27);
+            bMAXButton.Location = new Point(12, 71);
             bMAXButton.Name = "bMAXButton";
-            bMAXButton.Size = new Size(75, 23);
+            bMAXButton.Size = new Size(85, 23);
             bMAXButton.TabIndex = 2;
             bMAXButton.Text = "Cal BMAX";
             bMAXButton.UseVisualStyleBackColor = true;
@@ -61,19 +64,52 @@
             // gMaxButton
             // 
             gMaxButton.Enabled = false;
-            gMaxButton.Location = new Point(12, 56);
+            gMaxButton.Location = new Point(12, 100);
             gMaxButton.Name = "gMaxButton";
-            gMaxButton.Size = new Size(75, 23);
+            gMaxButton.Size = new Size(85, 23);
             gMaxButton.TabIndex = 3;
             gMaxButton.Text = "Cal GMax";
             gMaxButton.UseVisualStyleBackColor = true;
             gMaxButton.Click += gMaxButton_Click;
             // 
+            // fileLable
+            // 
+            fileLable.AutoSize = true;
+            fileLable.Location = new Point(12, 9);
+            fileLable.Name = "fileLable";
+            fileLable.Size = new Size(85, 15);
+            fileLable.TabIndex = 4;
+            fileLable.Text = "File not loaded";
+            // 
+            // loadFileButton
+            // 
+            loadFileButton.Location = new Point(12, 27);
+            loadFileButton.Name = "loadFileButton";
+            loadFileButton.Size = new Size(85, 23);
+            loadFileButton.TabIndex = 5;
+            loadFileButton.Text = "Load file";
+            loadFileButton.UseVisualStyleBackColor = true;
+            loadFileButton.Click += loadFileButton_Click;
+            // 
+            // profileButton
+            // 
+            profileButton.BackgroundImageLayout = ImageLayout.Stretch;
+            profileButton.Location = new Point(12, 129);
+            profileButton.Name = "profileButton";
+            profileButton.Size = new Size(85, 23);
+            profileButton.TabIndex = 6;
+            profileButton.Text = "Show profile";
+            profileButton.UseVisualStyleBackColor = true;
+            profileButton.Click += profileButton_Click;
+            // 
             // mainPage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(990, 723);
+            Controls.Add(profileButton);
+            Controls.Add(loadFileButton);
+            Controls.Add(fileLable);
             Controls.Add(gMaxButton);
             Controls.Add(bMAXButton);
             Controls.Add(statusLable);
@@ -89,5 +125,8 @@
         private Label statusLable;
         private Button bMAXButton;
         private Button gMaxButton;
+        private Label fileLable;
+        private Button loadFileButton;
+        private Button profileButton;
     }
 }
