@@ -35,6 +35,13 @@
             fileLable = new Label();
             loadFileButton = new Button();
             profileButton = new Button();
+            label1 = new Label();
+            label2 = new Label();
+            sTFMesTextBox = new TextBox();
+            aFMesTextBox = new TextBox();
+            bowpointLable = new Label();
+            xStationAFLable = new Label();
+            zStationAFlable = new Label();
             SuspendLayout();
             // 
             // openFileDialog1
@@ -102,11 +109,82 @@
             profileButton.UseVisualStyleBackColor = true;
             profileButton.Click += profileButton_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(142, 35);
+            label1.Name = "label1";
+            label1.Size = new Size(25, 15);
+            label1.TabIndex = 7;
+            label1.Text = "STF";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(146, 64);
+            label2.Name = "label2";
+            label2.Size = new Size(21, 15);
+            label2.TabIndex = 8;
+            label2.Text = "AF";
+            label2.Click += label2_Click;
+            // 
+            // sTFMesTextBox
+            // 
+            sTFMesTextBox.Location = new Point(173, 27);
+            sTFMesTextBox.Name = "sTFMesTextBox";
+            sTFMesTextBox.Size = new Size(100, 23);
+            sTFMesTextBox.TabIndex = 9;
+            sTFMesTextBox.Text = "1170";
+            sTFMesTextBox.TextChanged += textBox1_TextChanged;
+            // 
+            // aFMesTextBox
+            // 
+            aFMesTextBox.Location = new Point(173, 56);
+            aFMesTextBox.Name = "aFMesTextBox";
+            aFMesTextBox.Size = new Size(100, 23);
+            aFMesTextBox.TabIndex = 10;
+            aFMesTextBox.Text = "180";
+            aFMesTextBox.TextChanged += textBox2_TextChanged;
+            // 
+            // bowpointLable
+            // 
+            bowpointLable.AutoSize = true;
+            bowpointLable.Location = new Point(308, 37);
+            bowpointLable.Name = "bowpointLable";
+            bowpointLable.Size = new Size(71, 15);
+            bowpointLable.TabIndex = 11;
+            bowpointLable.Text = "Stævnpunkt";
+            // 
+            // xStationAFLable
+            // 
+            xStationAFLable.AutoSize = true;
+            xStationAFLable.Location = new Point(308, 59);
+            xStationAFLable.Name = "xStationAFLable";
+            xStationAFLable.Size = new Size(67, 15);
+            xStationAFLable.TabIndex = 12;
+            xStationAFLable.Text = "xStation AF";
+            // 
+            // zStationAFlable
+            // 
+            zStationAFlable.AutoSize = true;
+            zStationAFlable.Location = new Point(308, 79);
+            zStationAFlable.Name = "zStationAFlable";
+            zStationAFlable.Size = new Size(66, 15);
+            zStationAFlable.TabIndex = 13;
+            zStationAFlable.Text = "zStation AF";
+            // 
             // mainPage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(990, 723);
+            Controls.Add(zStationAFlable);
+            Controls.Add(xStationAFLable);
+            Controls.Add(bowpointLable);
+            Controls.Add(aFMesTextBox);
+            Controls.Add(sTFMesTextBox);
+            Controls.Add(label2);
+            Controls.Add(label1);
             Controls.Add(profileButton);
             Controls.Add(loadFileButton);
             Controls.Add(fileLable);
@@ -128,5 +206,12 @@
         private Label fileLable;
         private Button loadFileButton;
         private Button profileButton;
+        private Label label1;
+        private Label label2;
+        private TextBox sTFMesTextBox;
+        private TextBox aFMesTextBox;
+        private Label bowpointLable;
+        private Label xStationAFLable;
+        private Label zStationAFlable;
     }
 }

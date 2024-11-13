@@ -51,10 +51,12 @@ namespace orcToDh.Calculators
             chart.Series.Add("PortLine");
             chart.Series.Add("StarboardLine");
             chart.Series.Add("GMaxLine");
+            chart.Series.Add("VandLinje");
 
             chart.Series["PortLine"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             chart.Series["StarboardLine"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             chart.Series["GMaxLine"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            chart.Series["VandLinje"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
 
             foreach (OffsetFile.DataPoint datePoint in bestGmaxStation.dataPoints)
             {
@@ -65,25 +67,6 @@ namespace orcToDh.Calculators
                 chart.Series["PortLine"].Points.Add(chartPoint);
             }
 
-            //foreach (OfsetFile.DataPoint datePoint in bestGmaxStation.dataPoints)
-            //{
-            //    var chartPoint = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-datePoint.Y, datePoint.Z);
-            //    chartPoint.MarkerStyle = MarkerStyle.Circle;
-            //    chartPoint.MarkerSize = 8;
-            //    chartPoint.MarkerColor = Color.Green;
-            //    chart.Series["StarboardLine"].Points.Add(chartPoint);
-            //}
-
-            //for (int i = bestGmaxDataPoints.Count - 1; i >= 0; i--)
-            //{
-            //    OfsetFile.DataPoint dataPoint = bestGmaxDataPoints[i];
-            //    var chartPoint = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-dataPoint.Y, dataPoint.Z);
-            //    chartPoint.MarkerStyle = MarkerStyle.Circle;
-            //    chartPoint.MarkerSize = 5;
-            //    chartPoint.MarkerColor = Color.Blue;
-            //    chart.Series["GMaxLine"].Points.Add(chartPoint);
-            //}
-
             foreach (OffsetFile.DataPoint dataPoint in bestGmaxDataPoints)
             {
                 var chartPoint = new System.Windows.Forms.DataVisualization.Charting.DataPoint(dataPoint.Y, dataPoint.Z);
@@ -92,9 +75,20 @@ namespace orcToDh.Calculators
                 chartPoint.MarkerColor = Color.Blue;
                 chart.Series["GMaxLine"].Points.Add(chartPoint);
             }
+
+
+
+
             gMaxLengthLabel.Text = "GMax: " + bestGmax.ToString("0.00");
             StationInfoLabel.Text = bestGmaxStation.SID.ToString() + "station  - x: " + bestGmaxStation.X;
+            wLZlabel.Text = "WLZ: " + bestGmaxStation.WLZ;
+            fribordHoejdeLabel.Text = "Fribord: " + bestGmaxStation.FribordHoejde;
+            wLBreddelabel.Text = "WLBredde/2: " + bestGmaxStation.WLBredde;
+            udfaldLabel.Text = "Udfald: " + bestGmaxStation.Udfald;
 
+            //display a horizontal line at the waterline, in the fulle width of the chart
+            chart.Series["VandLinje"].Points.AddXY(bestGmaxStation.WLBredde - 150, bestGmaxStation.WLZ);
+            chart.Series["VandLinje"].Points.AddXY(bestGmaxStation.WLBredde + 150, bestGmaxStation.WLZ);
         }
 
         private double calGMaxOnStationOld(OffsetFile.Station station, out List<OffsetFile.DataPoint> dataPoints)
