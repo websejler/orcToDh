@@ -134,7 +134,7 @@
             sTFMesTextBox.Name = "sTFMesTextBox";
             sTFMesTextBox.Size = new Size(100, 23);
             sTFMesTextBox.TabIndex = 9;
-            sTFMesTextBox.Text = "1170";
+            sTFMesTextBox.Text = "0";
             sTFMesTextBox.TextChanged += textBox1_TextChanged;
             // 
             // aFMesTextBox
@@ -143,7 +143,7 @@
             aFMesTextBox.Name = "aFMesTextBox";
             aFMesTextBox.Size = new Size(100, 23);
             aFMesTextBox.TabIndex = 10;
-            aFMesTextBox.Text = "180";
+            aFMesTextBox.Text = "0";
             aFMesTextBox.TextChanged += textBox2_TextChanged;
             // 
             // bowpointLable
