@@ -21,6 +21,13 @@ namespace orcToDh
         public List<Station>? stations;
         private List<Station>? portStations;
         private List<Station>? starboardStations;
+        private int bowPoint = 0;
+        private int sternPointX = 0;
+        private int sternPointZ = 0;
+        private double WLZ_AF = 0;
+        private double WLZ_STF = 0;
+        private int aF = 0;
+        private int sTF = 0;
 
         public OffsetFile(StreamReader file)
         {
@@ -38,7 +45,7 @@ namespace orcToDh
             {
                 // read station
                 string line = readLine(file);
-                Station station = new Station(line);
+                Station station = new Station(line, this);
                 stations.Add(station);
                 for (int j = 0; j < station.NPT; j++)
                 {
@@ -50,6 +57,83 @@ namespace orcToDh
 
             //PrintAll();
         }
+
+        public int BowPointZ
+        {
+            get
+            {
+                if (bowPoint == 0)
+                {
+                    Station station0 = stations[0];
+                    Station station1 = stations[1];
+                    double z1 = station0.dataPoints.Max(p => p.Z);
+                    double z2 = station1.dataPoints.Max(p => p.Z);
+                    double x1 = station0.X;
+                    double x2 = station1.X;
+                    double z = Utill.GetYPointInX(x1, z1, x2, z2);
+                    Console.WriteLine("BowPoint: " + z);
+                    bowPoint = (int)z;
+                }
+                return bowPoint;
+
+            }
+        }
+
+        public int SternPointX
+        {
+            get
+            {
+                if (sternPointX == 0)
+                {
+                    //get the last station
+                    Station station = stations[stations.Count - 1];
+                    //get the X value of the last station
+                    sternPointX = (int)station.X;
+                }
+
+                return sternPointX;
+            }
+        }
+        public int SternPointZ
+        {
+            get
+            {
+                if (sternPointZ == 0)
+                {
+                    //get the last station
+                    Station station = stations[stations.Count - 1];
+                    //get the smalest Z value of the last station
+                    sternPointZ = (int)station.dataPoints.Min(p => p.Z);
+                }
+                return sternPointZ;
+            }
+        }
+
+        public int AF
+        {
+            get
+            {
+                return aF;
+            }
+            set
+            {
+                aF = value;
+                WLZ_AF = SternPointZ - aF;
+            }
+        }
+        public int STF
+        {
+            get
+            {
+                return sTF;
+            }
+            set
+            {
+                sTF = value;
+                WLZ_STF = BowPointZ - sTF;
+            }
+        }
+
 
         public OffsetFile()
         {
@@ -210,10 +294,15 @@ namespace orcToDh
             public StationLabel SCD { get; set; } // Station label: Forward freeboard, Aft freeboard, Prop shaft exit point, Propeller hub point
             public int STA { get; } // Station count, not necessary but included for convenience
 
+            public int wLBrede = 0;
+
             public List<DataPoint>? dataPoints;
 
-            public Station(string line)
+            private OffsetFile offsetFile;
+
+            public Station(string line, OffsetFile offsetFile)
             {
+                this.offsetFile = offsetFile;
                 string[] data = line.Split(',');
                 //for (int i = 0; i < data.Length; i++)
                 //{
@@ -256,177 +345,262 @@ namespace orcToDh
                     Console.WriteLine(point.ToString());
                 }
             }
-        }
 
-        public class DataPoint
-        {
-
-            public enum PointCode
+            public int WLZ
             {
-                NormalHullPoint = 0,
-                SheerPoint = 1,
-                PokeThrough = 2,
-                PropellerOrShaftExitPoint = 3,
-                MaximumWidthPointsOfWingKeel = 4,
-                USMeasurementMachineCenterlinePoints = 5,
-                PropellerApertureBottomPoint = 6,
-                PropellerApertureTopPoint = 7,
-                LeadingEdgePokeThrough = 8,
-                TrailingEdgePokeThrough = 9,
-                PokeThroughInClosedHole = 10,
-                PokeThroughSeveringAppendage = 11,
-                DoNotClipAtSpecificPoint = 12,
-                PreventClippingOfNarrowStations = 13,
-                ForceClippingOfEntireStation = 14,
-                DoNotClipStation = 15,
-                ForceClipAtSpecificPoint = 16
-            }
-
-            public double Z { get; set; } // Vertical co-ordinate for points on a half section, positive up, negative down in millimeters for metric units, in hundredths Of feet for imperial units
-            public double Y { get; set; } // Horizontal distance from the centerline for points on a half section. Negative only in the gap in section for example, between the canoe body and the trailing edge where point code PTC is set to 2.
-            public PointCode PTC;
-            /*
-                POINT CODES:
-                o Normal hull point.
-                1 Sheer point. If no point on a station has a point code Of I, the top point
-                2 on the station becomes the sheer point. Poke-through (empty space in a gap bounded by the point immediately above and below. More commonly represented by a Y (transverse Offset) Of less than -0.3 feet.
-                3 Propeller or shaft exit point (the appropriate station code having already been entered).
-                4 Maximum Width points Of a Wing keel.
-                5 US measurement machine centerline points (has no rating effect.
-                6 Propeller aperture bottom point (may exist in some Old US offset files).
-                7 Propeller aperture top point (may exist in some Old US offset files).
-                8 Poke-through on the Ieading edge Of an appendage. Most Of the time, the program can decide automatically if one or more stations with pokethroughs are Ieading or trailing edge. If an appendage with Ieading edge poke-throughs plots incorrectly, this may help.
-                9 Poke through on the trailing edge Of an appendage. If an appendage with trailing edge poke-throughs plots incorrectly, this may help.
-                10 Poke-through in a closed hole through an appendage. There is no automatic recognition Of holes.
-                11 Poke-through in a contiguous set Of stations that all have poke-throughs which completely sever the appendage from the hull. This code will limit the appendage profile to only those points below the pokethroughs.
-                12 Do NOT clip at this specific point. Use on points which are the inside corner Of a Ieft turn while scanning down the section. This is typically used to ptevent clips at hard chines with lips or lapstrake type construction.
-                13 Prevent clipping Of entire stations narrower that 3 percent Of BMAX by setting this code on any point in the station. This would be typically used on the very tip Of a transom that comes to a point. This code Will not prevent a Clip at a left turn or poke through in the station.
-                14 If this code is set on any point in the station, you force clipping Of the entire station even though it may be wider than 3% Of BMAX, and regardless Of any poke-throughs and left turns.
-                15 DO not clip this station in any way, either entirely or at any point if this code is set on any point in the station.
-                16 Force a clip at this point.
-             */
-
-            public DataPoint(string line)
-            {
-                string[] data = line.Split(',');
-                if (data.Length < 3)
+                get
                 {
-                    throw new WrongDataFormatExeception("Invalid number of values in line");
+                    double z = Utill.GetYPointInX(0, offsetFile.WLZ_STF, offsetFile.SternPointX, offsetFile.WLZ_AF, X);
+                    return (int)z;
                 }
-
-                //for (int i = 0; i < data.Length; i++)
-                //{
-                //    data[i] = data[i].Replace('.', ',');
-                //}
-
-                Z = double.Parse(data[0], NumberStyles.Any, CultureInfo.InvariantCulture);
-                Y = double.Parse(data[1], NumberStyles.Any, CultureInfo.InvariantCulture);
-                PTC = (PointCode)Enum.Parse(typeof(PointCode), data[2]);
             }
 
-            public DataPoint()
+            public int FribordHoejde
             {
-            }
-
-            public override string ToString()
-            {
-                return $"Z: {Z}, Y: {Y}, PTC: {PTC}";
-            }
-
-            public Vector2 GetVector2()
-            {
-                return new Vector2((float)Y, (float)Z);
-            }
-
-        }
-        #endregion
-
-        public List<Station> PortStations
-        {
-            get
-            {
-                if (portStations == null)
+                get
                 {
-                    portStations = stations.Where(s => s.SID == Station.SideCode.Port).ToList();
+                    //get the max Z value
+                    double z = dataPoints.Max(p => p.Z);
+                    return (int)z - WLZ;
                 }
-                return portStations;
             }
-        }
 
-        public List<Station> StarboardStations
-        {
-            get
+            public int WLBredde
             {
-                if (starboardStations == null)
+                get
                 {
-                    starboardStations = stations.Where(s => s.SID == Station.SideCode.Starboard).ToList();
-                }
-                return starboardStations;
-            }
-        }
-
-        public List<Station> Stations
-        {
-            get
-            {
-                return stations;
-            }
-        }
-
-        private void PrintAll()
-        {
-            foreach (var station in stations)
-            {
-                Console.WriteLine(station.ToString());
-                station.PrintDataPoints();
-            }
-        }
-
-        protected static string readLine(StreamReader file)
-        {
-            if (file == null)
-            {
-                throw new ArgumentNullException("file");
-            }
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-            string line = file.ReadLine();
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
-            if (string.IsNullOrEmpty(line))
-            {
-                throw new WrongDataFormatExeception("file is empty");
-            }
-            return line;
-        }
-        public static OffsetFile ParseOffsetFile(string filePath)
-        {
-            XDocument doc = XDocument.Load(filePath);
-            XElement root = doc.Element("ORC").Element("offset");
-
-            OffsetFile offsetFile = new OffsetFile
-            {
-                //metadata = new Metadata
-                //{
-                //    date = DateTime.Parse(root.Attribute("date").Value + " " + root.Attribute("time").Value),
-                //    measuresCode = root.Attribute("measurer").Value,
-                //    machineCode = root.Attribute("machine").Value,
-                //    filename = root.Attribute("filename").Value,
-                //    classboat = root.Attribute("yachtname").Value,
-                //    // Add other properties as needed
-                //},
-                stations = root.Elements("station").Select(station => new Station
-                {
-                    X = double.Parse(station.Attribute("x").Value),
-                    // Add other properties as needed
-                    dataPoints = station.Elements("point").Select(point => new DataPoint
+                    if (wLBrede == 0)
                     {
-                        Y = double.Parse(point.Attribute("y").Value),
-                        Z = double.Parse(point.Attribute("z").Value),
-                        // Add other properties as needed
-                    }).ToList()
-                }).ToList()
-            };
+                        //check if the a datapoint's Z value is FribordHoejde
+                        bool hasFribordHoejde = dataPoints.Any(p => p.Y == WLZ);
+                        if (hasFribordHoejde)
+                        {
+                            foreach (var point in dataPoints)
+                            {
+                                if (point.Z == WLZ)
+                                {
+                                    wLBrede = (int)point.Y;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //finde the 2 datapoints with the Z value closest to FribordHoejde
+                            DataPoint? point1 = null;
+                            DataPoint? point2 = null;
+                            double minDiff = double.MaxValue;
+                            foreach (var point in dataPoints)
+                            {
+                                double diff = Math.Abs(point.Z - WLZ);
+                                if (diff < minDiff)
+                                {
+                                    minDiff = diff;
+                                    point1 = point;
+                                }
+                            }
+                            minDiff = double.MaxValue;
+                            foreach (var point in dataPoints)
+                            {
+                                double diff = Math.Abs(point.Z - WLZ);
+                                if (diff < minDiff && point != point1)
+                                {
+                                    minDiff = diff;
+                                    point2 = point;
+                                }
+                            }
+                            double y = Utill.GetYPointInX(point1.Z, point1.Y, point2.Z, point2.Y, WLZ);
+                            wLBrede = (int)y;
+                            if (wLBrede < 0)
+                                wLBrede *= -1;
 
-            return offsetFile;
+                        }
+
+                    }
+                    return wLBrede;
+                }
+            }
+
+            public int Udfald
+            {
+                get
+                {
+                    //get the min Z value
+                    double z = dataPoints.Max(p => p.Y);
+                    return (int)z - WLBredde;
+                }
+            }
+        }
+
+            public class DataPoint
+            {
+
+                public enum PointCode
+                {
+                    NormalHullPoint = 0,
+                    SheerPoint = 1,
+                    PokeThrough = 2,
+                    PropellerOrShaftExitPoint = 3,
+                    MaximumWidthPointsOfWingKeel = 4,
+                    USMeasurementMachineCenterlinePoints = 5,
+                    PropellerApertureBottomPoint = 6,
+                    PropellerApertureTopPoint = 7,
+                    LeadingEdgePokeThrough = 8,
+                    TrailingEdgePokeThrough = 9,
+                    PokeThroughInClosedHole = 10,
+                    PokeThroughSeveringAppendage = 11,
+                    DoNotClipAtSpecificPoint = 12,
+                    PreventClippingOfNarrowStations = 13,
+                    ForceClippingOfEntireStation = 14,
+                    DoNotClipStation = 15,
+                    ForceClipAtSpecificPoint = 16
+                }
+
+                public double Z { get; set; } // Vertical co-ordinate for points on a half section, positive up, negative down in millimeters for metric units, in hundredths Of feet for imperial units
+                public double Y { get; set; } // Horizontal distance from the centerline for points on a half section. Negative only in the gap in section for example, between the canoe body and the trailing edge where point code PTC is set to 2.
+                public PointCode PTC;
+                /*
+                    POINT CODES:
+                    o Normal hull point.
+                    1 Sheer point. If no point on a station has a point code Of I, the top point
+                    2 on the station becomes the sheer point. Poke-through (empty space in a gap bounded by the point immediately above and below. More commonly represented by a Y (transverse Offset) Of less than -0.3 feet.
+                    3 Propeller or shaft exit point (the appropriate station code having already been entered).
+                    4 Maximum Width points Of a Wing keel.
+                    5 US measurement machine centerline points (has no rating effect.
+                    6 Propeller aperture bottom point (may exist in some Old US offset files).
+                    7 Propeller aperture top point (may exist in some Old US offset files).
+                    8 Poke-through on the Ieading edge Of an appendage. Most Of the time, the program can decide automatically if one or more stations with pokethroughs are Ieading or trailing edge. If an appendage with Ieading edge poke-throughs plots incorrectly, this may help.
+                    9 Poke through on the trailing edge Of an appendage. If an appendage with trailing edge poke-throughs plots incorrectly, this may help.
+                    10 Poke-through in a closed hole through an appendage. There is no automatic recognition Of holes.
+                    11 Poke-through in a contiguous set Of stations that all have poke-throughs which completely sever the appendage from the hull. This code will limit the appendage profile to only those points below the pokethroughs.
+                    12 Do NOT clip at this specific point. Use on points which are the inside corner Of a Ieft turn while scanning down the section. This is typically used to ptevent clips at hard chines with lips or lapstrake type construction.
+                    13 Prevent clipping Of entire stations narrower that 3 percent Of BMAX by setting this code on any point in the station. This would be typically used on the very tip Of a transom that comes to a point. This code Will not prevent a Clip at a left turn or poke through in the station.
+                    14 If this code is set on any point in the station, you force clipping Of the entire station even though it may be wider than 3% Of BMAX, and regardless Of any poke-throughs and left turns.
+                    15 DO not clip this station in any way, either entirely or at any point if this code is set on any point in the station.
+                    16 Force a clip at this point.
+                 */
+
+                public DataPoint(string line)
+                {
+                    string[] data = line.Split(',');
+                    if (data.Length < 3)
+                    {
+                        throw new WrongDataFormatExeception("Invalid number of values in line");
+                    }
+
+                    //for (int i = 0; i < data.Length; i++)
+                    //{
+                    //    data[i] = data[i].Replace('.', ',');
+                    //}
+
+                    Z = double.Parse(data[0], NumberStyles.Any, CultureInfo.InvariantCulture);
+                    Y = double.Parse(data[1], NumberStyles.Any, CultureInfo.InvariantCulture);
+                    PTC = (PointCode)Enum.Parse(typeof(PointCode), data[2]);
+                }
+
+                public DataPoint()
+                {
+                }
+
+                public override string ToString()
+                {
+                    return $"Z: {Z}, Y: {Y}, PTC: {PTC}";
+                }
+
+                public Vector2 GetVector2()
+                {
+                    return new Vector2((float)Y, (float)Z);
+                }
+
+            }
+            #endregion
+
+            public List<Station> PortStations
+            {
+                get
+                {
+                    if (portStations == null)
+                    {
+                        portStations = stations.Where(s => s.SID == Station.SideCode.Port).ToList();
+                    }
+                    return portStations;
+                }
+            }
+
+            public List<Station> StarboardStations
+            {
+                get
+                {
+                    if (starboardStations == null)
+                    {
+                        starboardStations = stations.Where(s => s.SID == Station.SideCode.Starboard).ToList();
+                    }
+                    return starboardStations;
+                }
+            }
+
+            public List<Station> Stations
+            {
+                get
+                {
+                    return stations;
+                }
+            }
+
+            private void PrintAll()
+            {
+                foreach (var station in stations)
+                {
+                    Console.WriteLine(station.ToString());
+                    station.PrintDataPoints();
+                }
+            }
+
+            protected static string readLine(StreamReader file)
+            {
+                if (file == null)
+                {
+                    throw new ArgumentNullException("file");
+                }
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+                string line = file.ReadLine();
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+                if (string.IsNullOrEmpty(line))
+                {
+                    throw new WrongDataFormatExeception("file is empty");
+                }
+                return line;
+            }
+            public static OffsetFile ParseOffsetFile(string filePath)
+            {
+                XDocument doc = XDocument.Load(filePath);
+                XElement root = doc.Element("ORC").Element("offset");
+
+                OffsetFile offsetFile = new OffsetFile
+                {
+                    //metadata = new Metadata
+                    //{
+                    //    date = DateTime.Parse(root.Attribute("date").Value + " " + root.Attribute("time").Value),
+                    //    measuresCode = root.Attribute("measurer").Value,
+                    //    machineCode = root.Attribute("machine").Value,
+                    //    filename = root.Attribute("filename").Value,
+                    //    classboat = root.Attribute("yachtname").Value,
+                    //    // Add other properties as needed
+                    //},
+                    stations = root.Elements("station").Select(station => new Station
+                    {
+                        X = double.Parse(station.Attribute("x").Value),
+                        // Add other properties as needed
+                        dataPoints = station.Elements("point").Select(point => new DataPoint
+                        {
+                            Y = double.Parse(point.Attribute("y").Value),
+                            Z = double.Parse(point.Attribute("z").Value),
+                            // Add other properties as needed
+                        }).ToList()
+                    }).ToList()
+                };
+
+                return offsetFile;
+            }
         }
     }
-}

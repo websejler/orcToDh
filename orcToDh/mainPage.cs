@@ -39,9 +39,16 @@ namespace orcToDh
 
         public void calculate()
         {
+            int aFMes = aFMesTextBox.Text == "" ? 0 : int.Parse(aFMesTextBox.Text);
+            int sTFMes = sTFMesTextBox.Text == "" ? 0 : int.Parse(sTFMesTextBox.Text);
+            ofset.AF = aFMes;
+            ofset.STF = sTFMes;
             bMaxCalculator = new(ofset);
             gMaxCalculator = new(ofset);
             profileCalculator = new(ofset);
+            bowpointLable.Text = "Stævnspunkt: " + ofset.BowPointZ.ToString();
+            xStationAFLable.Text = "X station AF: " + ofset.SternPointX.ToString();
+            zStationAFlable.Text = "Z station AF: " + ofset.SternPointZ.ToString();
         }
 
         public void loadFile()
@@ -110,11 +117,26 @@ namespace orcToDh
 
         private void profileButton_Click(object sender, EventArgs e)
         {
-            if(profileCalculator is null)
+            if (profileCalculator is null)
             {
                 throw new Exception("profileCalculator is null");
             }
             profileCalculator.ShowDialog();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            calculate();
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            calculate();
         }
     }
 }

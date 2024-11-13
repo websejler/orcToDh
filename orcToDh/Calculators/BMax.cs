@@ -123,6 +123,7 @@ namespace orcToDh.Calculators
             chart.Series.Add(new Series("Scann Port"));
             chart.Series.Add(new Series("Scann Starboard"));
             chart.Series.Add(new Series("BMax"));
+            chart.Series.Add(new Series("VandLinje"));
 
             // map the datapoints in starboardStations and portStations to the chart form with maxBMaxIndex
             foreach (OffsetFile.DataPoint dataPoint in bestBMaxDataPoints.ToArray().Reverse())
@@ -152,6 +153,15 @@ namespace orcToDh.Calculators
 
             BMaxLabel.Text = "BMax: " + this.bMax.ToString();
             PortStationLabel.Text = bestBMaxStation.SID.ToString() + " station: - x: " + bestBMaxStation.X + " - z: " + bestBMaxHight + " - y: " + bestBMax;
+            wlZlabel.Text = "WLZ: " + bestBMaxStation.WLZ;
+            fribordHoejdeLabel.Text = "Fribord: " + bestBMaxStation.FribordHoejde;
+            wLBreddelabel.Text = "WLBredde/2: " + bestBMaxStation.WLBredde;
+            udfaldLabel.Text = "Udfald: " + bestBMaxStation.Udfald;
+
+            //display a horizontal line at the waterline, in the fulle width of the chart
+            chart.Series["VandLinje"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            chart.Series["VandLinje"].Points.AddXY(bestBMaxStation.WLBredde - 150, bestBMaxStation.WLZ);
+            chart.Series["VandLinje"].Points.AddXY(bestBMaxStation.WLBredde + 150, bestBMaxStation.WLZ);
         }
     }
 }
