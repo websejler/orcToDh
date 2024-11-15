@@ -298,7 +298,7 @@ namespace orcToDh
 
             public List<DataPoint>? dataPoints;
 
-            private OffsetFile offsetFile;
+            public OffsetFile offsetFile;
 
             public Station(string line, OffsetFile offsetFile)
             {
@@ -432,175 +432,180 @@ namespace orcToDh
             }
         }
 
-            public class DataPoint
+        public class DataPoint
+        {
+
+            public enum PointCode
             {
-
-                public enum PointCode
-                {
-                    NormalHullPoint = 0,
-                    SheerPoint = 1,
-                    PokeThrough = 2,
-                    PropellerOrShaftExitPoint = 3,
-                    MaximumWidthPointsOfWingKeel = 4,
-                    USMeasurementMachineCenterlinePoints = 5,
-                    PropellerApertureBottomPoint = 6,
-                    PropellerApertureTopPoint = 7,
-                    LeadingEdgePokeThrough = 8,
-                    TrailingEdgePokeThrough = 9,
-                    PokeThroughInClosedHole = 10,
-                    PokeThroughSeveringAppendage = 11,
-                    DoNotClipAtSpecificPoint = 12,
-                    PreventClippingOfNarrowStations = 13,
-                    ForceClippingOfEntireStation = 14,
-                    DoNotClipStation = 15,
-                    ForceClipAtSpecificPoint = 16
-                }
-
-                public double Z { get; set; } // Vertical co-ordinate for points on a half section, positive up, negative down in millimeters for metric units, in hundredths Of feet for imperial units
-                public double Y { get; set; } // Horizontal distance from the centerline for points on a half section. Negative only in the gap in section for example, between the canoe body and the trailing edge where point code PTC is set to 2.
-                public PointCode PTC;
-                /*
-                    POINT CODES:
-                    o Normal hull point.
-                    1 Sheer point. If no point on a station has a point code Of I, the top point
-                    2 on the station becomes the sheer point. Poke-through (empty space in a gap bounded by the point immediately above and below. More commonly represented by a Y (transverse Offset) Of less than -0.3 feet.
-                    3 Propeller or shaft exit point (the appropriate station code having already been entered).
-                    4 Maximum Width points Of a Wing keel.
-                    5 US measurement machine centerline points (has no rating effect.
-                    6 Propeller aperture bottom point (may exist in some Old US offset files).
-                    7 Propeller aperture top point (may exist in some Old US offset files).
-                    8 Poke-through on the Ieading edge Of an appendage. Most Of the time, the program can decide automatically if one or more stations with pokethroughs are Ieading or trailing edge. If an appendage with Ieading edge poke-throughs plots incorrectly, this may help.
-                    9 Poke through on the trailing edge Of an appendage. If an appendage with trailing edge poke-throughs plots incorrectly, this may help.
-                    10 Poke-through in a closed hole through an appendage. There is no automatic recognition Of holes.
-                    11 Poke-through in a contiguous set Of stations that all have poke-throughs which completely sever the appendage from the hull. This code will limit the appendage profile to only those points below the pokethroughs.
-                    12 Do NOT clip at this specific point. Use on points which are the inside corner Of a Ieft turn while scanning down the section. This is typically used to ptevent clips at hard chines with lips or lapstrake type construction.
-                    13 Prevent clipping Of entire stations narrower that 3 percent Of BMAX by setting this code on any point in the station. This would be typically used on the very tip Of a transom that comes to a point. This code Will not prevent a Clip at a left turn or poke through in the station.
-                    14 If this code is set on any point in the station, you force clipping Of the entire station even though it may be wider than 3% Of BMAX, and regardless Of any poke-throughs and left turns.
-                    15 DO not clip this station in any way, either entirely or at any point if this code is set on any point in the station.
-                    16 Force a clip at this point.
-                 */
-
-                public DataPoint(string line)
-                {
-                    string[] data = line.Split(',');
-                    if (data.Length < 3)
-                    {
-                        throw new WrongDataFormatExeception("Invalid number of values in line");
-                    }
-
-                    //for (int i = 0; i < data.Length; i++)
-                    //{
-                    //    data[i] = data[i].Replace('.', ',');
-                    //}
-
-                    Z = double.Parse(data[0], NumberStyles.Any, CultureInfo.InvariantCulture);
-                    Y = double.Parse(data[1], NumberStyles.Any, CultureInfo.InvariantCulture);
-                    PTC = (PointCode)Enum.Parse(typeof(PointCode), data[2]);
-                }
-
-                public DataPoint()
-                {
-                }
-
-                public override string ToString()
-                {
-                    return $"Z: {Z}, Y: {Y}, PTC: {PTC}";
-                }
-
-                public Vector2 GetVector2()
-                {
-                    return new Vector2((float)Y, (float)Z);
-                }
-
-            }
-            #endregion
-
-            public List<Station> PortStations
-            {
-                get
-                {
-                    if (portStations == null)
-                    {
-                        portStations = stations.Where(s => s.SID == Station.SideCode.Port).ToList();
-                    }
-                    return portStations;
-                }
+                NormalHullPoint = 0,
+                SheerPoint = 1,
+                PokeThrough = 2,
+                PropellerOrShaftExitPoint = 3,
+                MaximumWidthPointsOfWingKeel = 4,
+                USMeasurementMachineCenterlinePoints = 5,
+                PropellerApertureBottomPoint = 6,
+                PropellerApertureTopPoint = 7,
+                LeadingEdgePokeThrough = 8,
+                TrailingEdgePokeThrough = 9,
+                PokeThroughInClosedHole = 10,
+                PokeThroughSeveringAppendage = 11,
+                DoNotClipAtSpecificPoint = 12,
+                PreventClippingOfNarrowStations = 13,
+                ForceClippingOfEntireStation = 14,
+                DoNotClipStation = 15,
+                ForceClipAtSpecificPoint = 16
             }
 
-            public List<Station> StarboardStations
+            public double Z { get; set; } // Vertical co-ordinate for points on a half section, positive up, negative down in millimeters for metric units, in hundredths Of feet for imperial units
+            public double Y { get; set; } // Horizontal distance from the centerline for points on a half section. Negative only in the gap in section for example, between the canoe body and the trailing edge where point code PTC is set to 2.
+            public PointCode PTC;
+            /*
+                POINT CODES:
+                o Normal hull point.
+                1 Sheer point. If no point on a station has a point code Of I, the top point
+                2 on the station becomes the sheer point. Poke-through (empty space in a gap bounded by the point immediately above and below. More commonly represented by a Y (transverse Offset) Of less than -0.3 feet.
+                3 Propeller or shaft exit point (the appropriate station code having already been entered).
+                4 Maximum Width points Of a Wing keel.
+                5 US measurement machine centerline points (has no rating effect.
+                6 Propeller aperture bottom point (may exist in some Old US offset files).
+                7 Propeller aperture top point (may exist in some Old US offset files).
+                8 Poke-through on the Ieading edge Of an appendage. Most Of the time, the program can decide automatically if one or more stations with pokethroughs are Ieading or trailing edge. If an appendage with Ieading edge poke-throughs plots incorrectly, this may help.
+                9 Poke through on the trailing edge Of an appendage. If an appendage with trailing edge poke-throughs plots incorrectly, this may help.
+                10 Poke-through in a closed hole through an appendage. There is no automatic recognition Of holes.
+                11 Poke-through in a contiguous set Of stations that all have poke-throughs which completely sever the appendage from the hull. This code will limit the appendage profile to only those points below the pokethroughs.
+                12 Do NOT clip at this specific point. Use on points which are the inside corner Of a Ieft turn while scanning down the section. This is typically used to ptevent clips at hard chines with lips or lapstrake type construction.
+                13 Prevent clipping Of entire stations narrower that 3 percent Of BMAX by setting this code on any point in the station. This would be typically used on the very tip Of a transom that comes to a point. This code Will not prevent a Clip at a left turn or poke through in the station.
+                14 If this code is set on any point in the station, you force clipping Of the entire station even though it may be wider than 3% Of BMAX, and regardless Of any poke-throughs and left turns.
+                15 DO not clip this station in any way, either entirely or at any point if this code is set on any point in the station.
+                16 Force a clip at this point.
+             */
+
+            public DataPoint(string line)
             {
-                get
+                string[] data = line.Split(',');
+                if (data.Length < 3)
                 {
-                    if (starboardStations == null)
-                    {
-                        starboardStations = stations.Where(s => s.SID == Station.SideCode.Starboard).ToList();
-                    }
-                    return starboardStations;
+                    throw new WrongDataFormatExeception("Invalid number of values in line");
                 }
+
+                //for (int i = 0; i < data.Length; i++)
+                //{
+                //    data[i] = data[i].Replace('.', ',');
+                //}
+
+                Z = double.Parse(data[0], NumberStyles.Any, CultureInfo.InvariantCulture);
+                Y = double.Parse(data[1], NumberStyles.Any, CultureInfo.InvariantCulture);
+                PTC = (PointCode)Enum.Parse(typeof(PointCode), data[2]);
             }
 
-            public List<Station> Stations
+            public DataPoint()
             {
-                get
-                {
-                    return stations;
-                }
             }
 
-            private void PrintAll()
+            public override string ToString()
             {
-                foreach (var station in stations)
-                {
-                    Console.WriteLine(station.ToString());
-                    station.PrintDataPoints();
-                }
+                return $"Z: {Z}, Y: {Y}, PTC: {PTC}";
             }
 
-            protected static string readLine(StreamReader file)
+            public Vector2 GetVector2()
             {
-                if (file == null)
-                {
-                    throw new ArgumentNullException("file");
-                }
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-                string line = file.ReadLine();
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
-                if (string.IsNullOrEmpty(line))
-                {
-                    throw new WrongDataFormatExeception("file is empty");
-                }
-                return line;
+                return new Vector2((float)Y, (float)Z);
             }
-            public static OffsetFile ParseOffsetFile(string filePath)
+
+        }
+        #endregion
+
+        public List<Station> PortStations
+        {
+            get
             {
-                XDocument doc = XDocument.Load(filePath);
-                XElement root = doc.Element("ORC").Element("offset");
-
-                OffsetFile offsetFile = new OffsetFile
+                if (portStations == null)
                 {
-                    //metadata = new Metadata
-                    //{
-                    //    date = DateTime.Parse(root.Attribute("date").Value + " " + root.Attribute("time").Value),
-                    //    measuresCode = root.Attribute("measurer").Value,
-                    //    machineCode = root.Attribute("machine").Value,
-                    //    filename = root.Attribute("filename").Value,
-                    //    classboat = root.Attribute("yachtname").Value,
-                    //    // Add other properties as needed
-                    //},
-                    stations = root.Elements("station").Select(station => new Station
-                    {
-                        X = double.Parse(station.Attribute("x").Value),
-                        // Add other properties as needed
-                        dataPoints = station.Elements("point").Select(point => new DataPoint
-                        {
-                            Y = double.Parse(point.Attribute("y").Value),
-                            Z = double.Parse(point.Attribute("z").Value),
-                            // Add other properties as needed
-                        }).ToList()
-                    }).ToList()
-                };
-
-                return offsetFile;
+                    portStations = stations.Where(s => s.SID == Station.SideCode.Port).ToList();
+                }
+                return portStations;
             }
         }
+
+        public List<Station> StarboardStations
+        {
+            get
+            {
+                if (starboardStations == null)
+                {
+                    starboardStations = stations.Where(s => s.SID == Station.SideCode.Starboard).ToList();
+                }
+                return starboardStations;
+            }
+        }
+
+        public List<Station> Stations
+        {
+            get
+            {
+                return stations;
+            }
+        }
+
+        private void PrintAll()
+        {
+            foreach (var station in stations)
+            {
+                Console.WriteLine(station.ToString());
+                station.PrintDataPoints();
+            }
+        }
+
+        protected static string readLine(StreamReader file)
+        {
+            if (file == null)
+            {
+                throw new ArgumentNullException("file");
+            }
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+            string line = file.ReadLine();
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+            if (string.IsNullOrEmpty(line))
+            {
+                throw new WrongDataFormatExeception("file is empty");
+            }
+            return line;
+        }
+        public static OffsetFile ParseOffsetFile(string filePath)
+        {
+            XDocument doc = XDocument.Load(filePath);
+            XElement root = doc.Element("ORC").Element("offset");
+
+            OffsetFile offsetFile = new OffsetFile
+            {
+                //metadata = new Metadata
+                //{
+                //    date = DateTime.Parse(root.Attribute("date").Value + " " + root.Attribute("time").Value),
+                //    measuresCode = root.Attribute("measurer").Value,
+                //    machineCode = root.Attribute("machine").Value,
+                //    filename = root.Attribute("filename").Value,
+                //    classboat = root.Attribute("yachtname").Value,
+                //    // Add other properties as needed
+                //},
+                stations = root.Elements("station").Select(station => new Station
+                {
+                    X = double.Parse(station.Attribute("x").Value),
+                    // Add other properties as needed
+                    dataPoints = station.Elements("point").Select(point => new DataPoint
+                    {
+                        Y = double.Parse(point.Attribute("y").Value),
+                        Z = double.Parse(point.Attribute("z").Value),
+                        // Add other properties as needed
+                    }).ToList()
+                }).ToList()
+            };
+
+            foreach (Station station in offsetFile.stations)
+            {
+                station.offsetFile = offsetFile;
+            }
+
+            return offsetFile;
+        }
     }
+}

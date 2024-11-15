@@ -112,7 +112,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(142, 35);
+            label1.Location = new Point(444, 35);
             label1.Name = "label1";
             label1.Size = new Size(25, 15);
             label1.TabIndex = 7;
@@ -121,7 +121,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(146, 64);
+            label2.Location = new Point(448, 64);
             label2.Name = "label2";
             label2.Size = new Size(21, 15);
             label2.TabIndex = 8;
@@ -130,7 +130,7 @@
             // 
             // sTFMesTextBox
             // 
-            sTFMesTextBox.Location = new Point(173, 27);
+            sTFMesTextBox.Location = new Point(475, 27);
             sTFMesTextBox.Name = "sTFMesTextBox";
             sTFMesTextBox.Size = new Size(100, 23);
             sTFMesTextBox.TabIndex = 9;
@@ -139,7 +139,7 @@
             // 
             // aFMesTextBox
             // 
-            aFMesTextBox.Location = new Point(173, 56);
+            aFMesTextBox.Location = new Point(475, 56);
             aFMesTextBox.Name = "aFMesTextBox";
             aFMesTextBox.Size = new Size(100, 23);
             aFMesTextBox.TabIndex = 10;
@@ -149,7 +149,7 @@
             // bowpointLable
             // 
             bowpointLable.AutoSize = true;
-            bowpointLable.Location = new Point(308, 37);
+            bowpointLable.Location = new Point(610, 37);
             bowpointLable.Name = "bowpointLable";
             bowpointLable.Size = new Size(71, 15);
             bowpointLable.TabIndex = 11;
@@ -158,7 +158,7 @@
             // xStationAFLable
             // 
             xStationAFLable.AutoSize = true;
-            xStationAFLable.Location = new Point(308, 59);
+            xStationAFLable.Location = new Point(610, 59);
             xStationAFLable.Name = "xStationAFLable";
             xStationAFLable.Size = new Size(67, 15);
             xStationAFLable.TabIndex = 12;
@@ -167,7 +167,7 @@
             // zStationAFlable
             // 
             zStationAFlable.AutoSize = true;
-            zStationAFlable.Location = new Point(308, 79);
+            zStationAFlable.Location = new Point(610, 79);
             zStationAFlable.Name = "zStationAFlable";
             zStationAFlable.Size = new Size(66, 15);
             zStationAFlable.TabIndex = 13;
