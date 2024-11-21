@@ -21,9 +21,6 @@ namespace orcToDh
         public List<Station>? stations;
         private List<Station>? portStations;
         private List<Station>? starboardStations;
-        private int bowPoint = 0;
-        private int sternPointX = 0;
-        private int sternPointZ = 0;
         private double WLZ_AF = 0;
         private double WLZ_STF = 0;
         private int aF = 0;
@@ -62,19 +59,16 @@ namespace orcToDh
         {
             get
             {
-                if (bowPoint == 0)
-                {
-                    Station station0 = stations[0];
-                    Station station1 = stations[1];
-                    double z1 = station0.dataPoints.Max(p => p.Z);
-                    double z2 = station1.dataPoints.Max(p => p.Z);
-                    double x1 = station0.X;
-                    double x2 = station1.X;
-                    double z = Utill.GetYPointInX(x1, z1, x2, z2);
-                    Console.WriteLine("BowPoint: " + z);
-                    bowPoint = (int)z;
-                }
-                return bowPoint;
+
+                Station station0 = stations[0];
+                Station station1 = stations[1];
+                double z1 = station0.dataPoints.Max(p => p.Z);
+                double z2 = station1.dataPoints.Max(p => p.Z);
+                double x1 = station0.X;
+                double x2 = station1.X;
+                double z = Utill.GetYPointInX(x1, z1, x2, z2);
+                Console.WriteLine("BowPoint: " + z);
+                return(int)z;
 
             }
         }
@@ -83,29 +77,21 @@ namespace orcToDh
         {
             get
             {
-                if (sternPointX == 0)
-                {
-                    //get the last station
-                    Station station = stations[stations.Count - 1];
-                    //get the X value of the last station
-                    sternPointX = (int)station.X;
-                }
-
-                return sternPointX;
+                //get the last station
+                Station station = stations[stations.Count - 1];
+                //get the X value of the last station
+                return (int)station.X;
             }
         }
         public int SternPointZ
         {
             get
             {
-                if (sternPointZ == 0)
-                {
-                    //get the last station
-                    Station station = stations[stations.Count - 1];
-                    //get the smalest Z value of the last station
-                    sternPointZ = (int)station.dataPoints.Min(p => p.Z);
-                }
-                return sternPointZ;
+
+                //get the last station
+                Station station = stations[stations.Count - 1];
+                //get the smalest Z value of the last station
+                return (int)station.dataPoints.Min(p => p.Z);
             }
         }
 
@@ -294,7 +280,6 @@ namespace orcToDh
             public StationLabel SCD { get; set; } // Station label: Forward freeboard, Aft freeboard, Prop shaft exit point, Propeller hub point
             public int STA { get; } // Station count, not necessary but included for convenience
 
-            public int wLBrede = 0;
 
             public List<DataPoint>? dataPoints;
 
@@ -369,52 +354,49 @@ namespace orcToDh
             {
                 get
                 {
-                    if (wLBrede == 0)
+                    int wLBrede = 0;
+                    //check if the a datapoint's Z value is FribordHoejde
+                    bool hasFribordHoejde = dataPoints.Any(p => p.Y == WLZ);
+                    if (hasFribordHoejde)
                     {
-                        //check if the a datapoint's Z value is FribordHoejde
-                        bool hasFribordHoejde = dataPoints.Any(p => p.Y == WLZ);
-                        if (hasFribordHoejde)
+                        foreach (var point in dataPoints)
                         {
-                            foreach (var point in dataPoints)
+                            if (point.Z == WLZ)
                             {
-                                if (point.Z == WLZ)
-                                {
-                                    wLBrede = (int)point.Y;
-                                    break;
-                                }
+                                wLBrede = (int)point.Y;
+                                break;
                             }
                         }
-                        else
+                    }
+                    else
+                    {
+                        //finde the 2 datapoints with the Z value closest to FribordHoejde
+                        DataPoint? point1 = null;
+                        DataPoint? point2 = null;
+                        double minDiff = double.MaxValue;
+                        foreach (var point in dataPoints)
                         {
-                            //finde the 2 datapoints with the Z value closest to FribordHoejde
-                            DataPoint? point1 = null;
-                            DataPoint? point2 = null;
-                            double minDiff = double.MaxValue;
-                            foreach (var point in dataPoints)
+                            double diff = Math.Abs(point.Z - WLZ);
+                            if (diff < minDiff)
                             {
-                                double diff = Math.Abs(point.Z - WLZ);
-                                if (diff < minDiff)
-                                {
-                                    minDiff = diff;
-                                    point1 = point;
-                                }
+                                minDiff = diff;
+                                point1 = point;
                             }
-                            minDiff = double.MaxValue;
-                            foreach (var point in dataPoints)
-                            {
-                                double diff = Math.Abs(point.Z - WLZ);
-                                if (diff < minDiff && point != point1)
-                                {
-                                    minDiff = diff;
-                                    point2 = point;
-                                }
-                            }
-                            double y = Utill.GetYPointInX(point1.Z, point1.Y, point2.Z, point2.Y, WLZ);
-                            wLBrede = (int)y;
-                            if (wLBrede < 0)
-                                wLBrede *= -1;
-
                         }
+                        minDiff = double.MaxValue;
+                        foreach (var point in dataPoints)
+                        {
+                            double diff = Math.Abs(point.Z - WLZ);
+                            if (diff < minDiff && point != point1)
+                            {
+                                minDiff = diff;
+                                point2 = point;
+                            }
+                        }
+                        double y = Utill.GetYPointInX(point1.Z, point1.Y, point2.Z, point2.Y, WLZ);
+                        wLBrede = (int)y;
+                        if (wLBrede < 0)
+                            wLBrede *= -1;
 
                     }
                     return wLBrede;
