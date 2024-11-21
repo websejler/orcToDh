@@ -39,8 +39,15 @@ namespace orcToDh
 
         public void calculate()
         {
-            int aFMes = aFMesTextBox.Text == "" ? 0 : int.Parse(aFMesTextBox.Text);
-            int sTFMes = sTFMesTextBox.Text == "" ? 0 : int.Parse(sTFMesTextBox.Text);
+            int aFMes;
+            int sTFMes;
+            try
+            {
+                aFMes = aFMesTextBox.Text == "" ? 0 : int.Parse(aFMesTextBox.Text);
+                sTFMes = sTFMesTextBox.Text == "" ? 0 : int.Parse(sTFMesTextBox.Text);
+            } catch (FormatException) {
+                return;
+            }
             ofset.AF = aFMes;
             ofset.STF = sTFMes;
             bMaxCalculator = new(ofset);
