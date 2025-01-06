@@ -42,6 +42,8 @@
             bowpointLable = new Label();
             xStationAFLable = new Label();
             zStationAFlable = new Label();
+            BoG3TextBox = new TextBox();
+            label4 = new Label();
             SuspendLayout();
             // 
             // openFileDialog1
@@ -173,11 +175,32 @@
             zStationAFlable.TabIndex = 13;
             zStationAFlable.Text = "zStation AF";
             // 
+            // BoG3TextBox
+            // 
+            BoG3TextBox.Location = new Point(475, 85);
+            BoG3TextBox.Name = "BoG3TextBox";
+            BoG3TextBox.Size = new Size(100, 23);
+            BoG3TextBox.TabIndex = 16;
+            BoG3TextBox.Text = "0";
+            BoG3TextBox.TextChanged += BoG3TextBox_TextChanged;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(434, 93);
+            label4.Name = "label4";
+            label4.Size = new Size(35, 15);
+            label4.TabIndex = 14;
+            label4.Text = "BoG3";
+            label4.Click += label4_Click;
+            // 
             // mainPage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(990, 723);
+            Controls.Add(BoG3TextBox);
+            Controls.Add(label4);
             Controls.Add(zStationAFlable);
             Controls.Add(xStationAFLable);
             Controls.Add(bowpointLable);
@@ -213,5 +236,7 @@
         private Label bowpointLable;
         private Label xStationAFLable;
         private Label zStationAFlable;
+        private TextBox BoG3TextBox;
+        private Label label4;
     }
 }

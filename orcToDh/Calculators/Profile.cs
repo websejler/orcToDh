@@ -21,9 +21,13 @@ namespace orcToDh.Calculators
             chart.Series.Add("Top");
             chart.Series.Add("Bottom");
             chart.Series.Add("Keel");
+            chart.Series.Add("Water line");
+            chart.Series.Add("Mesurement line");
 
             chart.Series["Top"].ChartType = SeriesChartType.Line;
             chart.Series["Bottom"].ChartType = SeriesChartType.Line;
+            chart.Series["Water line"].ChartType = SeriesChartType.Line;
+            chart.Series["Mesurement line"].ChartType = SeriesChartType.Line;
             chart.Series["Keel"].ChartType = SeriesChartType.Point;
             chart.Series["Keel"].Color = Color.Blue; // Optional: visually distinguish keel
 
@@ -56,14 +60,14 @@ namespace orcToDh.Calculators
                 for (int i = 0; i < station.dataPoints.Count; i++)
                 {
                     var point = station.dataPoints[i];
-                    if (point.Y < 0)
+                    if (point.Y < -10)
                     {
                         // Add the point above (next point if exists)
                         if (i > 0)
                         {
                             var previousPoint = station.dataPoints[i - 1];
                             DataPoint keelPointAbove = new DataPoint(x, previousPoint.Z);
-                            modifyChartPoint(keelPointAbove, 6);
+                            modifyChartPoint(keelPointAbove, 10);
                             chart.Series["Keel"].Points.Add(keelPointAbove);
                         }
 
@@ -72,12 +76,19 @@ namespace orcToDh.Calculators
                         {
                             var nextPoint = station.dataPoints[i + 1];
                             DataPoint keelPointBelow = new DataPoint(x, nextPoint.Z);
-                            modifyChartPoint(keelPointBelow, 6);
+                            modifyChartPoint(keelPointBelow, 10);
                             chart.Series["Keel"].Points.Add(keelPointBelow);
                         }
                     }
                 }
             }
+
+            chart.Series["Water line"].Points.Add(new DataPoint(offsetFile.Stations[0].X-20, offsetFile.BowPointZ - offsetFile.STF));
+            chart.Series["Water line"].Points.Add(new DataPoint(offsetFile.Stations[offsetFile.Stations.Count-1].X+20, offsetFile.SternPointZ - offsetFile.AF));
+            chart.Series["Mesurement line"].Points.Add(new DataPoint(offsetFile.Stations[0].X-20, offsetFile.BowPointZ - offsetFile.STF + offsetFile.BoG3));
+            chart.Series["Mesurement line"].Points.Add(new DataPoint(offsetFile.Stations[offsetFile.Stations.Count - 1].X+20, offsetFile.SternPointZ - offsetFile.AF + offsetFile.BoG3));
+
+
         }
 
         public void modifyChartPoint(DataPoint chartPoint, int size = 8)

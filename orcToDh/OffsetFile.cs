@@ -25,6 +25,7 @@ namespace orcToDh
         private double WLZ_STF = 0;
         private int aF = 0;
         private int sTF = 0;
+        private int boG3 = 0;
 
         public OffsetFile(StreamReader file)
         {
@@ -117,6 +118,18 @@ namespace orcToDh
             {
                 sTF = value;
                 WLZ_STF = BowPointZ - sTF;
+            }
+        }
+
+        public int BoG3
+        {
+            get
+            {
+                return boG3;
+            }
+            set
+            {
+                boG3 = value;
             }
         }
 

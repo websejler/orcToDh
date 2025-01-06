@@ -41,15 +41,20 @@ namespace orcToDh
         {
             int aFMes;
             int sTFMes;
+            int BoG3;
             try
             {
                 aFMes = aFMesTextBox.Text == "" ? 0 : int.Parse(aFMesTextBox.Text);
                 sTFMes = sTFMesTextBox.Text == "" ? 0 : int.Parse(sTFMesTextBox.Text);
-            } catch (FormatException) {
+                BoG3 = BoG3TextBox.Text == "" ? 0 : int.Parse(BoG3TextBox.Text);
+            }
+            catch (FormatException)
+            {
                 return;
             }
             ofset.AF = aFMes;
             ofset.STF = sTFMes;
+            ofset.BoG3 = BoG3;
             bMaxCalculator = new(ofset);
             gMaxCalculator = new(ofset);
             profileCalculator = new(ofset);
@@ -104,7 +109,8 @@ namespace orcToDh
             {
                 throw new Exception("bMaxCalculator is null");
             }
-            bMaxCalculator.ShowDialog();
+            bMaxCalculator.Show();
+            bMaxCalculator = new(ofset);
         }
 
         private void gMaxButton_Click(object sender, EventArgs e)
@@ -113,7 +119,8 @@ namespace orcToDh
             {
                 throw new Exception("gMaxCalculator is null");
             }
-            gMaxCalculator.ShowDialog();
+            gMaxCalculator.Show();
+            gMaxCalculator = new(ofset);
         }
 
         private void loadFileButton_Click(object sender, EventArgs e)
@@ -128,7 +135,8 @@ namespace orcToDh
             {
                 throw new Exception("profileCalculator is null");
             }
-            profileCalculator.ShowDialog();
+            profileCalculator.Show();
+            profileCalculator = new(ofset);
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -142,6 +150,16 @@ namespace orcToDh
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            calculate();
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BoG3TextBox_TextChanged(object sender, EventArgs e)
         {
             calculate();
         }

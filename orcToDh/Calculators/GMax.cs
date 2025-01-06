@@ -175,6 +175,10 @@ namespace orcToDh.Calculators
                 if (smallestAngleIndex != -1)
                 {
                     dir = Vector2.Subtract(station.dataPoints[i].GetVector2(), station.dataPoints[smallestAngleIndex].GetVector2());
+                    if (dir.Y * -1 < dir.X && dir.X > 0)
+                    {
+                        break;
+                    }
                     i = smallestAngleIndex - 1;
                     dataPoints.Add(station.dataPoints[smallestAngleIndex]);
 
