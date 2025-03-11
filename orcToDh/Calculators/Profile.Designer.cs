@@ -32,6 +32,7 @@
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            oFlabel = new Label();
             ((System.ComponentModel.ISupportInitialize)chart).BeginInit();
             SuspendLayout();
             // 
@@ -52,20 +53,33 @@
             chart.TabIndex = 1;
             chart.Text = "chart1";
             // 
+            // oFlabel
+            // 
+            oFlabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            oFlabel.AutoSize = true;
+            oFlabel.Location = new Point(12, 617);
+            oFlabel.Name = "oFlabel";
+            oFlabel.Size = new Size(22, 15);
+            oFlabel.TabIndex = 2;
+            oFlabel.Text = "OF";
+            // 
             // Profile
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1113, 641);
+            Controls.Add(oFlabel);
             Controls.Add(chart);
             Name = "Profile";
             Text = "Profile";
             ((System.ComponentModel.ISupportInitialize)chart).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private System.Windows.Forms.DataVisualization.Charting.Chart chart;
+        private Label oFlabel;
     }
 }
