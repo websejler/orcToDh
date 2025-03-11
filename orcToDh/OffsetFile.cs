@@ -21,11 +21,18 @@ namespace orcToDh
         public List<Station>? stations;
         private List<Station>? portStations;
         private List<Station>? starboardStations;
+        public Station bestGmaxStation = null;
+        public List<DataPoint> bestGmaxDataPoints = null;
+        public Station bestBMaxStation = null;
+        public List<OffsetFile.DataPoint> bestBMaxDataPoints = null;
+        private List<Point> profileBottomLine = new();
         private double WLZ_AF = 0;
         private double WLZ_STF = 0;
         private int aF = 0;
         private int sTF = 0;
-        private int boG3 = 0;
+        private int gMax = 0;
+        private int bMax = 0;
+        
 
         public OffsetFile(StreamReader file)
         {
@@ -124,16 +131,150 @@ namespace orcToDh
         public int BoG3
         {
             get
-            {
-                return boG3;
-            }
-            set
-            {
-                boG3 = value;
+            {   
+                int bMax = BMax;
+                int gMax = GMax;
+                return (int)((bestGmaxStation.G + bestBMaxStation.WLBredde) * 0.03);
             }
         }
 
+        public int GMax
+        {
+            get
+            {
+                if (gMax == 0) {
+                    double bestGmax = 0;
+                    int index = 0;
+                    //cal gmax  over all stations and keep the best
+                    while (index < stations.Count)
+                    {
+                        List<OffsetFile.DataPoint> dataPoints = stations[index].GMaxDataPoints;
 
+                        double tempGmax = stations[index].GMax;
+                        if (tempGmax > bestGmax)
+                        {
+                            bestGmax = tempGmax;
+                            bestGmaxStation = stations[index];
+                            bestGmaxDataPoints = dataPoints;
+                        }
+
+                        index++;
+                    }
+                    gMax = (int)bestGmax;
+                }
+                return gMax;
+            }
+        }
+
+        public int BMax
+        {
+            get
+            {
+                if (bMax == 0)
+                {
+                    double bestBMax = 0;
+                    double bestBMaxHight = 0;
+                    int maxBMaxIndex = 0;
+                    for (int i = 0; i < stations.Count; i++)
+                    {
+                        double bMax = stations[i].BMax;
+                        double bMaxHight = stations[i].BMaxZ;
+                        if (bMax > bestBMax)
+                        {
+                            bestBMax = bMax;
+                            bestBMaxHight = bMaxHight;
+                            bestBMaxStation = stations[i];
+                            bestBMaxDataPoints = stations[i].dataPoints;
+                            maxBMaxIndex = i;
+                        }
+                    }
+                    bMax = (int)bestBMax;
+                }
+                return bMax;
+            }
+        }
+
+        public int OF
+        {
+            get
+            {
+                Utill.Line messermentLine = new Utill.Line();
+                messermentLine.x1 =Stations[0].X - 20;
+                messermentLine.y1 = BowPointZ - STF + BoG3; //this is z
+                messermentLine.x2 = Stations[Stations.Count - 1].X + 20;
+                messermentLine.y2 = SternPointZ - AF + BoG3;//this is z
+
+                List<Point> profileBottomLine = GetProfileBottomLine();
+                Utill.Point point = default(Utill.Point);
+                for (int i = 1; i < profileBottomLine.Count; i++)
+                {
+                    Utill.Line line = new Utill.Line();
+                    line.x1 = profileBottomLine[i - 1].X;
+                    line.y1 = profileBottomLine[i - 1].Y;//this is z
+                    line.x2 = profileBottomLine[i].X;
+                    line.y2 = profileBottomLine[i].Y;//this is z
+                    point = Utill.LineIntersection.FindIntersection(messermentLine, line);
+                    if(default(Utill.Point).y != point.y && default(Utill.Point).x != point.x)
+                    {
+                        break;
+                    }
+                }
+                Console.WriteLine("OF: " + point.x);
+                return (int)point.x;
+            }
+        }
+
+        public int OA
+        {
+            get
+            {
+                Utill.Line messermentLine = new Utill.Line();
+                messermentLine.x1 = Stations[0].X - 20;
+                messermentLine.y1 = BowPointZ - STF + BoG3; //this is z
+                messermentLine.x2 = Stations[Stations.Count - 1].X + 20;
+                messermentLine.y2 = SternPointZ - AF + BoG3;//this is z
+
+                List<Point> profileBottomLine = GetProfileBottomLine();
+                Utill.Point point = default(Utill.Point);
+                int index = profileBottomLine.Count - 1;
+                for (; index > profileBottomLine.Count/2; index--)
+                {
+                    Utill.Line line = new Utill.Line();
+                    line.x1 = profileBottomLine[index].X;
+                    line.y1 = profileBottomLine[index].Y; // this is z
+                    line.x2 = profileBottomLine[index - 1].X;
+                    line.y2 = profileBottomLine[index - 1].Y; // this is z
+                    point = Utill.LineIntersection.FindIntersection(messermentLine, line);
+                    if (default(Utill.Point).y != point.y && default(Utill.Point).x != point.x)
+                    {
+                        break;
+                    }
+                }
+                if (index > profileBottomLine.Count / 2)
+                {
+                    Console.WriteLine("OA: " + point.x);
+                    return (int)point.x;
+                }
+                else
+                {
+                    Console.WriteLine("OA: end of profileBottomLine");
+                    return 0;
+                }
+            }
+        }
+
+        public List<Point> GetProfileBottomLine()
+        {
+            if (profileBottomLine.Count == 0)
+            {
+                foreach (Station station in stations)
+                {
+                    Point bottomPoint = new Point((int)station.X, (int)station.ZLow);
+                    profileBottomLine.Add(bottomPoint);
+                }
+            }
+            return profileBottomLine;
+        }
         public OffsetFile()
         {
         }
@@ -293,6 +434,10 @@ namespace orcToDh
             public StationLabel SCD { get; set; } // Station label: Forward freeboard, Aft freeboard, Prop shaft exit point, Propeller hub point
             public int STA { get; } // Station count, not necessary but included for convenience
 
+            private List<DataPoint>? gMaxDataPoints;
+            private double gMax = 0;
+            private double bMax = 0;
+            private double bMaxZ = 0;
 
             public List<DataPoint>? dataPoints;
 
@@ -376,7 +521,7 @@ namespace orcToDh
                         {
                             if (point.Z == WLZ)
                             {
-                                wLBrede = (int)point.Y;
+                                wLBrede = (int)point.Y * 2;
                                 break;
                             }
                         }
@@ -412,7 +557,7 @@ namespace orcToDh
                             wLBrede *= -1;
 
                     }
-                    return wLBrede;
+                    return wLBrede * 2;
                 }
             }
 
@@ -422,8 +567,160 @@ namespace orcToDh
                 {
                     //get the min Z value
                     double z = dataPoints.Max(p => p.Y);
-                    return (int)z - WLBredde;
+                    return (int)z - WLBredde/2;
                 }
+            }
+
+            public double GMax
+            {
+                get
+                {
+                    if (gMax == 0)
+                    {
+                        gMax = calGMaxOnStation(out gMaxDataPoints);
+                    }
+                    return gMax;
+                }
+            }
+
+            public int G
+            {
+                get
+                {
+                    return (int)GMax - (FribordHoejde * 2);
+                }
+            }
+
+            public int BMax
+            {
+                get
+                {
+                    if (bMax == 0)
+                    {
+                        foreach (DataPoint dataPoint in dataPoints)
+                        {
+                            if (dataPoint.Y > bMax)
+                            {
+                                bMax = dataPoint.Y;
+                                bMaxZ = dataPoint.Z;
+                            }
+                        }
+                    }
+                    return (int) bMax;
+                }
+            }
+
+            public int BMaxZ
+            {
+                get
+                {
+                    return (int)bMaxZ;
+                }
+            }
+
+            public double ZLow
+            {
+                get
+                {
+                    return dataPoints.Min(p => p.Z);
+                }
+            }
+
+            public List<DataPoint> GMaxDataPoints
+            {
+                get
+                {
+                    if (gMaxDataPoints == null)
+                    {
+                        gMax = calGMaxOnStation(out gMaxDataPoints);
+                    }
+                    return gMaxDataPoints;
+                }
+            }
+
+            private double calGMaxOnStation( out List<OffsetFile.DataPoint> gmaxdataPoints)
+            {
+                gmaxdataPoints = new();
+                dataPoints.Add(dataPoints[0]);
+                gmaxdataPoints.Add(dataPoints[0]);
+                Vector2 dir = new Vector2(0, -1);
+                //extracts the datapoints in GMax
+                for (int i = 0; i < dataPoints.Count - 1; i++)
+                {
+                    int smallestAngleIndex = -1;
+                    double smallestAngle = double.MaxValue;
+                    List<OffsetFile.DataPoint> points = dataPoints.Skip(i).ToList();
+                    for (int j = 1; j < points.Count; j++)
+                    {
+                        Vector2 v = Vector2.Subtract(points[0].GetVector2(), points[j].GetVector2());
+
+                        // dot product
+                        float dotProduct = Vector2.Dot(dir, v);
+                        float crossProduct = dir.X * v.Y - dir.Y * v.X;
+                        float sign = Math.Sign(crossProduct);
+
+                        // magnitudes
+                        float magD = dir.Length();
+                        float magV = v.Length();
+
+
+                        // angle in radians
+                        float theta = (float)(Math.Acos(dotProduct / (magD * magV)) * sign);
+
+                        theta = (float)(theta * (180 / Math.PI));
+
+                        if (theta < smallestAngle)
+                        {
+                            smallestAngle = theta;
+                            smallestAngleIndex = i + j;
+                        }
+                    }
+                    if (smallestAngleIndex != -1)
+                    {
+                        dir = Vector2.Subtract(dataPoints[i].GetVector2(), dataPoints[smallestAngleIndex].GetVector2());
+                        if (dir.Y * -1 < dir.X && dir.X > 0)
+                        {
+                            break;
+                        }
+                        i = smallestAngleIndex - 1;
+                        gmaxdataPoints.Add(dataPoints[smallestAngleIndex]);
+
+                    }
+                    else
+                    {
+                        break;
+                    }
+
+
+                }
+
+                //calculates the distance
+                double gMax = 0;
+                for (int i = 0; i < gmaxdataPoints.Count - 1; i++)
+                {
+                    Point p1 = new Point((int)gmaxdataPoints[i].Y, (int)gmaxdataPoints[i].Z);
+                    Point p2 = new Point((int)gmaxdataPoints[i + 1].Y, (int)gmaxdataPoints[i + 1].Z);
+                    double distance = Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2));
+                    gMax += distance;
+                }
+
+                double distanceBetweenLowerDataPoints = 0;
+                try
+                {
+                    distanceBetweenLowerDataPoints = dataPoints[0].Y >= 0 ? dataPoints[0].Y : 0.0;
+                }
+                catch (Exception)
+                {
+                    distanceBetweenLowerDataPoints = 0.0;
+                }
+
+                gMax += distanceBetweenLowerDataPoints;
+
+                gMax *= 2;
+
+
+                Console.WriteLine("Station.x;" + X + ";GMax;" + gMax);
+                return gMax;
             }
         }
 

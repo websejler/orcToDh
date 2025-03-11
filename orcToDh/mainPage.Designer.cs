@@ -177,6 +177,7 @@
             // 
             // BoG3TextBox
             // 
+            BoG3TextBox.Enabled = false;
             BoG3TextBox.Location = new Point(475, 85);
             BoG3TextBox.Name = "BoG3TextBox";
             BoG3TextBox.Size = new Size(100, 23);

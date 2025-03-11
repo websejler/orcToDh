@@ -41,12 +41,10 @@ namespace orcToDh
         {
             int aFMes;
             int sTFMes;
-            int BoG3;
             try
             {
                 aFMes = aFMesTextBox.Text == "" ? 0 : int.Parse(aFMesTextBox.Text);
                 sTFMes = sTFMesTextBox.Text == "" ? 0 : int.Parse(sTFMesTextBox.Text);
-                BoG3 = BoG3TextBox.Text == "" ? 0 : int.Parse(BoG3TextBox.Text);
             }
             catch (FormatException)
             {
@@ -54,13 +52,13 @@ namespace orcToDh
             }
             ofset.AF = aFMes;
             ofset.STF = sTFMes;
-            ofset.BoG3 = BoG3;
             bMaxCalculator = new(ofset);
             gMaxCalculator = new(ofset);
             profileCalculator = new(ofset);
             bowpointLable.Text = "Stævnspunkt: " + ofset.BowPointZ.ToString();
             xStationAFLable.Text = "X station AF: " + ofset.SternPointX.ToString();
             zStationAFlable.Text = "Z station AF: " + ofset.SternPointZ.ToString();
+            BoG3TextBox.Text = ofset.BoG3.ToString();
         }
 
         public void loadFile()
@@ -161,7 +159,6 @@ namespace orcToDh
 
         private void BoG3TextBox_TextChanged(object sender, EventArgs e)
         {
-            calculate();
         }
     }
 }

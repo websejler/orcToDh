@@ -88,6 +88,7 @@ namespace orcToDh.Calculators
             chart.Series["Mesurement line"].Points.Add(new DataPoint(offsetFile.Stations[0].X-20, offsetFile.BowPointZ - offsetFile.STF + offsetFile.BoG3));
             chart.Series["Mesurement line"].Points.Add(new DataPoint(offsetFile.Stations[offsetFile.Stations.Count - 1].X+20, offsetFile.SternPointZ - offsetFile.AF + offsetFile.BoG3));
 
+            oFlabel.Text = "OF: " + offsetFile.OF + "   OA: " + offsetFile.OA;
 
         }
 

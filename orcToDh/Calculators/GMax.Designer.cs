@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             gMaxLengthLabel = new Label();
             StationInfoLabel = new Label();
@@ -41,22 +41,23 @@
             trackBar1 = new TrackBar();
             label1 = new Label();
             label2 = new Label();
+            gLable = new Label();
             ((System.ComponentModel.ISupportInitialize)chart).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
             SuspendLayout();
             // 
             // chart
             // 
-            chartArea2.Name = "ChartArea1";
-            chart.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            chart.Legends.Add(legend2);
+            chartArea1.Name = "ChartArea1";
+            chart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            chart.Legends.Add(legend1);
             chart.Location = new Point(12, 12);
             chart.Name = "chart";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            chart.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            chart.Series.Add(series1);
             chart.Size = new Size(776, 677);
             chart.TabIndex = 0;
             chart.Text = "chart1";
@@ -124,30 +125,41 @@
             trackBar1.Name = "trackBar1";
             trackBar1.Size = new Size(226, 45);
             trackBar1.TabIndex = 10;
+            trackBar1.ValueChanged += trackBar1_ValueChanged;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(642, 755);
+            label1.Location = new Point(658, 737);
             label1.Name = "label1";
-            label1.Size = new Size(38, 15);
+            label1.Size = new Size(13, 15);
             label1.TabIndex = 11;
-            label1.Text = "label1";
+            label1.Text = "0";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(506, 707);
+            label2.Location = new Point(485, 707);
             label2.Name = "label2";
             label2.Size = new Size(59, 15);
             label2.TabIndex = 12;
             label2.Text = "station +-";
+            // 
+            // gLable
+            // 
+            gLable.AutoSize = true;
+            gLable.Location = new Point(12, 737);
+            gLable.Name = "gLable";
+            gLable.Size = new Size(15, 15);
+            gLable.TabIndex = 13;
+            gLable.Text = "G";
             // 
             // GMax
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 804);
+            Controls.Add(gLable);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(trackBar1);
@@ -179,5 +191,6 @@
         private TrackBar trackBar1;
         private Label label1;
         private Label label2;
+        private Label gLable;
     }
 }
