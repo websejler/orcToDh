@@ -638,10 +638,13 @@ namespace orcToDh
                 }
             }
 
-            private double calGMaxOnStation( out List<OffsetFile.DataPoint> gmaxdataPoints)
+            private double calGMaxOnStation(out List<OffsetFile.DataPoint> gmaxdataPoints)
             {
                 gmaxdataPoints = new();
-                dataPoints.Add(dataPoints[0]);
+                if (dataPoints == null || dataPoints.Count == 0)
+                {
+                    return 0;
+                }
                 gmaxdataPoints.Add(dataPoints[0]);
                 Vector2 dir = new Vector2(0, -1);
                 //extracts the datapoints in GMax
@@ -690,8 +693,6 @@ namespace orcToDh
                     {
                         break;
                     }
-
-
                 }
 
                 //calculates the distance
@@ -717,7 +718,6 @@ namespace orcToDh
                 gMax += distanceBetweenLowerDataPoints;
 
                 gMax *= 2;
-
 
                 Console.WriteLine("Station.x;" + X + ";GMax;" + gMax);
                 return gMax;
