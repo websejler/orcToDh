@@ -18,13 +18,21 @@ namespace orcToDh.Calculators
             calGmax();
         }
 
-        private void calGmax()
+        private void calGmax(int index = 0)
         {
             //List<OfsetFile.Station> portStations = ofsetFile.PortStations.OrderBy(s => s.X).ToList();
             double bestGmax = ofsetFile.GMax;
-            List<OffsetFile.Station> stations = ofsetFile.stations;
-            OffsetFile.Station bestGmaxStation = ofsetFile.bestGmaxStation;
-            List<OffsetFile.DataPoint> bestGmaxDataPoints = ofsetFile.bestGmaxDataPoints;
+            double bestGmaxStationX = ofsetFile.bestGmaxStation.X;
+            int i = 0;
+            for(; i < ofsetFile.Stations.Count; i++)
+            {
+                if (ofsetFile.Stations[i].X == bestGmaxStationX)
+                    break;
+            }
+            i = i + index;
+            OffsetFile.Station bestGmaxStation = ofsetFile.Stations[i];
+            bestGmax = bestGmaxStation.GMax;
+            List<OffsetFile.DataPoint> bestGmaxDataPoints = bestGmaxStation.GMaxDataPoints;
            
             
             chart.Series.Clear();
@@ -44,6 +52,7 @@ namespace orcToDh.Calculators
                 chartPoint.MarkerStyle = MarkerStyle.Circle;
                 chartPoint.MarkerSize = 8;
                 chartPoint.MarkerColor = Color.Red;
+                if(chartPoint.XValue > 0)
                 chart.Series["PortLine"].Points.Add(chartPoint);
             }
 
@@ -73,14 +82,12 @@ namespace orcToDh.Calculators
 
 
 
-            // Find the minimum X value in the data points
-            double minX = Math.Min(bestGmaxStation.dataPoints.Min(dp => dp.Y), bestGmaxDataPoints.Min(dp => dp.Y));
 
             // Customize the X and Y axes
             chart.ChartAreas[0].AxisX.Interval = 500; // Set the interval for X-axis
             chart.ChartAreas[0].AxisX.LabelStyle.Format = "0"; // Format labels as integers
             chart.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.LightGray; // Set grid line color
-            chart.ChartAreas[0].AxisX.Minimum = Math.Floor(minX / 500) * 500; // Set the minimum value for X-axis to the nearest lower multiple of 500
+            chart.ChartAreas[0].AxisX.Minimum = 0;
 
             chart.ChartAreas[0].AxisY.Interval = 500; // Set the interval for Y-axis
             chart.ChartAreas[0].AxisY.LabelStyle.Format = "0"; // Format labels as integers
@@ -88,7 +95,9 @@ namespace orcToDh.Calculators
         }
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
-
+            int t = trackBar1.Value;
+            trackBarLabel.Text = t.ToString();
+            calGmax(t);
         }
     }
 }
