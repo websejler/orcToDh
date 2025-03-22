@@ -69,6 +69,20 @@ namespace orcToDh.Calculators
             chart.Series["VandLinje"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             chart.Series["VandLinje"].Points.AddXY(bestBMaxStation.WLBredde/2 - 150, bestBMaxStation.WLZ);
             chart.Series["VandLinje"].Points.AddXY(bestBMaxStation.WLBredde/2 + 150, bestBMaxStation.WLZ);
+
+
+            // Find the minimum X value in the data points
+            double minX = Math.Min(bestBMaxStation.dataPoints.Min(dp => dp.Y), bestBMaxDataPoints.Min(dp => dp.Y));
+
+            // Customize the X and Y axes
+            chart.ChartAreas[0].AxisX.Interval = 500; // Set the interval for X-axis
+            chart.ChartAreas[0].AxisX.LabelStyle.Format = "0"; // Format labels as integers
+            chart.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.LightGray; // Set grid line color
+            chart.ChartAreas[0].AxisX.Minimum = Math.Floor(minX / 500) * 500; // Set the minimum value for X-axis to the nearest lower multiple of 500
+
+            chart.ChartAreas[0].AxisY.Interval = 500; // Set the interval for Y-axis
+            chart.ChartAreas[0].AxisY.LabelStyle.Format = "0"; // Format labels as integers
+            chart.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.LightGray; // Set grid line color
         }
     }
 }

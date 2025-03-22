@@ -90,6 +90,18 @@ namespace orcToDh.Calculators
 
             oFlabel.Text = "OF: " + offsetFile.OF + "   OA: " + offsetFile.OA;
 
+            
+
+            // Customize the X and Y axes
+            chart.ChartAreas[0].AxisX.Interval = 1000; // Set the interval for X-axis
+            chart.ChartAreas[0].AxisX.LabelStyle.Format = "0"; // Format labels as integers
+            chart.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.LightGray; // Set grid line color
+            chart.ChartAreas[0].AxisX.Minimum = 0;
+
+            chart.ChartAreas[0].AxisY.Interval = 1000; // Set the interval for Y-axis
+            chart.ChartAreas[0].AxisY.LabelStyle.Format = "0"; // Format labels as integers
+            chart.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.LightGray; // Set grid line color
+
         }
 
         public void modifyChartPoint(DataPoint chartPoint, int size = 8)
