@@ -97,6 +97,7 @@ namespace orcToDh.Calculators
             chart.ChartAreas[0].AxisX.LabelStyle.Format = "0"; // Format labels as integers
             chart.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.LightGray; // Set grid line color
             chart.ChartAreas[0].AxisX.Minimum = 0;
+            chart.ChartAreas[0].AxisX.IsReversed = true; // Flip the X-axis
 
             chart.ChartAreas[0].AxisY.Interval = 1000; // Set the interval for Y-axis
             chart.ChartAreas[0].AxisY.LabelStyle.Format = "0"; // Format labels as integers
