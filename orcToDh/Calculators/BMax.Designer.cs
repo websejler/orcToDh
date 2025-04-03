@@ -38,7 +38,11 @@
             udfaldLabel = new Label();
             wLBreddelabel = new Label();
             fribordHoejdeLabel = new Label();
+            label2 = new Label();
+            trackBarLabel = new Label();
+            trackBar1 = new TrackBar();
             ((System.ComponentModel.ISupportInitialize)chart).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
             SuspendLayout();
             // 
             // chart
@@ -47,75 +51,117 @@
             chart.ChartAreas.Add(chartArea2);
             legend2.Name = "Legend1";
             chart.Legends.Add(legend2);
-            chart.Location = new Point(12, 12);
+            chart.Location = new Point(17, 20);
+            chart.Margin = new Padding(4, 5, 4, 5);
             chart.Name = "chart";
             series2.ChartArea = "ChartArea1";
             series2.Legend = "Legend1";
             series2.Name = "Series1";
             chart.Series.Add(series2);
-            chart.Size = new Size(776, 576);
+            chart.Size = new Size(1109, 960);
             chart.TabIndex = 0;
             chart.Text = "chart1";
             // 
             // BMaxLabel
             // 
             BMaxLabel.AutoSize = true;
-            BMaxLabel.Location = new Point(12, 591);
+            BMaxLabel.Location = new Point(17, 985);
+            BMaxLabel.Margin = new Padding(4, 0, 4, 0);
             BMaxLabel.Name = "BMaxLabel";
-            BMaxLabel.Size = new Size(59, 15);
+            BMaxLabel.Size = new Size(89, 25);
             BMaxLabel.TabIndex = 1;
             BMaxLabel.Text = "BMax size";
             // 
             // PortStationLabel
             // 
             PortStationLabel.AutoSize = true;
-            PortStationLabel.Location = new Point(12, 606);
+            PortStationLabel.Location = new Point(17, 1010);
+            PortStationLabel.Margin = new Padding(4, 0, 4, 0);
             PortStationLabel.Name = "PortStationLabel";
-            PortStationLabel.Size = new Size(69, 15);
+            PortStationLabel.Size = new Size(104, 25);
             PortStationLabel.TabIndex = 3;
             PortStationLabel.Text = "Port Station";
             // 
             // wlZlabel
             // 
             wlZlabel.AutoSize = true;
-            wlZlabel.Location = new Point(12, 621);
+            wlZlabel.Location = new Point(17, 1035);
+            wlZlabel.Margin = new Padding(4, 0, 4, 0);
             wlZlabel.Name = "wlZlabel";
-            wlZlabel.Size = new Size(31, 15);
+            wlZlabel.Size = new Size(48, 25);
             wlZlabel.TabIndex = 4;
             wlZlabel.Text = "WLZ";
             // 
             // udfaldLabel
             // 
             udfaldLabel.AutoSize = true;
-            udfaldLabel.Location = new Point(356, 621);
+            udfaldLabel.Location = new Point(509, 1035);
+            udfaldLabel.Margin = new Padding(4, 0, 4, 0);
             udfaldLabel.Name = "udfaldLabel";
-            udfaldLabel.Size = new Size(42, 15);
+            udfaldLabel.Size = new Size(65, 25);
             udfaldLabel.TabIndex = 12;
             udfaldLabel.Text = "Udfald";
             // 
             // wLBreddelabel
             // 
             wLBreddelabel.AutoSize = true;
-            wLBreddelabel.Location = new Point(356, 606);
+            wLBreddelabel.Location = new Point(509, 1010);
+            wLBreddelabel.Margin = new Padding(4, 0, 4, 0);
             wLBreddelabel.Name = "wLBreddelabel";
-            wLBreddelabel.Size = new Size(64, 15);
+            wLBreddelabel.Size = new Size(98, 25);
             wLBreddelabel.TabIndex = 11;
             wLBreddelabel.Text = "WL Bredde";
             // 
             // fribordHoejdeLabel
             // 
             fribordHoejdeLabel.AutoSize = true;
-            fribordHoejdeLabel.Location = new Point(356, 591);
+            fribordHoejdeLabel.Location = new Point(509, 985);
+            fribordHoejdeLabel.Margin = new Padding(4, 0, 4, 0);
             fribordHoejdeLabel.Name = "fribordHoejdeLabel";
-            fribordHoejdeLabel.Size = new Size(80, 15);
+            fribordHoejdeLabel.Size = new Size(123, 25);
             fribordHoejdeLabel.TabIndex = 10;
             fribordHoejdeLabel.Text = "Fribord Højde";
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(714, 991);
+            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(90, 25);
+            label2.TabIndex = 15;
+            label2.Text = "station +-";
+            // 
+            // trackBarLabel
+            // 
+            trackBarLabel.AutoSize = true;
+            trackBarLabel.Location = new Point(961, 1041);
+            trackBarLabel.Margin = new Padding(4, 0, 4, 0);
+            trackBarLabel.Name = "trackBarLabel";
+            trackBarLabel.Size = new Size(22, 25);
+            trackBarLabel.TabIndex = 14;
+            trackBarLabel.Text = "0";
+            // 
+            // trackBar1
+            // 
+            trackBar1.LargeChange = 1;
+            trackBar1.Location = new Point(807, 991);
+            trackBar1.Margin = new Padding(4, 5, 4, 5);
+            trackBar1.Maximum = 5;
+            trackBar1.Minimum = -5;
+            trackBar1.Name = "trackBar1";
+            trackBar1.Size = new Size(323, 69);
+            trackBar1.TabIndex = 13;
+            trackBar1.ValueChanged += trackBar1_ValueChanged;
+            // 
             // BMax
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 702);
+            ClientSize = new Size(1143, 1170);
+            Controls.Add(label2);
+            Controls.Add(trackBarLabel);
+            Controls.Add(trackBar1);
             Controls.Add(udfaldLabel);
             Controls.Add(wLBreddelabel);
             Controls.Add(fribordHoejdeLabel);
@@ -123,9 +169,11 @@
             Controls.Add(PortStationLabel);
             Controls.Add(BMaxLabel);
             Controls.Add(chart);
+            Margin = new Padding(4, 5, 4, 5);
             Name = "BMax";
             Text = "BMax";
             ((System.ComponentModel.ISupportInitialize)chart).EndInit();
+            ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -139,5 +187,8 @@
         private Label udfaldLabel;
         private Label wLBreddelabel;
         private Label fribordHoejdeLabel;
+        private Label label2;
+        private Label trackBarLabel;
+        private TrackBar trackBar1;
     }
 }
