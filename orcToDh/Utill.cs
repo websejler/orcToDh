@@ -18,6 +18,11 @@ namespace orcToDh
             return y1 + ((x - x1) * (y2 - y1)) / (x2 - x1);
         }
 
+        public static double GetYPointInX(Line line, double x = 0)
+        {
+            return line.y1 + ((x - line.x1) * (line.y2 - line.y1)) / (line.x2 - line.x1);
+        }
+
         public struct Line
         {
             public double x1 { get; set; }

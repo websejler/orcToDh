@@ -39,12 +39,19 @@ namespace orcToDh
 
         public void calculate()
         {
+            ofset.UseDH = useDH();
+            grayOutDHvsORC(ofset.UseDH);
+
             int aFMes;
             int sTFMes;
+            int fFM;
+            int fAM;
             try
             {
                 aFMes = aFMesTextBox.Text == "" ? 0 : int.Parse(aFMesTextBox.Text);
                 sTFMes = sTFMesTextBox.Text == "" ? 0 : int.Parse(sTFMesTextBox.Text);
+                fFM = fFMTextBox.Text == "" ? 0 : int.Parse(fFMTextBox.Text);
+                fAM = fAMTextBox.Text == "" ? 0 : int.Parse(fAMTextBox.Text);
             }
             catch (FormatException)
             {
@@ -52,12 +59,23 @@ namespace orcToDh
             }
             ofset.AF = aFMes;
             ofset.STF = sTFMes;
+            ofset.FFM = fFM;
+            ofset.FAM = fAM;
             bMaxCalculator = new(ofset);
             gMaxCalculator = new(ofset);
             profileCalculator = new(ofset);
             bowpointLable.Text = "Stævnspunkt: " + ofset.BowPointZ.ToString();
             xStationAFLable.Text = "LOA: " + ofset.SternPointX.ToString();
             zStationAFlable.Text = "Z station AF: " + ofset.SternPointZ.ToString();
+            xFFMlabel.Text = "X station FFM: " + ofset.XFFM.ToString();
+            xFAMlabel.Text = "X station FAM: " + ofset.XFAM.ToString();
+            if (!ofset.UseDH)
+            {
+                xFFMlabel.Text = xFFMlabel.Text + "  -  FFM shear: " + ofset.WLZ_FFM.ToString();
+                xFAMlabel.Text = xFAMlabel.Text + "  -  FAM shear: " + ofset.WLZ_FAM.ToString();
+                sTFMesTextBox.Text = ofset.STF.ToString();
+                aFMesTextBox.Text = ofset.AF.ToString();
+            }
             BoG3TextBox.Text = ofset.BoG3.ToString();
         }
 
@@ -164,6 +182,70 @@ namespace orcToDh
         private void xStationAFLable_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dHRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+
+            oRCRadioButton.CheckedChanged -= oRCRadioButton_CheckedChanged;
+            dHRadioButton.CheckedChanged -= dHRadioButton_CheckedChanged;
+            dHRadioButton.Checked = true;
+            oRCRadioButton.Checked = false;
+            oRCRadioButton.CheckedChanged += oRCRadioButton_CheckedChanged;
+            dHRadioButton.CheckedChanged += dHRadioButton_CheckedChanged;
+            sTFMesTextBox.TextChanged += textBox1_TextChanged;
+            aFMesTextBox.TextChanged += textBox2_TextChanged;
+            calculate();
+        }
+
+        private void oRCRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            oRCRadioButton.CheckedChanged -= oRCRadioButton_CheckedChanged;
+            dHRadioButton.CheckedChanged -= dHRadioButton_CheckedChanged;
+            oRCRadioButton.Checked = true;
+            dHRadioButton.Checked = false;
+            dHRadioButton.CheckedChanged += dHRadioButton_CheckedChanged;
+            oRCRadioButton.CheckedChanged += oRCRadioButton_CheckedChanged;
+            sTFMesTextBox.TextChanged -= textBox1_TextChanged;
+            aFMesTextBox.TextChanged -= textBox2_TextChanged;
+            calculate();
+        }
+
+        public bool useDH()
+        {
+            if (dHRadioButton.Checked)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private void grayOutDHvsORC(bool useDH)
+        {
+
+            sTFMesTextBox.Enabled = useDH;
+            aFMesTextBox.Enabled = useDH;
+            fFMTextBox.Enabled = !useDH;
+            fAMTextBox.Enabled = !useDH;
+
+        }
+
+        private void fFMTextBox_TextChanged(object sender, EventArgs e)
+        {
+            calculate();
+        }
+
+        private void fAMTextBox_TextChanged(object sender, EventArgs e)
+        {
+            calculate();
         }
     }
 }
