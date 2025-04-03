@@ -56,7 +56,7 @@ namespace orcToDh
             gMaxCalculator = new(ofset);
             profileCalculator = new(ofset);
             bowpointLable.Text = "Stævnspunkt: " + ofset.BowPointZ.ToString();
-            xStationAFLable.Text = "X station AF: " + ofset.SternPointX.ToString();
+            xStationAFLable.Text = "LOA: " + ofset.SternPointX.ToString();
             zStationAFlable.Text = "Z station AF: " + ofset.SternPointZ.ToString();
             BoG3TextBox.Text = ofset.BoG3.ToString();
         }
@@ -159,6 +159,11 @@ namespace orcToDh
 
         private void BoG3TextBox_TextChanged(object sender, EventArgs e)
         {
+        }
+
+        private void xStationAFLable_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

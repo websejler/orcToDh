@@ -33,6 +33,8 @@ namespace orcToDh.Calculators
             Station bestBMaxStation = ofsetFile.Stations[i]; ;
             List<OffsetFile.DataPoint> bestBMaxDataPoints = bestBMaxStation.dataPoints;
             double bestBMaxHight = bestBMaxStation.BMaxZ;
+            bestBMax = bestBMaxStation.BMax;
+
 
 
 

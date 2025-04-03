@@ -177,6 +177,7 @@
             xStationAFLable.Size = new Size(101, 25);
             xStationAFLable.TabIndex = 12;
             xStationAFLable.Text = "xStation AF";
+            xStationAFLable.Click += xStationAFLable_Click;
             // 
             // zStationAFlable
             // 
