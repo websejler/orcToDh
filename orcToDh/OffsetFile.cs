@@ -263,6 +263,23 @@ namespace orcToDh
             }
         }
 
+        public int LOA
+        {
+            get
+            {
+                // get the station with the greatest x value
+                Station stationWithGreatestX = stations.OrderByDescending(station => station.X).FirstOrDefault();
+                return (int)stationWithGreatestX?.X;
+            }
+        }
+        public int L
+        {
+            get
+            {
+                return (int)(LOA - OF - OA);
+            }
+        }
+
         public List<Point> GetProfileBottomLine()
         {
             if (profileBottomLine.Count == 0)

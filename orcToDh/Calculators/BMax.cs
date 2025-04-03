@@ -14,14 +14,24 @@ namespace orcToDh.Calculators
         {
             InitializeComponent();
             this.ofsetFile = ofsetFile;
-            DrawChart();
+            calBmax();
         }
 
-        private void DrawChart()
+        private void calBmax(int index = 0)
         {
+            
             double bestBMax = ofsetFile.BMax;
-            Station bestBMaxStation = ofsetFile.bestBMaxStation;
-            List<OffsetFile.DataPoint> bestBMaxDataPoints = ofsetFile.bestBMaxDataPoints;
+            double bestBMaxStationX = ofsetFile.bestBMaxStation.X;
+            int i = 0;
+            for (; i < ofsetFile.Stations.Count; i++)
+            {
+                if (ofsetFile.Stations[i].X == bestBMaxStationX)
+                    break;
+            }
+            i = i + index;
+
+            Station bestBMaxStation = ofsetFile.Stations[i]; ;
+            List<OffsetFile.DataPoint> bestBMaxDataPoints = bestBMaxStation.dataPoints;
             double bestBMaxHight = bestBMaxStation.BMaxZ;
 
 
@@ -56,7 +66,7 @@ namespace orcToDh.Calculators
             chart.Series[2].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
             chart.Series[2].Color = System.Drawing.Color.Blue;
 
-            this.bMax = bestBMax*2;
+            this.bMax = bestBMax * 2;
 
             BMaxLabel.Text = "BMax: " + this.bMax.ToString();
             PortStationLabel.Text = bestBMaxStation.SID.ToString() + " station: - x: " + bestBMaxStation.X;
@@ -67,8 +77,8 @@ namespace orcToDh.Calculators
 
             //display a horizontal line at the waterline, in the fulle width of the chart
             chart.Series["VandLinje"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            chart.Series["VandLinje"].Points.AddXY(bestBMaxStation.WLBredde/2 - 150, bestBMaxStation.WLZ);
-            chart.Series["VandLinje"].Points.AddXY(bestBMaxStation.WLBredde/2 + 150, bestBMaxStation.WLZ);
+            chart.Series["VandLinje"].Points.AddXY(bestBMaxStation.WLBredde / 2 - 150, bestBMaxStation.WLZ);
+            chart.Series["VandLinje"].Points.AddXY(bestBMaxStation.WLBredde / 2 + 150, bestBMaxStation.WLZ);
 
 
             // Find the minimum X value in the data points
@@ -83,6 +93,13 @@ namespace orcToDh.Calculators
             chart.ChartAreas[0].AxisY.Interval = 500; // Set the interval for Y-axis
             chart.ChartAreas[0].AxisY.LabelStyle.Format = "0"; // Format labels as integers
             chart.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.LightGray; // Set grid line color
+        }
+
+        private void trackBar1_ValueChanged(object sender, EventArgs e)
+        {
+            int t = trackBar1.Value;
+            trackBarLabel.Text = t.ToString();
+            calBmax(t);
         }
     }
 }
