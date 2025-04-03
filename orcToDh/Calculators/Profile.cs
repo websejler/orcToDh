@@ -83,6 +83,7 @@ namespace orcToDh.Calculators
                 }
             }
 
+            
             chart.Series["Water line"].Points.Add(new DataPoint(offsetFile.Stations[0].X-20, offsetFile.BowPointZ - offsetFile.STF));
             chart.Series["Water line"].Points.Add(new DataPoint(offsetFile.Stations[offsetFile.Stations.Count-1].X+20, offsetFile.SternPointZ - offsetFile.AF));
             chart.Series["Mesurement line"].Points.Add(new DataPoint(offsetFile.Stations[0].X-20, offsetFile.BowPointZ - offsetFile.STF + offsetFile.BoG3));

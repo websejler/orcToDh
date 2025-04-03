@@ -30,8 +30,13 @@ namespace orcToDh
         private double WLZ_STF = 0;
         private int aF = 0;
         private int sTF = 0;
+        private int fFM = 0;
+        private Station fFMStation = null;
+        private Station fAMStation = null;
+        private int fAM = 0;
         private int gMax = 0;
         private int bMax = 0;
+        public bool UseDH = true;
         
 
         public OffsetFile(StreamReader file)
@@ -107,7 +112,14 @@ namespace orcToDh
         {
             get
             {
-                return aF;
+                if (UseDH)
+                {
+                    return aF;
+                }
+                else
+                {
+                    return (int)Utill.GetYPointInX(WaterLine, SternPointX);
+                }
             }
             set
             {
@@ -119,7 +131,13 @@ namespace orcToDh
         {
             get
             {
-                return sTF;
+                if (UseDH)
+                {
+                    return sTF;
+                } else
+                {
+                    return (int)Utill.GetYPointInX(WaterLine, stations[0].X);
+                }
             }
             set
             {
@@ -128,6 +146,70 @@ namespace orcToDh
             }
         }
 
+        public int FFM
+        {
+            get
+            {
+                return fFM;
+            }
+            set
+            {
+                fFM = value;
+            }
+        }
+        public int FAM
+        {
+            get
+            {
+                return fAM;
+            }
+            set
+            {
+                fAM = value;
+            }
+        }
+        public int XFFM
+        {
+            get
+            {
+                fFMStation = stations.FirstOrDefault(s => s.SCD == Station.StationLabel.ForwardFreeboard);
+                if (fFMStation == null)
+                {
+                    throw new Exception("fFMStation is null");
+                }
+                return (int)fFMStation.X;
+            }
+        }
+
+        public int XFAM
+        {
+            get
+            {
+                fAMStation = stations.FirstOrDefault(s => s.SCD == Station.StationLabel.AftFreeboard);
+                if (fAMStation == null)
+                {
+                    throw new Exception("fFMStation is null");
+                }
+                return (int)fAMStation.X;
+            }
+        }
+        public int WLZ_FFM
+        {
+            get
+            {
+                return (int)(fFMStation.dataPoints.FirstOrDefault(s => s.PTC ==DataPoint.PointCode.SheerPoint).Z-FFM);
+            }
+        }
+
+        public int WLZ_FAM
+        {
+            get
+            {
+                return (int)(fAMStation.dataPoints.FirstOrDefault(s => s.PTC == DataPoint.PointCode.SheerPoint).Z - FAM);
+            }
+        }
+
+
         public int BoG3
         {
             get
@@ -135,6 +217,29 @@ namespace orcToDh
                 int bMax = BMax;
                 int gMax = GMax;
                 return (int)((bestGmaxStation.G + bestBMaxStation.WLBredde) * 0.03);
+            }
+        }
+
+        public Utill.Line WaterLine
+        {
+            get
+            {
+                Utill.Line line = new Utill.Line();
+                if (UseDH)
+                {
+                    line.x1 = Stations[0].X;
+                    line.y1 = BowPointZ - STF; //this is z
+                    line.x2 = Stations[Stations.Count - 1].X;
+                    line.y2 = SternPointZ - AF;//this is z
+                }
+                else
+                {
+                    line.x1 = XFFM;
+                    line.y1 = WLZ_FFM;
+                    line.x2 = XFAM;
+                    line.y2 = WLZ_FAM;
+                }
+                return line;
             }
         }
 
