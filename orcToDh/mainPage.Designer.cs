@@ -53,18 +53,20 @@
             // statusLable
             // 
             statusLable.AutoSize = true;
-            statusLable.Location = new Point(12, 53);
+            statusLable.Location = new Point(17, 88);
+            statusLable.Margin = new Padding(4, 0, 4, 0);
             statusLable.Name = "statusLable";
-            statusLable.Size = new Size(66, 15);
+            statusLable.Size = new Size(100, 25);
             statusLable.TabIndex = 1;
             statusLable.Text = "statusLable";
             // 
             // bMAXButton
             // 
             bMAXButton.Enabled = false;
-            bMAXButton.Location = new Point(12, 71);
+            bMAXButton.Location = new Point(17, 118);
+            bMAXButton.Margin = new Padding(4, 5, 4, 5);
             bMAXButton.Name = "bMAXButton";
-            bMAXButton.Size = new Size(85, 23);
+            bMAXButton.Size = new Size(121, 38);
             bMAXButton.TabIndex = 2;
             bMAXButton.Text = "Cal BMAX";
             bMAXButton.UseVisualStyleBackColor = true;
@@ -73,9 +75,10 @@
             // gMaxButton
             // 
             gMaxButton.Enabled = false;
-            gMaxButton.Location = new Point(12, 100);
+            gMaxButton.Location = new Point(17, 167);
+            gMaxButton.Margin = new Padding(4, 5, 4, 5);
             gMaxButton.Name = "gMaxButton";
-            gMaxButton.Size = new Size(85, 23);
+            gMaxButton.Size = new Size(121, 38);
             gMaxButton.TabIndex = 3;
             gMaxButton.Text = "Cal GMax";
             gMaxButton.UseVisualStyleBackColor = true;
@@ -84,17 +87,19 @@
             // fileLable
             // 
             fileLable.AutoSize = true;
-            fileLable.Location = new Point(12, 9);
+            fileLable.Location = new Point(17, 15);
+            fileLable.Margin = new Padding(4, 0, 4, 0);
             fileLable.Name = "fileLable";
-            fileLable.Size = new Size(85, 15);
+            fileLable.Size = new Size(130, 25);
             fileLable.TabIndex = 4;
             fileLable.Text = "File not loaded";
             // 
             // loadFileButton
             // 
-            loadFileButton.Location = new Point(12, 27);
+            loadFileButton.Location = new Point(17, 45);
+            loadFileButton.Margin = new Padding(4, 5, 4, 5);
             loadFileButton.Name = "loadFileButton";
-            loadFileButton.Size = new Size(85, 23);
+            loadFileButton.Size = new Size(121, 38);
             loadFileButton.TabIndex = 5;
             loadFileButton.Text = "Load file";
             loadFileButton.UseVisualStyleBackColor = true;
@@ -103,9 +108,10 @@
             // profileButton
             // 
             profileButton.BackgroundImageLayout = ImageLayout.Stretch;
-            profileButton.Location = new Point(12, 129);
+            profileButton.Location = new Point(17, 215);
+            profileButton.Margin = new Padding(4, 5, 4, 5);
             profileButton.Name = "profileButton";
-            profileButton.Size = new Size(85, 23);
+            profileButton.Size = new Size(121, 38);
             profileButton.TabIndex = 6;
             profileButton.Text = "Show profile";
             profileButton.UseVisualStyleBackColor = true;
@@ -114,36 +120,40 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(444, 35);
+            label1.Location = new Point(631, 48);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(25, 15);
+            label1.Size = new Size(40, 25);
             label1.TabIndex = 7;
             label1.Text = "STF";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(448, 64);
+            label2.Location = new Point(637, 97);
+            label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(21, 15);
+            label2.Size = new Size(33, 25);
             label2.TabIndex = 8;
             label2.Text = "AF";
             label2.Click += label2_Click;
             // 
             // sTFMesTextBox
             // 
-            sTFMesTextBox.Location = new Point(475, 27);
+            sTFMesTextBox.Location = new Point(679, 45);
+            sTFMesTextBox.Margin = new Padding(4, 5, 4, 5);
             sTFMesTextBox.Name = "sTFMesTextBox";
-            sTFMesTextBox.Size = new Size(100, 23);
+            sTFMesTextBox.Size = new Size(141, 31);
             sTFMesTextBox.TabIndex = 9;
             sTFMesTextBox.Text = "0";
             sTFMesTextBox.TextChanged += textBox1_TextChanged;
             // 
             // aFMesTextBox
             // 
-            aFMesTextBox.Location = new Point(475, 56);
+            aFMesTextBox.Location = new Point(679, 93);
+            aFMesTextBox.Margin = new Padding(4, 5, 4, 5);
             aFMesTextBox.Name = "aFMesTextBox";
-            aFMesTextBox.Size = new Size(100, 23);
+            aFMesTextBox.Size = new Size(141, 31);
             aFMesTextBox.TabIndex = 10;
             aFMesTextBox.Text = "0";
             aFMesTextBox.TextChanged += textBox2_TextChanged;
@@ -151,36 +161,40 @@
             // bowpointLable
             // 
             bowpointLable.AutoSize = true;
-            bowpointLable.Location = new Point(610, 37);
+            bowpointLable.Location = new Point(871, 62);
+            bowpointLable.Margin = new Padding(4, 0, 4, 0);
             bowpointLable.Name = "bowpointLable";
-            bowpointLable.Size = new Size(71, 15);
+            bowpointLable.Size = new Size(107, 25);
             bowpointLable.TabIndex = 11;
             bowpointLable.Text = "Stævnpunkt";
             // 
             // xStationAFLable
             // 
             xStationAFLable.AutoSize = true;
-            xStationAFLable.Location = new Point(610, 59);
+            xStationAFLable.Location = new Point(871, 98);
+            xStationAFLable.Margin = new Padding(4, 0, 4, 0);
             xStationAFLable.Name = "xStationAFLable";
-            xStationAFLable.Size = new Size(67, 15);
+            xStationAFLable.Size = new Size(101, 25);
             xStationAFLable.TabIndex = 12;
             xStationAFLable.Text = "xStation AF";
             // 
             // zStationAFlable
             // 
             zStationAFlable.AutoSize = true;
-            zStationAFlable.Location = new Point(610, 79);
+            zStationAFlable.Location = new Point(871, 132);
+            zStationAFlable.Margin = new Padding(4, 0, 4, 0);
             zStationAFlable.Name = "zStationAFlable";
-            zStationAFlable.Size = new Size(66, 15);
+            zStationAFlable.Size = new Size(101, 25);
             zStationAFlable.TabIndex = 13;
             zStationAFlable.Text = "zStation AF";
             // 
             // BoG3TextBox
             // 
             BoG3TextBox.Enabled = false;
-            BoG3TextBox.Location = new Point(475, 85);
+            BoG3TextBox.Location = new Point(679, 142);
+            BoG3TextBox.Margin = new Padding(4, 5, 4, 5);
             BoG3TextBox.Name = "BoG3TextBox";
-            BoG3TextBox.Size = new Size(100, 23);
+            BoG3TextBox.Size = new Size(141, 31);
             BoG3TextBox.TabIndex = 16;
             BoG3TextBox.Text = "0";
             BoG3TextBox.TextChanged += BoG3TextBox_TextChanged;
@@ -188,18 +202,19 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(434, 93);
+            label4.Location = new Point(617, 145);
+            label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
-            label4.Size = new Size(35, 15);
+            label4.Size = new Size(55, 25);
             label4.TabIndex = 14;
             label4.Text = "BoG3";
             label4.Click += label4_Click;
             // 
             // mainPage
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(990, 723);
+            ClientSize = new Size(1414, 1205);
             Controls.Add(BoG3TextBox);
             Controls.Add(label4);
             Controls.Add(zStationAFlable);
@@ -215,6 +230,7 @@
             Controls.Add(gMaxButton);
             Controls.Add(bMAXButton);
             Controls.Add(statusLable);
+            Margin = new Padding(4, 5, 4, 5);
             Name = "mainPage";
             Text = "Form1";
             ResumeLayout(false);
