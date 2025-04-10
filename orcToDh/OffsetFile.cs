@@ -118,7 +118,11 @@ namespace orcToDh
                 }
                 else
                 {
-                    return (int)Utill.GetYPointInX(WaterLine, SternPointX);
+
+                    Utill.Point point = new Utill.Point();
+                    point.x = SternPointX;
+                    point.y = SternPointZ;
+                    return (int)Utill.DistanceFromPointToLine(WaterLine, point);
                 }
             }
             set
@@ -136,7 +140,10 @@ namespace orcToDh
                     return sTF;
                 } else
                 {
-                    return (int)Utill.GetYPointInX(WaterLine, stations[0].X);
+                    Utill.Point point = new Utill.Point();
+                    point.x = 0;
+                    point.y = BowPointZ;
+                    return (int)Utill.DistanceFromPointToLine(WaterLine, point); ;
                 }
             }
             set
@@ -926,6 +933,13 @@ namespace orcToDh
                 return new Vector2((float)Y, (float)Z);
             }
 
+            public Utill.Point GetPoint()
+            {
+                Utill.Point point = new Utill.Point();
+                point.x = (int)Y;
+                point.y = (int)Z;
+                return point;
+            }
         }
         #endregion
 
