@@ -200,6 +200,8 @@ namespace orcToDh
             dHRadioButton.CheckedChanged += dHRadioButton_CheckedChanged;
             sTFMesTextBox.TextChanged += textBox1_TextChanged;
             aFMesTextBox.TextChanged += textBox2_TextChanged;
+            fFMTextBox.TextChanged -= fFMTextBox_TextChanged;
+            fAMTextBox.TextChanged -= fAMTextBox_TextChanged;
             calculate();
         }
 
@@ -213,8 +215,11 @@ namespace orcToDh
             oRCRadioButton.CheckedChanged += oRCRadioButton_CheckedChanged;
             sTFMesTextBox.TextChanged -= textBox1_TextChanged;
             aFMesTextBox.TextChanged -= textBox2_TextChanged;
+            fFMTextBox.TextChanged += fFMTextBox_TextChanged;
+            fAMTextBox.TextChanged += fAMTextBox_TextChanged;
             calculate();
         }
+
 
         public bool useDH()
         {

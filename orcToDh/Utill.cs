@@ -168,6 +168,17 @@ namespace orcToDh
                        && (y >= line.y1 && y <= line.y2
                             || y >= line.y2 && y <= line.y1);
             }
+
+            
+            
+        }
+        // distance from point to line
+        public static double DistanceFromPointToLine(Line line, Point point)
+        {
+            double A = point.y - line.y1;
+            double B = line.x2 - line.x1;
+            double C = line.y2 - line.y1;
+            return Math.Abs(A * B - C * point.x) / Math.Sqrt(B * B + C * C);
         }
     }
 }
