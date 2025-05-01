@@ -85,12 +85,14 @@ namespace orcToDh.Calculators
 
             // Find the minimum X value in the data points
             double minX = Math.Min(bestBMaxStation.dataPoints.Min(dp => dp.Y), bestBMaxDataPoints.Min(dp => dp.Y));
+            double maxX = Math.Max(bestBMaxStation.dataPoints.Max(dp => dp.Y), bestBMaxDataPoints.Max(dp => dp.Y));
+            double min = Math.Min(Math.Min(Math.Min(minX, maxX),-minX),-maxX);
 
             // Customize the X and Y axes
             chart.ChartAreas[0].AxisX.Interval = 500; // Set the interval for X-axis
             chart.ChartAreas[0].AxisX.LabelStyle.Format = "0"; // Format labels as integers
             chart.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.LightGray; // Set grid line color
-            chart.ChartAreas[0].AxisX.Minimum = Math.Floor(minX / 500) * 500; // Set the minimum value for X-axis to the nearest lower multiple of 500
+            chart.ChartAreas[0].AxisX.Minimum = Math.Floor(min/ 500) * 500; // Set the minimum value for X-axis to the nearest lower multiple of 500
 
             chart.ChartAreas[0].AxisY.Interval = 500; // Set the interval for Y-axis
             chart.ChartAreas[0].AxisY.LabelStyle.Format = "0"; // Format labels as integers
