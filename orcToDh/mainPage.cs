@@ -46,17 +46,20 @@ namespace orcToDh
             int sTFMes;
             int fFM;
             int fAM;
+            int bottomFilter;
             try
             {
                 aFMes = aFMesTextBox.Text == "" ? 0 : int.Parse(aFMesTextBox.Text);
                 sTFMes = sTFMesTextBox.Text == "" ? 0 : int.Parse(sTFMesTextBox.Text);
                 fFM = fFMTextBox.Text == "" ? 0 : int.Parse(fFMTextBox.Text);
                 fAM = fAMTextBox.Text == "" ? 0 : int.Parse(fAMTextBox.Text);
+                bottomFilter = bottomFiletTextBox.Text == "" ? 0 : int.Parse(bottomFiletTextBox.Text);
             }
             catch (FormatException)
             {
                 return;
             }
+            ofset.setbottomLineFilter(bottomFilter);
             ofset.AF = aFMes;
             ofset.STF = sTFMes;
             ofset.FFM = fFM;
@@ -249,6 +252,11 @@ namespace orcToDh
         }
 
         private void fAMTextBox_TextChanged(object sender, EventArgs e)
+        {
+            calculate();
+        }
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
         {
             calculate();
         }

@@ -52,6 +52,8 @@
             oRCRadioButton = new RadioButton();
             xFFMlabel = new Label();
             xFAMlabel = new Label();
+            bottomFiletTextBox = new TextBox();
+            label6 = new Label();
             SuspendLayout();
             // 
             // openFileDialog1
@@ -303,11 +305,33 @@
             xFAMlabel.TabIndex = 25;
             xFAMlabel.Text = "xStation FAM";
             // 
+            // bottomFiletTextBox
+            // 
+            bottomFiletTextBox.Location = new Point(314, 129);
+            bottomFiletTextBox.Margin = new Padding(4, 5, 4, 5);
+            bottomFiletTextBox.Name = "bottomFiletTextBox";
+            bottomFiletTextBox.Size = new Size(141, 31);
+            bottomFiletTextBox.TabIndex = 27;
+            bottomFiletTextBox.Text = "10";
+            bottomFiletTextBox.TextChanged += textBox1_TextChanged_1;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(191, 132);
+            label6.Margin = new Padding(4, 0, 4, 0);
+            label6.Name = "label6";
+            label6.Size = new Size(115, 25);
+            label6.TabIndex = 26;
+            label6.Text = "Bottom Filter";
+            // 
             // mainPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1414, 1205);
+            Controls.Add(bottomFiletTextBox);
+            Controls.Add(label6);
             Controls.Add(xFAMlabel);
             Controls.Add(xFFMlabel);
             Controls.Add(oRCRadioButton);
@@ -364,5 +388,7 @@
         private RadioButton oRCRadioButton;
         private Label xFFMlabel;
         private Label xFAMlabel;
+        private TextBox bottomFiletTextBox;
+        private Label label6;
     }
 }
