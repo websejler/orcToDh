@@ -1018,6 +1018,7 @@ namespace orcToDh
                 stations = root.Elements("station").Select(station => new Station
                 {
                     X = double.Parse(station.Attribute("x").Value),
+                    SCD = (Station.StationLabel)Enum.Parse(typeof(Station.StationLabel), station.Attribute("label").Value),
                     // Add other properties as needed
                     dataPoints = station.Elements("point").Select(point => new DataPoint
                     {
