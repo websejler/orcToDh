@@ -1024,6 +1024,7 @@ namespace orcToDh
                     {
                         Y = double.Parse(point.Attribute("y").Value),
                         Z = double.Parse(point.Attribute("z").Value),
+                        PTC = (DataPoint.PointCode)Enum.Parse(typeof(DataPoint.PointCode), point.Attribute("code").Value),
                         // Add other properties as needed
                     }).ToList()
                 }).ToList()
