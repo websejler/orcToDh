@@ -12,6 +12,7 @@ using System.Xml.Linq;
 using orcToDh.Exceptions;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using static System.Windows.Forms.LinkLabel;
+using static orcToDh.OffsetFile;
 
 namespace orcToDh
 {
@@ -25,7 +26,7 @@ namespace orcToDh
         public List<DataPoint> bestGmaxDataPoints = null;
         public Station bestBMaxStation = null;
         public List<OffsetFile.DataPoint> bestBMaxDataPoints = null;
-        private List<Point> profileBottomLine = new();
+        private List<Utill.Point> profileBottomLine = new();
         private double WLZ_AF = 0;
         private double WLZ_STF = 0;
         private int aF = 0;
@@ -37,6 +38,7 @@ namespace orcToDh
         private int gMax = 0;
         private int bMax = 0;
         public bool UseDH = true;
+        private int bottomLineFilterAngle = 10;
         
 
         public OffsetFile(StreamReader file)
@@ -103,8 +105,17 @@ namespace orcToDh
 
                 //get the last station
                 Station station = stations[stations.Count - 1];
-                //get the smalest Z value of the last station
-                return (int)station.dataPoints.Min(p => p.Z);
+                //if the station contains a single data point, return the Z value of that point
+                if (station.dataPoints.Count == 1)
+                {
+                    return (int)station.dataPoints[0].Z;
+                } else
+                {
+                    //use the getBottomLine method to get the Z value of the last station
+                    List<Utill.Point> bottomLine = GetProfileBottomLine();
+                    //get the Z value of the last station
+                    return (int) bottomLine[bottomLine.Count-1].y;
+                }
             }
         }
 
@@ -316,15 +327,15 @@ namespace orcToDh
                 messermentLine.x2 = Stations[Stations.Count - 1].X + 20;
                 messermentLine.y2 = SternPointZ - AF + BoG3;//this is z
 
-                List<Point> profileBottomLine = GetProfileBottomLine();
+                List<Utill.Point> profileBottomLine = GetProfileBottomLine();
                 Utill.Point point = default(Utill.Point);
-                for (int i = 1; i < profileBottomLine.Count; i++)
+                for (int i = 1; i < profileBottomLine.Count/2; i++)
                 {
                     Utill.Line line = new Utill.Line();
-                    line.x1 = profileBottomLine[i - 1].X;
-                    line.y1 = profileBottomLine[i - 1].Y;//this is z
-                    line.x2 = profileBottomLine[i].X;
-                    line.y2 = profileBottomLine[i].Y;//this is z
+                    line.x1 = profileBottomLine[i - 1].x;
+                    line.y1 = profileBottomLine[i - 1].y;//this is z
+                    line.x2 = profileBottomLine[i].x;
+                    line.y2 = profileBottomLine[i].y;//this is z
                     point = Utill.LineIntersection.FindIntersection(messermentLine, line);
                     if(default(Utill.Point).y != point.y && default(Utill.Point).x != point.x)
                     {
@@ -341,21 +352,21 @@ namespace orcToDh
             get
             {
                 Utill.Line messermentLine = new Utill.Line();
-                messermentLine.x1 = Stations[0].X - 20;
+                messermentLine.x1 = Stations[0].X;
                 messermentLine.y1 = BowPointZ - STF + BoG3; //this is z
-                messermentLine.x2 = Stations[Stations.Count - 1].X + 20;
+                messermentLine.x2 = Stations[Stations.Count - 1].X;
                 messermentLine.y2 = SternPointZ - AF + BoG3;//this is z
 
-                List<Point> profileBottomLine = GetProfileBottomLine();
+                List<Utill.Point> profileBottomLine = GetProfileBottomLine();
                 Utill.Point point = default(Utill.Point);
                 int index = profileBottomLine.Count - 1;
                 for (; index > profileBottomLine.Count/2; index--)
                 {
                     Utill.Line line = new Utill.Line();
-                    line.x1 = profileBottomLine[index].X;
-                    line.y1 = profileBottomLine[index].Y; // this is z
-                    line.x2 = profileBottomLine[index - 1].X;
-                    line.y2 = profileBottomLine[index - 1].Y; // this is z
+                    line.x1 = profileBottomLine[index].x;
+                    line.y1 = profileBottomLine[index].y; // this is z
+                    line.x2 = profileBottomLine[index - 1].x;
+                    line.y2 = profileBottomLine[index - 1].y; // this is z
                     point = Utill.LineIntersection.FindIntersection(messermentLine, line);
                     if (default(Utill.Point).y != point.y && default(Utill.Point).x != point.x)
                     {
@@ -365,7 +376,7 @@ namespace orcToDh
                 if (index > profileBottomLine.Count / 2)
                 {
                     Console.WriteLine("OA: " + point.x);
-                    return (int)point.x;
+                    return (int)(LOA - point.x);
                 }
                 else
                 {
@@ -392,15 +403,13 @@ namespace orcToDh
             }
         }
 
-        public List<Point> GetProfileBottomLine()
+        public List<Utill.Point> GetProfileBottomLine(double filterValueBack = 0.2)
         {
-            if (profileBottomLine.Count == 0)
+            profileBottomLine.Clear();
+            foreach (Station station in stations)
             {
-                foreach (Station station in stations)
-                {
-                    Point bottomPoint = new Point((int)station.X, (int)station.ZLow);
-                    profileBottomLine.Add(bottomPoint);
-                }
+                Utill.Point bottomPoint = station.GetBottomPoint(true);
+                profileBottomLine.Add(bottomPoint);
             }
             return profileBottomLine;
         }
@@ -851,6 +860,47 @@ namespace orcToDh
                 Console.WriteLine("Station.x;" + X + ";GMax;" + gMax);
                 return gMax;
             }
+
+            public Utill.Point GetBottomPoint(bool filter = false)
+            {
+                Utill.Point bottomPoint = new Utill.Point();
+                bottomPoint.x = X;
+                bottomPoint.y = ZLow;
+                if (!filter)
+                {
+                    return bottomPoint;
+                }
+                //run through all dataPoints and start form the end with the biggest Z value
+                if(dataPoints.Count <= 4)
+                {
+                    return bottomPoint;
+                }
+                for (int i = dataPoints.Count - 1 - 3; i > 2; i--)
+                {
+                    //get 3 vectors between the dataPoints from the current index and back
+                    Vector2 v1 = Vector2.Subtract(dataPoints[i].GetVector2(), dataPoints[i - 1].GetVector2());
+                    Vector2 v2 = Vector2.Subtract(dataPoints[i-1].GetVector2(), dataPoints[i - 2].GetVector2());
+                    Vector2 v3 = Vector2.Subtract(dataPoints[i-2].GetVector2(), dataPoints[i - 3].GetVector2());
+                    Vector2 v0 = Vector2.Subtract(dataPoints[i+1].GetVector2(), dataPoints[i].GetVector2());
+                    //get the angle between the vectors
+                    double angle1 = Vector2.Dot(v1, v2) / (v1.Length() * v2.Length()) * (180 / Math.PI);
+                    double angle2 = Vector2.Dot(v2, v3) / (v2.Length() * v3.Length()) * (180 / Math.PI);
+                    double angle3 = Vector2.Dot(v0, v1) / (v0.Length() * v1.Length()) * (180 / Math.PI);
+                    double avgAngle = (angle1 + angle2) / 2;
+                    double diff = Math.Abs(angle3 - avgAngle);
+                    if(diff > offsetFile.bottomLineFilterAngle)
+                    {
+                        //if the angle is greater than 10 degrees, set the bottomPoint to the current point
+                        bottomPoint.x = X;
+                        bottomPoint.y = dataPoints[i].Z;
+                        break;
+                    }
+
+                }
+                return bottomPoint;
+                
+                return bottomPoint;
+            }
         }
 
         public class DataPoint
@@ -1036,6 +1086,11 @@ namespace orcToDh
             }
 
             return offsetFile;
+        }
+
+        internal void setbottomLineFilter(int bottomFilter)
+        {
+            bottomLineFilterAngle = bottomFilter;
         }
     }
 }

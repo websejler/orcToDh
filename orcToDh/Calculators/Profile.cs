@@ -23,6 +23,7 @@ namespace orcToDh.Calculators
             chart.Series.Add("Keel");
             chart.Series.Add("Water line");
             chart.Series.Add("Mesurement line");
+            chart.Series.Add("Bottom v2");
 
             chart.Series["Top"].ChartType = SeriesChartType.Line;
             chart.Series["Bottom"].ChartType = SeriesChartType.Line;
@@ -30,6 +31,7 @@ namespace orcToDh.Calculators
             chart.Series["Mesurement line"].ChartType = SeriesChartType.Line;
             chart.Series["Keel"].ChartType = SeriesChartType.Point;
             chart.Series["Keel"].Color = Color.Blue; // Optional: visually distinguish keel
+            chart.Series["Bottom v2"].ChartType = SeriesChartType.Line;
 
             double lowX = offsetFile.stations.Min(s => s.X);
             double highX = offsetFile.stations.Max(s => s.X);
@@ -83,7 +85,14 @@ namespace orcToDh.Calculators
                 }
             }
 
-            
+            List<Utill.Point> points = offsetFile.GetProfileBottomLine();
+            foreach (Utill.Point point in points)
+            {
+                DataPoint bottomPoint = new DataPoint(point.x, point.y);
+                modifyChartPoint(bottomPoint);
+                chart.Series["Bottom v2"].Points.Add(bottomPoint);
+            }
+
             chart.Series["Water line"].Points.Add(new DataPoint(offsetFile.Stations[0].X-20, offsetFile.BowPointZ - offsetFile.STF));
             chart.Series["Water line"].Points.Add(new DataPoint(offsetFile.Stations[offsetFile.Stations.Count-1].X+20, offsetFile.SternPointZ - offsetFile.AF));
             chart.Series["Mesurement line"].Points.Add(new DataPoint(offsetFile.Stations[0].X-20, offsetFile.BowPointZ - offsetFile.STF + offsetFile.BoG3));
