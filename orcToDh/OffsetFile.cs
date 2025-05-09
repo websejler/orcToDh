@@ -471,11 +471,14 @@ namespace orcToDh
                     DateOnly dateOnly = DateOnly.ParseExact(dateString, "yyyy-mm-dd", null);
 
                     matches = Regex.Matches(data[0], @"\b\d{2}\b");
-
-                    int hh = int.Parse(matches[0].ToString());
-                    mm = int.Parse(matches[1].ToString());
-                    int ss = int.Parse(matches[2].ToString());
-
+                    int hh = 0;
+                    int ss = 0;
+                    if (matches.Count != 0)
+                    {
+                        hh = int.Parse(matches[0].ToString());
+                        mm = int.Parse(matches[1].ToString());
+                        ss = int.Parse(matches[2].ToString());
+                    }
                     TimeOnly time = new TimeOnly(hh, mm, ss);
 
                     date = new DateTime(dateOnly, time);
