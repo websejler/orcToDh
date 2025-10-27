@@ -357,7 +357,7 @@
             Controls.Add(statusLable);
             Margin = new Padding(4, 5, 4, 5);
             Name = "mainPage";
-            Text = "Form1";
+            Text = "Main page";
             ResumeLayout(false);
             PerformLayout();
         }

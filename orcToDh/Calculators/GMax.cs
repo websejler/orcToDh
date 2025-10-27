@@ -24,7 +24,7 @@ namespace orcToDh.Calculators
             double bestGmax = ofsetFile.GMax;
             double bestGmaxStationX = ofsetFile.bestGmaxStation.X;
             int i = 0;
-            for(; i < ofsetFile.Stations.Count; i++)
+            for (; i < ofsetFile.Stations.Count; i++)
             {
                 if (ofsetFile.Stations[i].X == bestGmaxStationX)
                     break;
@@ -33,8 +33,8 @@ namespace orcToDh.Calculators
             OffsetFile.Station bestGmaxStation = ofsetFile.Stations[i];
             bestGmax = bestGmaxStation.GMax;
             List<OffsetFile.DataPoint> bestGmaxDataPoints = bestGmaxStation.GMaxDataPoints;
-           
-            
+
+
             chart.Series.Clear();
             chart.Series.Add("PortLine");
             chart.Series.Add("GMaxLine");
@@ -44,7 +44,7 @@ namespace orcToDh.Calculators
             chart.Series["GMaxLine"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             chart.Series["VandLinje"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
 
-            
+
 
             foreach (OffsetFile.DataPoint datePoint in bestGmaxStation.dataPoints)
             {
@@ -52,8 +52,9 @@ namespace orcToDh.Calculators
                 chartPoint.MarkerStyle = MarkerStyle.Circle;
                 chartPoint.MarkerSize = 8;
                 chartPoint.MarkerColor = Color.Red;
-                if(chartPoint.XValue > 0)
-                chart.Series["PortLine"].Points.Add(chartPoint);
+                chartPoint.ToolTip="Y: " + datePoint.Y + ", Z: " + datePoint.Z;
+                if (chartPoint.XValue > 0)
+                    chart.Series["PortLine"].Points.Add(chartPoint);
             }
 
             foreach (OffsetFile.DataPoint dataPoint in bestGmaxDataPoints)
@@ -62,6 +63,7 @@ namespace orcToDh.Calculators
                 chartPoint.MarkerStyle = MarkerStyle.Circle;
                 chartPoint.MarkerSize = 5;
                 chartPoint.MarkerColor = Color.Blue;
+                chartPoint.ToolTip = "Y: " + dataPoint.Y + ", Z: " + dataPoint.Z;
                 chart.Series["GMaxLine"].Points.Add(chartPoint);
             }
 
@@ -77,8 +79,8 @@ namespace orcToDh.Calculators
             gLable.Text = "G: " + bestGmaxStation.G;
 
             //display a horizontal line at the waterline, in the fulle width of the chart
-            chart.Series["VandLinje"].Points.AddXY(bestGmaxStation.WLBredde/2 - 150, bestGmaxStation.WLZ);
-            chart.Series["VandLinje"].Points.AddXY(bestGmaxStation.WLBredde/2 + 150, bestGmaxStation.WLZ);
+            chart.Series["VandLinje"].Points.AddXY(bestGmaxStation.WLBredde / 2 - 150, bestGmaxStation.WLZ);
+            chart.Series["VandLinje"].Points.AddXY(bestGmaxStation.WLBredde / 2 + 150, bestGmaxStation.WLZ);
 
 
 
@@ -98,6 +100,11 @@ namespace orcToDh.Calculators
             int t = trackBar1.Value;
             trackBarLabel.Text = t.ToString();
             calGmax(t);
+        }
+
+        private void GMax_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

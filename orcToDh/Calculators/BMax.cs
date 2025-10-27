@@ -47,14 +47,22 @@ namespace orcToDh.Calculators
             // map the datapoints in starboardStations and portStations to the chart form with maxBMaxIndex
             foreach (OffsetFile.DataPoint dataPoint in bestBMaxDataPoints.ToArray().Reverse())
             {
+                System.Windows.Forms.DataVisualization.Charting.DataPoint chartPoint = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-dataPoint.Y, dataPoint.Z);
+                chartPoint.ToolTip = "Y: " + (-dataPoint.Y) + ", Z: " + dataPoint.Z;
+                chartPoint.MarkerStyle = MarkerStyle.Circle;
+                chartPoint.MarkerSize = 6;
                 if (dataPoint.Y > 0)
-                    chart.Series[0].Points.AddXY(-dataPoint.Y, dataPoint.Z);
+                    chart.Series[0].Points.Add(chartPoint);
             }
 
             foreach (OffsetFile.DataPoint dataPoint in bestBMaxDataPoints.ToArray())
             {
+                System.Windows.Forms.DataVisualization.Charting.DataPoint chartPoint = new System.Windows.Forms.DataVisualization.Charting.DataPoint(dataPoint.Y, dataPoint.Z);
+                chartPoint.ToolTip = "Y: " + dataPoint.Y + ", Z: " + dataPoint.Z;
+                chartPoint.MarkerStyle = MarkerStyle.Circle;
+                chartPoint.MarkerSize = 8;
                 if (dataPoint.Y > 0)
-                    chart.Series[1].Points.AddXY(dataPoint.Y, dataPoint.Z);
+                    chart.Series[1].Points.Add(chartPoint);
             }
             //port drawing
             chart.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
@@ -63,10 +71,15 @@ namespace orcToDh.Calculators
             chart.Series[1].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             chart.Series[1].Color = System.Drawing.Color.Green;
             //bmax drawing
-            chart.Series[2].Points.AddXY(-bestBMax, bestBMaxHight);
-            chart.Series[2].Points.AddXY(bestBMax, bestBMaxHight);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint chartPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-bestBMax, bestBMaxHight);
+            chartPoint1.ToolTip = "BMax Point Y: " + (-bestBMax) + ", Z: " + bestBMaxHight;
+            chart.Series[2].Points.Add(chartPoint1);
+            chartPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(bestBMax, bestBMaxHight);
+            chartPoint1.ToolTip = "BMax Point Y: " + (bestBMax) + ", Z: " + bestBMaxHight;
+            chart.Series[2].Points.Add(chartPoint1);
             chart.Series[2].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
             chart.Series[2].Color = System.Drawing.Color.Blue;
+            chart.Series[2].MarkerSize = 10;
 
             this.bMax = bestBMax * 2;
 
