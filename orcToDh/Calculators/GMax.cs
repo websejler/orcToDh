@@ -52,6 +52,7 @@ namespace orcToDh.Calculators
                 chartPoint.MarkerStyle = MarkerStyle.Circle;
                 chartPoint.MarkerSize = 8;
                 chartPoint.MarkerColor = Color.Red;
+                chartPoint.ToolTip="Y: " + datePoint.Y + ", Z: " + datePoint.Z;
                 if (chartPoint.XValue > 0)
                     chart.Series["PortLine"].Points.Add(chartPoint);
             }
@@ -62,6 +63,7 @@ namespace orcToDh.Calculators
                 chartPoint.MarkerStyle = MarkerStyle.Circle;
                 chartPoint.MarkerSize = 5;
                 chartPoint.MarkerColor = Color.Blue;
+                chartPoint.ToolTip = "Y: " + dataPoint.Y + ", Z: " + dataPoint.Z;
                 chart.Series["GMaxLine"].Points.Add(chartPoint);
             }
 

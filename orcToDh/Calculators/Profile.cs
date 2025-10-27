@@ -51,11 +51,13 @@ namespace orcToDh.Calculators
                 // Plot bottom line
                 DataPoint bottomPoint = new DataPoint(x, lowZ);
                 modifyChartPoint(bottomPoint);
+                bottomPoint.ToolTip = $"X: {x}, Z: {lowZ}"; // Add tooltip
                 chart.Series["Bottom"].Points.Add(bottomPoint);
 
                 // Plot top line
                 DataPoint topPoint = new DataPoint(x, highZ);
                 modifyChartPoint(topPoint);
+                topPoint.ToolTip = $"X: {x}, Z: {highZ}"; // Add tooltip
                 chart.Series["Top"].Points.Add(topPoint);
 
                 // Handle keel-specific logic: follow the bottom line and display points above and below negative Y values
@@ -69,6 +71,7 @@ namespace orcToDh.Calculators
                         {
                             var previousPoint = station.dataPoints[i - 1];
                             DataPoint keelPointAbove = new DataPoint(x, previousPoint.Z);
+                            keelPointAbove.ToolTip = $"X: {x}, Z: {previousPoint.Z}"; // Add tooltip
                             modifyChartPoint(keelPointAbove, 10);
                             chart.Series["Keel"].Points.Add(keelPointAbove);
                         }
@@ -78,6 +81,7 @@ namespace orcToDh.Calculators
                         {
                             var nextPoint = station.dataPoints[i + 1];
                             DataPoint keelPointBelow = new DataPoint(x, nextPoint.Z);
+                            keelPointBelow.ToolTip = $"X: {x}, Z: {nextPoint.Z}"; // Add tooltip
                             modifyChartPoint(keelPointBelow, 10);
                             chart.Series["Keel"].Points.Add(keelPointBelow);
                         }
@@ -89,6 +93,7 @@ namespace orcToDh.Calculators
             foreach (Utill.Point point in points)
             {
                 DataPoint bottomPoint = new DataPoint(point.x, point.y);
+                bottomPoint.ToolTip = $"X: {point.x}, Z: {point.y}"; // Add tooltip
                 modifyChartPoint(bottomPoint);
                 chart.Series["Bottom v2"].Points.Add(bottomPoint);
             }
