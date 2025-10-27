@@ -35,6 +35,8 @@ namespace orcToDh
 
             loadFile();
             calculate();
+            this.BringToFront();
+            this.Activate();
         }
 
         public void calculate()
