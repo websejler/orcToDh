@@ -655,14 +655,14 @@ namespace orcToDh
                 {
                     int wLBrede = 0;
                     //check if the a datapoint's Z value is FribordHoejde
-                    bool hasFribordHoejde = dataPoints.Any(p => p.Y == WLZ);
+                    bool hasFribordHoejde = dataPoints.Any(p => p.Z == WLZ);
                     if (hasFribordHoejde)
                     {
                         foreach (var point in dataPoints)
                         {
                             if (point.Z == WLZ)
                             {
-                                wLBrede = (int)point.Y * 2;
+                                wLBrede = (int)point.Y;
                                 break;
                             }
                         }

@@ -12,7 +12,15 @@ namespace orcToDh
     {
         public static string IniPath = "setting.ini";
 
-
+        /// <summary>
+        /// Calculates the y-coordinate of a point on a straight line, given its x-coordinate.
+        /// </summary>
+        /// <param name="x1">The x-coordinate of the first point on the line.</param>
+        /// <param name="y1">The y-coordinate of the first point on the line.</param>
+        /// <param name="x2">The x-coordinate of the second point on the line.</param>
+        /// <param name="y2">The y-coordinate of the second point on the line.</param>
+        /// <param name="x">The x-coordinate for which the y-coordinate is to be calculated (default is 0).</param>
+        /// <returns>The y-coordinate corresponding to the given x-coordinate on the line.</returns>
         public static double GetYPointInX(double x1, double y1, double x2, double y2, double x = 0)
         {
             return y1 + ((x - x1) * (y2 - y1)) / (x2 - x1);

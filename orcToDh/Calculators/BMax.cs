@@ -92,8 +92,8 @@ namespace orcToDh.Calculators
 
             //display a horizontal line at the waterline, in the fulle width of the chart
             chart.Series["VandLinje"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            chart.Series["VandLinje"].Points.AddXY(bestBMaxStation.WLBredde / 2 - 150, bestBMaxStation.WLZ);
-            chart.Series["VandLinje"].Points.AddXY(bestBMaxStation.WLBredde / 2 + 150, bestBMaxStation.WLZ);
+            chart.Series["VandLinje"].Points.AddXY((bestBMaxStation.WLBredde / 2) - 150, bestBMaxStation.WLZ);
+            chart.Series["VandLinje"].Points.AddXY(((bestBMaxStation.WLBredde / 2) + 150) * -1, bestBMaxStation.WLZ);
 
 
             // Find the minimum X value in the data points
