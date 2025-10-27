@@ -902,7 +902,6 @@ namespace orcToDh
                 }
                 return bottomPoint;
                 
-                return bottomPoint;
             }
         }
 
