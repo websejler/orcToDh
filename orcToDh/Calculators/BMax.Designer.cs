@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             BMaxLabel = new Label();
             PortStationLabel = new Label();
@@ -47,23 +47,25 @@
             // 
             // chart
             // 
-            chartArea2.Name = "ChartArea1";
-            chart.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            chart.Legends.Add(legend2);
+            chart.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            chartArea1.Name = "ChartArea1";
+            chart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            chart.Legends.Add(legend1);
             chart.Location = new Point(17, 20);
             chart.Margin = new Padding(4, 5, 4, 5);
             chart.Name = "chart";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            chart.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            chart.Series.Add(series1);
             chart.Size = new Size(1109, 960);
             chart.TabIndex = 0;
             chart.Text = "chart1";
             // 
             // BMaxLabel
             // 
+            BMaxLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             BMaxLabel.AutoSize = true;
             BMaxLabel.Location = new Point(17, 985);
             BMaxLabel.Margin = new Padding(4, 0, 4, 0);
@@ -74,6 +76,7 @@
             // 
             // PortStationLabel
             // 
+            PortStationLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             PortStationLabel.AutoSize = true;
             PortStationLabel.Location = new Point(17, 1010);
             PortStationLabel.Margin = new Padding(4, 0, 4, 0);
@@ -84,6 +87,7 @@
             // 
             // wlZlabel
             // 
+            wlZlabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             wlZlabel.AutoSize = true;
             wlZlabel.Location = new Point(17, 1035);
             wlZlabel.Margin = new Padding(4, 0, 4, 0);
@@ -94,6 +98,7 @@
             // 
             // udfaldLabel
             // 
+            udfaldLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             udfaldLabel.AutoSize = true;
             udfaldLabel.Location = new Point(509, 1035);
             udfaldLabel.Margin = new Padding(4, 0, 4, 0);
@@ -104,6 +109,7 @@
             // 
             // wLBreddelabel
             // 
+            wLBreddelabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             wLBreddelabel.AutoSize = true;
             wLBreddelabel.Location = new Point(509, 1010);
             wLBreddelabel.Margin = new Padding(4, 0, 4, 0);
@@ -114,6 +120,7 @@
             // 
             // fribordHoejdeLabel
             // 
+            fribordHoejdeLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             fribordHoejdeLabel.AutoSize = true;
             fribordHoejdeLabel.Location = new Point(509, 985);
             fribordHoejdeLabel.Margin = new Padding(4, 0, 4, 0);
@@ -124,6 +131,7 @@
             // 
             // label2
             // 
+            label2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label2.AutoSize = true;
             label2.Location = new Point(714, 991);
             label2.Margin = new Padding(4, 0, 4, 0);
@@ -134,6 +142,7 @@
             // 
             // trackBarLabel
             // 
+            trackBarLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             trackBarLabel.AutoSize = true;
             trackBarLabel.Location = new Point(961, 1041);
             trackBarLabel.Margin = new Padding(4, 0, 4, 0);
@@ -144,6 +153,7 @@
             // 
             // trackBar1
             // 
+            trackBar1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             trackBar1.LargeChange = 1;
             trackBar1.Location = new Point(807, 991);
             trackBar1.Margin = new Padding(4, 5, 4, 5);
