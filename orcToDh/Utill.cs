@@ -178,7 +178,21 @@ namespace orcToDh
             double A = point.y - line.y1;
             double B = line.x2 - line.x1;
             double C = line.y2 - line.y1;
-            return Math.Abs(A * B - C * point.x) / Math.Sqrt(B * B + C * C);
+
+            // Calculate the distance
+            double distance = Math.Abs(A * B - C * point.x) / Math.Sqrt(B * B + C * C);
+
+            // Determine if the point is below the line
+            // Use the line equation to find the y-value at the x-coordinate of the point
+            double yOnLine = GetYPointInX(line, point.x);
+
+            // If the point's y-coordinate is less than the line's y-value, make the distance negative
+            if (point.y < yOnLine)
+            {
+                distance = -distance;
+            }
+
+            return distance;
         }
     }
 }
