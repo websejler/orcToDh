@@ -63,20 +63,18 @@
             // statusLable
             // 
             statusLable.AutoSize = true;
-            statusLable.Location = new Point(17, 88);
-            statusLable.Margin = new Padding(4, 0, 4, 0);
+            statusLable.Location = new Point(12, 53);
             statusLable.Name = "statusLable";
-            statusLable.Size = new Size(100, 25);
+            statusLable.Size = new Size(66, 15);
             statusLable.TabIndex = 1;
             statusLable.Text = "statusLable";
             // 
             // bMAXButton
             // 
             bMAXButton.Enabled = false;
-            bMAXButton.Location = new Point(17, 118);
-            bMAXButton.Margin = new Padding(4, 5, 4, 5);
+            bMAXButton.Location = new Point(12, 71);
             bMAXButton.Name = "bMAXButton";
-            bMAXButton.Size = new Size(121, 38);
+            bMAXButton.Size = new Size(85, 23);
             bMAXButton.TabIndex = 2;
             bMAXButton.Text = "Cal BMAX";
             bMAXButton.UseVisualStyleBackColor = true;
@@ -85,10 +83,9 @@
             // gMaxButton
             // 
             gMaxButton.Enabled = false;
-            gMaxButton.Location = new Point(17, 167);
-            gMaxButton.Margin = new Padding(4, 5, 4, 5);
+            gMaxButton.Location = new Point(12, 100);
             gMaxButton.Name = "gMaxButton";
-            gMaxButton.Size = new Size(121, 38);
+            gMaxButton.Size = new Size(85, 23);
             gMaxButton.TabIndex = 3;
             gMaxButton.Text = "Cal GMax";
             gMaxButton.UseVisualStyleBackColor = true;
@@ -97,19 +94,17 @@
             // fileLable
             // 
             fileLable.AutoSize = true;
-            fileLable.Location = new Point(17, 15);
-            fileLable.Margin = new Padding(4, 0, 4, 0);
+            fileLable.Location = new Point(12, 9);
             fileLable.Name = "fileLable";
-            fileLable.Size = new Size(130, 25);
+            fileLable.Size = new Size(85, 15);
             fileLable.TabIndex = 4;
             fileLable.Text = "File not loaded";
             // 
             // loadFileButton
             // 
-            loadFileButton.Location = new Point(17, 45);
-            loadFileButton.Margin = new Padding(4, 5, 4, 5);
+            loadFileButton.Location = new Point(12, 27);
             loadFileButton.Name = "loadFileButton";
-            loadFileButton.Size = new Size(121, 38);
+            loadFileButton.Size = new Size(85, 23);
             loadFileButton.TabIndex = 5;
             loadFileButton.Text = "Load file";
             loadFileButton.UseVisualStyleBackColor = true;
@@ -118,10 +113,9 @@
             // profileButton
             // 
             profileButton.BackgroundImageLayout = ImageLayout.Stretch;
-            profileButton.Location = new Point(17, 215);
-            profileButton.Margin = new Padding(4, 5, 4, 5);
+            profileButton.Location = new Point(12, 129);
             profileButton.Name = "profileButton";
-            profileButton.Size = new Size(121, 38);
+            profileButton.Size = new Size(85, 23);
             profileButton.TabIndex = 6;
             profileButton.Text = "Show profile";
             profileButton.UseVisualStyleBackColor = true;
@@ -130,40 +124,36 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(636, 85);
-            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Location = new Point(445, 51);
             label1.Name = "label1";
-            label1.Size = new Size(40, 25);
+            label1.Size = new Size(25, 15);
             label1.TabIndex = 7;
             label1.Text = "STF";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(642, 134);
-            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Location = new Point(449, 80);
             label2.Name = "label2";
-            label2.Size = new Size(33, 25);
+            label2.Size = new Size(21, 15);
             label2.TabIndex = 8;
             label2.Text = "AF";
             label2.Click += label2_Click;
             // 
             // sTFMesTextBox
             // 
-            sTFMesTextBox.Location = new Point(684, 82);
-            sTFMesTextBox.Margin = new Padding(4, 5, 4, 5);
+            sTFMesTextBox.Location = new Point(479, 49);
             sTFMesTextBox.Name = "sTFMesTextBox";
-            sTFMesTextBox.Size = new Size(141, 31);
+            sTFMesTextBox.Size = new Size(100, 23);
             sTFMesTextBox.TabIndex = 9;
             sTFMesTextBox.Text = "0";
             sTFMesTextBox.TextChanged += textBox1_TextChanged;
             // 
             // aFMesTextBox
             // 
-            aFMesTextBox.Location = new Point(684, 130);
-            aFMesTextBox.Margin = new Padding(4, 5, 4, 5);
+            aFMesTextBox.Location = new Point(479, 78);
             aFMesTextBox.Name = "aFMesTextBox";
-            aFMesTextBox.Size = new Size(141, 31);
+            aFMesTextBox.Size = new Size(100, 23);
             aFMesTextBox.TabIndex = 10;
             aFMesTextBox.Text = "0";
             aFMesTextBox.TextChanged += textBox2_TextChanged;
@@ -171,20 +161,18 @@
             // bowpointLable
             // 
             bowpointLable.AutoSize = true;
-            bowpointLable.Location = new Point(876, 99);
-            bowpointLable.Margin = new Padding(4, 0, 4, 0);
+            bowpointLable.Location = new Point(613, 59);
             bowpointLable.Name = "bowpointLable";
-            bowpointLable.Size = new Size(107, 25);
+            bowpointLable.Size = new Size(71, 15);
             bowpointLable.TabIndex = 11;
             bowpointLable.Text = "Stævnpunkt";
             // 
             // xStationAFLable
             // 
             xStationAFLable.AutoSize = true;
-            xStationAFLable.Location = new Point(876, 135);
-            xStationAFLable.Margin = new Padding(4, 0, 4, 0);
+            xStationAFLable.Location = new Point(613, 81);
             xStationAFLable.Name = "xStationAFLable";
-            xStationAFLable.Size = new Size(101, 25);
+            xStationAFLable.Size = new Size(67, 15);
             xStationAFLable.TabIndex = 12;
             xStationAFLable.Text = "xStation AF";
             xStationAFLable.Click += xStationAFLable_Click;
@@ -192,20 +180,18 @@
             // zStationAFlable
             // 
             zStationAFlable.AutoSize = true;
-            zStationAFlable.Location = new Point(876, 169);
-            zStationAFlable.Margin = new Padding(4, 0, 4, 0);
+            zStationAFlable.Location = new Point(613, 101);
             zStationAFlable.Name = "zStationAFlable";
-            zStationAFlable.Size = new Size(101, 25);
+            zStationAFlable.Size = new Size(66, 15);
             zStationAFlable.TabIndex = 13;
             zStationAFlable.Text = "zStation AF";
             // 
             // BoG3TextBox
             // 
             BoG3TextBox.Enabled = false;
-            BoG3TextBox.Location = new Point(684, 179);
-            BoG3TextBox.Margin = new Padding(4, 5, 4, 5);
+            BoG3TextBox.Location = new Point(479, 107);
             BoG3TextBox.Name = "BoG3TextBox";
-            BoG3TextBox.Size = new Size(141, 31);
+            BoG3TextBox.Size = new Size(100, 23);
             BoG3TextBox.TabIndex = 16;
             BoG3TextBox.Text = "0";
             BoG3TextBox.TextChanged += BoG3TextBox_TextChanged;
@@ -213,30 +199,27 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(622, 182);
-            label4.Margin = new Padding(4, 0, 4, 0);
+            label4.Location = new Point(435, 109);
             label4.Name = "label4";
-            label4.Size = new Size(55, 25);
+            label4.Size = new Size(35, 15);
             label4.TabIndex = 14;
             label4.Text = "BoG3";
             label4.Click += label4_Click;
             // 
             // fAMTextBox
             // 
-            fAMTextBox.Location = new Point(684, 311);
-            fAMTextBox.Margin = new Padding(4, 5, 4, 5);
+            fAMTextBox.Location = new Point(479, 187);
             fAMTextBox.Name = "fAMTextBox";
-            fAMTextBox.Size = new Size(141, 31);
+            fAMTextBox.Size = new Size(100, 23);
             fAMTextBox.TabIndex = 21;
             fAMTextBox.Text = "0";
             fAMTextBox.TextChanged += fAMTextBox_TextChanged;
             // 
             // fFMTextBox
             // 
-            fFMTextBox.Location = new Point(684, 263);
-            fFMTextBox.Margin = new Padding(4, 5, 4, 5);
+            fFMTextBox.Location = new Point(479, 158);
             fFMTextBox.Name = "fFMTextBox";
-            fFMTextBox.Size = new Size(141, 31);
+            fFMTextBox.Size = new Size(100, 23);
             fFMTextBox.TabIndex = 20;
             fFMTextBox.Text = "0";
             fFMTextBox.TextChanged += fFMTextBox_TextChanged;
@@ -244,20 +227,18 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(642, 315);
-            label3.Margin = new Padding(4, 0, 4, 0);
+            label3.Location = new Point(449, 189);
             label3.Name = "label3";
-            label3.Size = new Size(48, 25);
+            label3.Size = new Size(31, 15);
             label3.TabIndex = 19;
             label3.Text = "FAM";
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(636, 266);
-            label5.Margin = new Padding(4, 0, 4, 0);
+            label5.Location = new Point(445, 160);
             label5.Name = "label5";
-            label5.Size = new Size(46, 25);
+            label5.Size = new Size(30, 15);
             label5.TabIndex = 18;
             label5.Text = "FFM";
             // 
@@ -265,9 +246,10 @@
             // 
             dHRadioButton.AutoSize = true;
             dHRadioButton.Checked = true;
-            dHRadioButton.Location = new Point(684, 45);
+            dHRadioButton.Location = new Point(479, 27);
+            dHRadioButton.Margin = new Padding(2, 2, 2, 2);
             dHRadioButton.Name = "dHRadioButton";
-            dHRadioButton.Size = new Size(63, 29);
+            dHRadioButton.Size = new Size(42, 19);
             dHRadioButton.TabIndex = 22;
             dHRadioButton.TabStop = true;
             dHRadioButton.Text = "DH";
@@ -277,9 +259,10 @@
             // oRCRadioButton
             // 
             oRCRadioButton.AutoSize = true;
-            oRCRadioButton.Location = new Point(684, 226);
+            oRCRadioButton.Location = new Point(479, 136);
+            oRCRadioButton.Margin = new Padding(2, 2, 2, 2);
             oRCRadioButton.Name = "oRCRadioButton";
-            oRCRadioButton.Size = new Size(73, 29);
+            oRCRadioButton.Size = new Size(49, 19);
             oRCRadioButton.TabIndex = 23;
             oRCRadioButton.Text = "ORC";
             oRCRadioButton.UseVisualStyleBackColor = true;
@@ -288,29 +271,26 @@
             // xFFMlabel
             // 
             xFFMlabel.AutoSize = true;
-            xFFMlabel.Location = new Point(876, 269);
-            xFFMlabel.Margin = new Padding(4, 0, 4, 0);
+            xFFMlabel.Location = new Point(613, 161);
             xFFMlabel.Name = "xFFMlabel";
-            xFFMlabel.Size = new Size(114, 25);
+            xFFMlabel.Size = new Size(76, 15);
             xFFMlabel.TabIndex = 24;
             xFFMlabel.Text = "xStation FFM";
             // 
             // xFAMlabel
             // 
             xFAMlabel.AutoSize = true;
-            xFAMlabel.Location = new Point(876, 317);
-            xFAMlabel.Margin = new Padding(4, 0, 4, 0);
+            xFAMlabel.Location = new Point(613, 190);
             xFAMlabel.Name = "xFAMlabel";
-            xFAMlabel.Size = new Size(116, 25);
+            xFAMlabel.Size = new Size(77, 15);
             xFAMlabel.TabIndex = 25;
             xFAMlabel.Text = "xStation FAM";
             // 
             // bottomFiletTextBox
             // 
-            bottomFiletTextBox.Location = new Point(314, 129);
-            bottomFiletTextBox.Margin = new Padding(4, 5, 4, 5);
+            bottomFiletTextBox.Location = new Point(220, 77);
             bottomFiletTextBox.Name = "bottomFiletTextBox";
-            bottomFiletTextBox.Size = new Size(141, 31);
+            bottomFiletTextBox.Size = new Size(100, 23);
             bottomFiletTextBox.TabIndex = 27;
             bottomFiletTextBox.Text = "10";
             bottomFiletTextBox.TextChanged += textBox1_TextChanged_1;
@@ -318,18 +298,17 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(191, 132);
-            label6.Margin = new Padding(4, 0, 4, 0);
+            label6.Location = new Point(134, 79);
             label6.Name = "label6";
-            label6.Size = new Size(115, 25);
+            label6.Size = new Size(76, 15);
             label6.TabIndex = 26;
             label6.Text = "Bottom Filter";
             // 
             // mainPage
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1414, 1205);
+            ClientSize = new Size(990, 637);
             Controls.Add(bottomFiletTextBox);
             Controls.Add(label6);
             Controls.Add(xFAMlabel);
@@ -355,9 +334,9 @@
             Controls.Add(gMaxButton);
             Controls.Add(bMAXButton);
             Controls.Add(statusLable);
-            Margin = new Padding(4, 5, 4, 5);
             Name = "mainPage";
             Text = "Main page";
+            TopMost = true;
             ResumeLayout(false);
             PerformLayout();
         }
