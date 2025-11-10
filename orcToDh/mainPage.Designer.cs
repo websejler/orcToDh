@@ -74,7 +74,7 @@
             bMAXButton.Enabled = false;
             bMAXButton.Location = new Point(12, 71);
             bMAXButton.Name = "bMAXButton";
-            bMAXButton.Size = new Size(85, 23);
+            bMAXButton.Size = new Size(108, 23);
             bMAXButton.TabIndex = 2;
             bMAXButton.Text = "Cal BMAX";
             bMAXButton.UseVisualStyleBackColor = true;
@@ -85,7 +85,7 @@
             gMaxButton.Enabled = false;
             gMaxButton.Location = new Point(12, 100);
             gMaxButton.Name = "gMaxButton";
-            gMaxButton.Size = new Size(85, 23);
+            gMaxButton.Size = new Size(108, 23);
             gMaxButton.TabIndex = 3;
             gMaxButton.Text = "Cal GMax";
             gMaxButton.UseVisualStyleBackColor = true;
@@ -104,7 +104,7 @@
             // 
             loadFileButton.Location = new Point(12, 27);
             loadFileButton.Name = "loadFileButton";
-            loadFileButton.Size = new Size(85, 23);
+            loadFileButton.Size = new Size(108, 23);
             loadFileButton.TabIndex = 5;
             loadFileButton.Text = "Load file";
             loadFileButton.UseVisualStyleBackColor = true;
@@ -115,7 +115,7 @@
             profileButton.BackgroundImageLayout = ImageLayout.Stretch;
             profileButton.Location = new Point(12, 129);
             profileButton.Name = "profileButton";
-            profileButton.Size = new Size(85, 23);
+            profileButton.Size = new Size(108, 23);
             profileButton.TabIndex = 6;
             profileButton.Text = "Show profile";
             profileButton.UseVisualStyleBackColor = true;
