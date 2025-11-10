@@ -51,7 +51,7 @@ namespace orcToDh.Calculators
                 chartPoint.ToolTip = "Y: " + (-dataPoint.Y) + ", Z: " + dataPoint.Z;
                 chartPoint.MarkerStyle = MarkerStyle.Circle;
                 chartPoint.MarkerSize = 6;
-                if (dataPoint.Y > 0)
+                if (dataPoint.Y >= 0)
                     chart.Series[0].Points.Add(chartPoint);
             }
 
@@ -61,7 +61,7 @@ namespace orcToDh.Calculators
                 chartPoint.ToolTip = "Y: " + dataPoint.Y + ", Z: " + dataPoint.Z;
                 chartPoint.MarkerStyle = MarkerStyle.Circle;
                 chartPoint.MarkerSize = 8;
-                if (dataPoint.Y > 0)
+                if (dataPoint.Y >= 0)
                     chart.Series[1].Points.Add(chartPoint);
             }
             //port drawing
@@ -90,16 +90,13 @@ namespace orcToDh.Calculators
             wLBreddelabel.Text = "WLBredde: " + bestBMaxStation.WLBredde;
             udfaldLabel.Text = "Udfald: " + bestBMaxStation.Udfald;
 
-            //display a horizontal line at the waterline, in the fulle width of the chart
-            chart.Series["VandLinje"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            chart.Series["VandLinje"].Points.AddXY((bestBMaxStation.WLBredde / 2) - 150, bestBMaxStation.WLZ);
-            chart.Series["VandLinje"].Points.AddXY(((bestBMaxStation.WLBredde / 2) + 150) * -1, bestBMaxStation.WLZ);
 
 
             // Find the minimum X value in the data points
             double minX = Math.Min(bestBMaxStation.dataPoints.Min(dp => dp.Y), bestBMaxDataPoints.Min(dp => dp.Y));
             double maxX = Math.Max(bestBMaxStation.dataPoints.Max(dp => dp.Y), bestBMaxDataPoints.Max(dp => dp.Y));
             double min = Math.Min(Math.Min(Math.Min(minX, maxX),-minX),-maxX);
+            double max = Math.Max(Math.Max(Math.Max(minX, maxX), -minX), -maxX);
 
             // Customize the X and Y axes
             chart.ChartAreas[0].AxisX.Interval = 500; // Set the interval for X-axis
@@ -110,6 +107,11 @@ namespace orcToDh.Calculators
             chart.ChartAreas[0].AxisY.Interval = 500; // Set the interval for Y-axis
             chart.ChartAreas[0].AxisY.LabelStyle.Format = "0"; // Format labels as integers
             chart.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.LightGray; // Set grid line color
+
+            //display a horizontal line at the waterline, in the fulle width of the chart
+            chart.Series["VandLinje"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            chart.Series["VandLinje"].Points.AddXY(min, bestBMaxStation.WLZ);
+            chart.Series["VandLinje"].Points.AddXY(max, bestBMaxStation.WLZ);
         }
 
         private void trackBar1_ValueChanged(object sender, EventArgs e)
