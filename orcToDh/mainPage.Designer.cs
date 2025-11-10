@@ -247,7 +247,7 @@
             dHRadioButton.AutoSize = true;
             dHRadioButton.Checked = true;
             dHRadioButton.Location = new Point(479, 27);
-            dHRadioButton.Margin = new Padding(2, 2, 2, 2);
+            dHRadioButton.Margin = new Padding(2);
             dHRadioButton.Name = "dHRadioButton";
             dHRadioButton.Size = new Size(42, 19);
             dHRadioButton.TabIndex = 22;
@@ -260,7 +260,7 @@
             // 
             oRCRadioButton.AutoSize = true;
             oRCRadioButton.Location = new Point(479, 136);
-            oRCRadioButton.Margin = new Padding(2, 2, 2, 2);
+            oRCRadioButton.Margin = new Padding(2);
             oRCRadioButton.Name = "oRCRadioButton";
             oRCRadioButton.Size = new Size(49, 19);
             oRCRadioButton.TabIndex = 23;
@@ -336,7 +336,6 @@
             Controls.Add(statusLable);
             Name = "mainPage";
             Text = "Main page";
-            TopMost = true;
             ResumeLayout(false);
             PerformLayout();
         }

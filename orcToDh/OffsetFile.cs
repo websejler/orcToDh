@@ -38,7 +38,7 @@ namespace orcToDh
         private int gMax = 0;
         private int bMax = 0;
         public bool UseDH = true;
-        private int bottomLineFilterAngle = 10;
+        private double bottomLineFilterAngle = 10;
         
 
         public OffsetFile(StreamReader file)
@@ -878,24 +878,24 @@ namespace orcToDh
                 {
                     return bottomPoint;
                 }
-                for (int i = dataPoints.Count - 1 - 3; i > 2; i--)
+                for (int i = dataPoints.Count - 5; i >= 1; i--)
                 {
                     //get 3 vectors between the dataPoints from the current index and back
-                    Vector2 v1 = Vector2.Subtract(dataPoints[i].GetVector2(), dataPoints[i - 1].GetVector2());
-                    Vector2 v2 = Vector2.Subtract(dataPoints[i-1].GetVector2(), dataPoints[i - 2].GetVector2());
-                    Vector2 v3 = Vector2.Subtract(dataPoints[i-2].GetVector2(), dataPoints[i - 3].GetVector2());
-                    Vector2 v0 = Vector2.Subtract(dataPoints[i+1].GetVector2(), dataPoints[i].GetVector2());
+                    Vector2 v1 = Vector2.Subtract(dataPoints[i+1].GetVector2(), dataPoints[i + 2].GetVector2());
+                    Vector2 v2 = Vector2.Subtract(dataPoints[i+2].GetVector2(), dataPoints[i + 3].GetVector2());
+                    Vector2 v3 = Vector2.Subtract(dataPoints[i+3].GetVector2(), dataPoints[i + 4].GetVector2());
+                    Vector2 v0 = Vector2.Subtract(dataPoints[i].GetVector2(), dataPoints[i+1].GetVector2());
                     //get the angle between the vectors
-                    double angle1 = Vector2.Dot(v1, v2) / (v1.Length() * v2.Length()) * (180 / Math.PI);
                     double angle2 = Vector2.Dot(v2, v3) / (v2.Length() * v3.Length()) * (180 / Math.PI);
-                    double angle3 = Vector2.Dot(v0, v1) / (v0.Length() * v1.Length()) * (180 / Math.PI);
+                    double angle1 = Vector2.Dot(v1, v2) / (v1.Length() * v2.Length()) * (180 / Math.PI);
+                    double angle0 = Vector2.Dot(v0, v1) / (v0.Length() * v1.Length()) * (180 / Math.PI);
                     double avgAngle = (angle1 + angle2) / 2;
-                    double diff = Math.Abs(angle3 - avgAngle);
+                    double diff = Math.Abs(angle0 - avgAngle);
                     if(diff > offsetFile.bottomLineFilterAngle)
                     {
                         //if the angle is greater than 10 degrees, set the bottomPoint to the current point
                         bottomPoint.x = X;
-                        bottomPoint.y = dataPoints[i].Z;
+                        bottomPoint.y = dataPoints[i+1].Z;
                         break;
                     }
 
@@ -1090,7 +1090,7 @@ namespace orcToDh
             return offsetFile;
         }
 
-        internal void setbottomLineFilter(int bottomFilter)
+        internal void setbottomLineFilter(double bottomFilter)
         {
             bottomLineFilterAngle = bottomFilter;
         }

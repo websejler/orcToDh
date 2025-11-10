@@ -48,14 +48,14 @@ namespace orcToDh
             int sTFMes;
             int fFM;
             int fAM;
-            int bottomFilter;
+            double bottomFilter;
             try
             {
                 aFMes = aFMesTextBox.Text == "" ? 0 : int.Parse(aFMesTextBox.Text);
                 sTFMes = sTFMesTextBox.Text == "" ? 0 : int.Parse(sTFMesTextBox.Text);
                 fFM = fFMTextBox.Text == "" ? 0 : int.Parse(fFMTextBox.Text);
                 fAM = fAMTextBox.Text == "" ? 0 : int.Parse(fAMTextBox.Text);
-                bottomFilter = bottomFiletTextBox.Text == "" ? 0 : int.Parse(bottomFiletTextBox.Text);
+                bottomFilter = bottomFiletTextBox.Text == "" ? 0 : Double.Parse(bottomFiletTextBox.Text);
             }
             catch (FormatException)
             {
