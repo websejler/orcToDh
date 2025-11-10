@@ -24,17 +24,23 @@ namespace orcToDh
             AllocConsole();
 #endif
 #if !DEBUG
-            Task.Run(() =>
-            {
-                if (UpdateDetection.CheckForUpdate())
-                {
-                    MessageBox.Show("Der er en opdatering tilgængelig");
-                }
-            });
+    Task.Run(() =>
+    {
+        if (UpdateDetection.CheckForUpdate())
+        {
+            MessageBox.Show("Der er en opdatering tilgængelig");
+        }
+    });
 #endif
+
+            this.Shown += MainPage_Shown; // Add this line
 
             loadFile();
             calculate();
+        }
+
+        private void MainPage_Shown(object sender, EventArgs e)
+        {
             this.BringToFront();
             this.Activate();
         }
