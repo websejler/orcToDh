@@ -49,7 +49,7 @@
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             chart.Series.Add(series1);
-            chart.Size = new Size(1089, 495);
+            chart.Size = new Size(1089, 607);
             chart.TabIndex = 1;
             chart.Text = "chart1";
             // 
@@ -57,7 +57,7 @@
             // 
             oFlabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             oFlabel.AutoSize = true;
-            oFlabel.Location = new Point(12, 617);
+            oFlabel.Location = new Point(12, 622);
             oFlabel.Name = "oFlabel";
             oFlabel.Size = new Size(22, 15);
             oFlabel.TabIndex = 2;
@@ -67,7 +67,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1113, 641);
+            ClientSize = new Size(1113, 646);
             Controls.Add(oFlabel);
             Controls.Add(chart);
             Name = "Profile";

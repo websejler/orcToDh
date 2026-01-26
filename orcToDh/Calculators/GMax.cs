@@ -71,10 +71,10 @@ namespace orcToDh.Calculators
 
 
             gMaxLengthLabel.Text = "GMax: " + bestGmax.ToString("0");
-            StationInfoLabel.Text = bestGmaxStation.SID.ToString() + "station  - x: " + bestGmaxStation.X;
+            StationInfoLabel.Text = "SGmax: " + bestGmaxStation.X;
             wLZlabel.Text = "WLZ: " + bestGmaxStation.WLZ;
             fribordHoejdeLabel.Text = "Fribord: " + bestGmaxStation.FribordHoejde;
-            wLBreddelabel.Text = "WLBredde: " + bestGmaxStation.WLBredde;
+            wLBreddelabel.Text = "WLBredde (B): " + bestGmaxStation.WLBredde;
             udfaldLabel.Text = "Udfald: " + bestGmaxStation.Udfald;
             gLable.Text = "G: " + bestGmaxStation.G;
 

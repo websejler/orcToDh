@@ -1,5 +1,9 @@
-using System.Runtime.InteropServices;
+ï»¿using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
 using orcToDh.Calculators;
 
 namespace orcToDh
@@ -28,7 +32,7 @@ namespace orcToDh
             {
                 if (UpdateDetection.CheckForUpdate())
                 {
-                    MessageBox.Show("Der er en opdatering tilgængelig");
+                    MessageBox.Show("Der er en opdatering tilgÃ¦ngelig");
                 }
             });
 #endif
@@ -69,7 +73,7 @@ namespace orcToDh
             bMaxCalculator = new(ofset);
             gMaxCalculator = new(ofset);
             profileCalculator = new(ofset);
-            bowpointLable.Text = "Stævnspunkt: " + ofset.BowPointZ.ToString();
+            bowpointLable.Text = "StÃ¦vnpunkt: " + ofset.BowPointZ.ToString();
             xStationAFLable.Text = "LOA: " + ofset.SternPointX.ToString();
             zStationAFlable.Text = "Z station AF: " + ofset.SternPointZ.ToString();
             xFFMlabel.Text = "X station FFM: " + ofset.XFFM.ToString();
@@ -96,6 +100,13 @@ namespace orcToDh
             {
                 return;
             }
+
+            aFMesTextBox.Text = ""+0;
+            sTFMesTextBox.Text = "" + 0;
+            fFMTextBox.Text = "" + 0;
+            fAMTextBox.Text = "" + 0;
+            dHRadioButton.Checked = true;
+
             ofsetFilePath = openFileDialog.FileName;
             bool useXML = false;
             using (StreamReader file = new(ofsetFilePath, new ASCIIEncoding()))
@@ -117,7 +128,7 @@ namespace orcToDh
             {
                 throw new Exception("ofset is null");
             }
-            statusLable.Text = status + "Fil indlæst, klar til beregning";
+            statusLable.Text = status + "Fil indlÃ¦st, klar til beregning";
             bMAXButton.Enabled = true;
             gMaxButton.Enabled = true;
             profileButton.Enabled = true;
@@ -261,6 +272,30 @@ namespace orcToDh
         private void textBox1_TextChanged_1(object sender, EventArgs e)
         {
             calculate();
+        }
+
+        private void genReport_Click(object sender, EventArgs e)
+        {
+            string filePath = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+        "TestPdf.pdf"
+    );
+
+            using (PdfWriter writer = new PdfWriter(filePath))
+            {
+                using (PdfDocument pdf = new PdfDocument(writer))
+                {
+                    Document document = new Document(pdf);
+
+                    document.Add(new Paragraph("Hello iText ðŸ‘‹"));
+                    document.Add(new Paragraph("This is a test PDF generated on button click."));
+                    document.Add(new Paragraph($"Created at: {DateTime.Now}"));
+
+                    document.Close();
+                }
+            }
+
+            MessageBox.Show("PDF generated successfully!");
         }
     }
 }
