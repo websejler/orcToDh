@@ -1,9 +1,10 @@
-﻿
+
 using System;
 using System.Data;
 using System.IO;
 using System.Numerics;
 using System.Windows.Forms.DataVisualization.Charting;
+using iText.IO.Image;
 using static orcToDh.OffsetFile;
 
 namespace orcToDh.Calculators
@@ -107,6 +108,15 @@ namespace orcToDh.Calculators
         private void GMax_Load(object sender, EventArgs e)
         {
 
+        }
+
+        public ImageData getChart()
+        {
+            // Render the chart to a MemoryStream as PNG
+            MemoryStream chartStream = new MemoryStream();
+            chart.SaveImage(chartStream, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
+            chartStream.Position = 0;
+            return ImageDataFactory.Create(chartStream.ToArray());
         }
     }
 }

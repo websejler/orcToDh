@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using iText.IO.Image;
 
 namespace orcToDh.Calculators
 {
@@ -124,6 +125,15 @@ namespace orcToDh.Calculators
         {
             chartPoint.MarkerStyle = MarkerStyle.Circle;
             chartPoint.MarkerSize = size+2;
+        }
+
+        public ImageData getChart()
+        {
+            // Render the chart to a MemoryStream as PNG
+            MemoryStream chartStream = new MemoryStream();
+            chart.SaveImage(chartStream, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
+            chartStream.Position = 0;
+            return ImageDataFactory.Create(chartStream.ToArray()); ;
         }
     }
 }
