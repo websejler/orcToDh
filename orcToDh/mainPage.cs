@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using System.Runtime.Intrinsics.X86;
+using System.Runtime.InteropServices;
 using System.Text;
 using iText.Kernel.Pdf;
 using iText.Layout;
