@@ -45,7 +45,7 @@ namespace orcToDh.Calculators
             chart.Series["VandLinje"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
 
 
-
+            double maxY = 0;
             foreach (OffsetFile.DataPoint datePoint in bestGmaxStation.dataPoints)
             {
                 var chartPoint = new System.Windows.Forms.DataVisualization.Charting.DataPoint(datePoint.Y, datePoint.Z);
@@ -53,8 +53,10 @@ namespace orcToDh.Calculators
                 chartPoint.MarkerSize = 8;
                 chartPoint.MarkerColor = Color.Red;
                 chartPoint.ToolTip="Y: " + datePoint.Y + ", Z: " + datePoint.Z;
-                if (chartPoint.XValue > 0)
+                if (chartPoint.XValue >= 0)
                     chart.Series["PortLine"].Points.Add(chartPoint);
+                if (datePoint.Y > maxY)
+                    maxY = datePoint.Y;
             }
 
             foreach (OffsetFile.DataPoint dataPoint in bestGmaxDataPoints)
@@ -79,8 +81,8 @@ namespace orcToDh.Calculators
             gLable.Text = "G: " + bestGmaxStation.G;
 
             //display a horizontal line at the waterline, in the fulle width of the chart
-            chart.Series["VandLinje"].Points.AddXY(bestGmaxStation.WLBredde / 2 - 150, bestGmaxStation.WLZ);
-            chart.Series["VandLinje"].Points.AddXY(bestGmaxStation.WLBredde / 2 + 150, bestGmaxStation.WLZ);
+            chart.Series["VandLinje"].Points.AddXY(0, bestGmaxStation.WLZ);
+            chart.Series["VandLinje"].Points.AddXY(maxY, bestGmaxStation.WLZ);
 
 
 
