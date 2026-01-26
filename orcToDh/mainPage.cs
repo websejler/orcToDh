@@ -3,7 +3,9 @@ using System.Text;
 using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
+using Microsoft.VisualBasic;
 using orcToDh.Calculators;
+using Image = iText.Layout.Element.Image;
 
 namespace orcToDh
 {
@@ -78,7 +80,7 @@ namespace orcToDh
             bMaxCalculator = new(ofset);
             gMaxCalculator = new(ofset);
             profileCalculator = new(ofset);
-            bowpointLable.Text = "StÃ¦vnpunkt: " + ofset.BowPointZ.ToString();
+            bowpointLable.Text = "Stævnpunkt: " + ofset.BowPointZ.ToString();
             xStationAFLable.Text = "LOA: " + ofset.SternPointX.ToString();
             zStationAFlable.Text = "Z station AF: " + ofset.SternPointZ.ToString();
             xFFMlabel.Text = "X station FFM: " + ofset.XFFM.ToString();
@@ -106,7 +108,7 @@ namespace orcToDh
                 return;
             }
 
-            aFMesTextBox.Text = ""+0;
+            aFMesTextBox.Text = "" + 0;
             sTFMesTextBox.Text = "" + 0;
             fFMTextBox.Text = "" + 0;
             fAMTextBox.Text = "" + 0;
@@ -133,7 +135,7 @@ namespace orcToDh
             {
                 throw new Exception("ofset is null");
             }
-            statusLable.Text = status + "Fil indlÃ¦st, klar til beregning";
+            statusLable.Text = status + "Fil indlæst, klar til beregning";
             bMAXButton.Enabled = true;
             gMaxButton.Enabled = true;
             profileButton.Enabled = true;
@@ -142,22 +144,26 @@ namespace orcToDh
 
         private void bMAXButton_Click(object sender, EventArgs e)
         {
-            if (bMaxCalculator is null)
+            // Create a new instance if it's null or has been disposed
+            if (bMaxCalculator == null || bMaxCalculator.IsDisposed)
             {
-                throw new Exception("bMaxCalculator is null");
+                bMaxCalculator = new BMax(ofset);
             }
+
+            // Show the form and bring it to front
             bMaxCalculator.Show();
-            bMaxCalculator = new(ofset);
+            bMaxCalculator.BringToFront();
         }
 
         private void gMaxButton_Click(object sender, EventArgs e)
         {
-            if (gMaxCalculator is null)
+            if (gMaxCalculator == null || gMaxCalculator.IsDisposed)
             {
-                throw new Exception("gMaxCalculator is null");
+                gMaxCalculator = new GMax(ofset);  // create new if null or closed
             }
+
             gMaxCalculator.Show();
-            gMaxCalculator = new(ofset);
+            gMaxCalculator.BringToFront();
         }
 
         private void loadFileButton_Click(object sender, EventArgs e)
@@ -168,13 +174,17 @@ namespace orcToDh
 
         private void profileButton_Click(object sender, EventArgs e)
         {
-            if (profileCalculator is null)
+            // Create a new instance if it's null or has been disposed
+            if (profileCalculator == null || profileCalculator.IsDisposed)
             {
-                throw new Exception("profileCalculator is null");
+                profileCalculator = new Profile(ofset);
             }
+
+            // Show the form and bring it to front
             profileCalculator.Show();
-            profileCalculator = new(ofset);
+            profileCalculator.BringToFront();
         }
+
 
         private void label2_Click(object sender, EventArgs e)
         {
@@ -281,26 +291,98 @@ namespace orcToDh
 
         private void genReport_Click(object sender, EventArgs e)
         {
-            string filePath = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-        "TestPdf.pdf"
-    );
+            string name = Interaction.InputBox("Indtast bådtypen:", "Indtast bådtypen", "BÅD");
+            if (name == null || name.Length==0 || gMaxCalculator == null || bMaxCalculator == null || profileCalculator == null)
+                return;
+            string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), name + ".pdf");
 
             using (PdfWriter writer = new PdfWriter(filePath))
             {
                 using (PdfDocument pdf = new PdfDocument(writer))
                 {
-                    Document document = new Document(pdf);
+                    Document document = new Document(pdf, pdf.GetDefaultPageSize(), false); // false = ignore margins
+                    var pageSize = pdf.GetDefaultPageSize();
+                    float pageWidth = pageSize.GetWidth() - document.GetLeftMargin() - document.GetRightMargin();
+                    float pageHeight = pageSize.GetHeight() - document.GetTopMargin() - document.GetBottomMargin();
+                    
 
-                    document.Add(new Paragraph("Hello iText ð"));
-                    document.Add(new Paragraph("This is a test PDF generated on button click."));
-                    document.Add(new Paragraph($"Created at: {DateTime.Now}"));
-
+                    document.Add(new Paragraph("Båd type: " + name).SetFontSize(24));
+                    document.Add(new Paragraph(""));
+                    document.Add(new Paragraph(""));
+                    document.Add(new Paragraph(""));
+                    document.Add(new Paragraph("Bottom Filer: " + bottomFiletTextBox.Text));
+                    document.Add(new Paragraph("Mode: " + (useDH() ? "DH" : "ORC")));
+                    document.Add(new Paragraph("STF: " + sTFMesTextBox.Text));
+                    document.Add(new Paragraph("AF: " + aFMesTextBox.Text));
+                    document.Add(new Paragraph("BogG: " + BoG3TextBox.Text));
+                    document.Add(new Paragraph("Stævnpunkt: " + ofset.BowPointZ.ToString()));
+                    document.Add(new Paragraph("LOA: " + ofset.SternPointX.ToString()));
+                    document.Add(new Paragraph("Z station AF: " + ofset.SternPointZ.ToString()));
+                    document.Add(new Paragraph("FFM: " + fFMTextBox.Text));
+                    document.Add(new Paragraph("FAM: " + fAMTextBox.Text));
+                    document.Add(new Paragraph("X station FFM: " + ofset.XFFM.ToString()));
+                    document.Add(new Paragraph("FFM shear: " + ofset.WLZ_FFM.ToString()));
+                    document.Add(new Paragraph("X station FAM: " + ofset.XFAM.ToString()));
+                    document.Add(new Paragraph("FFM shear: " + ofset.WLZ_FAM.ToString()));
+                    document.Add(new Paragraph(""));
+                    document.Add(new Paragraph(""));
+                    document.Add(new Paragraph("GMax").SetFontSize(18));
+                    document.Add(new Paragraph(""));
+                    Image chartImageGMax = new Image(gMaxCalculator.getChart()).ScaleToFit(pageWidth, pageHeight).SetHorizontalAlignment(iText.Layout.Properties.HorizontalAlignment.CENTER);
+                    document.Add(chartImageGMax);
+                    document.Add(new Paragraph("Gmax: " + ofset.GMax));
+                    document.Add(new Paragraph("SGmax: " + ofset.bestGmaxStation.X));
+                    document.Add(new Paragraph("WLS: " + ofset.bestGmaxStation.WLZ));
+                    document.Add(new Paragraph("G: " + ofset.bestGmaxStation.G));
+                    document.Add(new Paragraph("Fribord: " + ofset.bestGmaxStation.FribordHoejde));
+                    document.Add(new Paragraph("Udfald: " + ofset.bestGmaxStation.Udfald));
+                    document.Add(new Paragraph("WLBredde (B): " + ofset.bestGmaxStation.WLBredde));
+                    document.Add(new Paragraph(""));
+                    document.Add(new Paragraph(""));
+                    document.Add(new Paragraph("Bmax").SetFontSize(18));
+                    document.Add(new Paragraph(""));
+                    Image chartImageBMax = new Image(bMaxCalculator.getChart()).ScaleToFit(pageWidth, pageHeight).SetHorizontalAlignment(iText.Layout.Properties.HorizontalAlignment.CENTER);
+                    document.Add(chartImageBMax);
+                    document.Add(new Paragraph("BMax: " + (ofset.bestBMaxStation.BMax*2)));
+                    document.Add(new Paragraph("SBmax: " + ofset.bestBMaxStation.X));
+                    document.Add(new Paragraph("WLZ: " + ofset.bestBMaxStation.WLZ));
+                    document.Add(new Paragraph("Fribord: " + ofset.bestBMaxStation.FribordHoejde));
+                    document.Add(new Paragraph("Udfald: " + ofset.bestBMaxStation.Udfald));
+                    document.Add(new Paragraph("WLBredde (B): " + ofset.bestBMaxStation.WLBredde));
+                    document.Add(new Paragraph(""));
+                    document.Add(new Paragraph(""));
+                    document.Add(new Paragraph("Profil").SetFontSize(18));
+                    document.Add(new Paragraph(""));
+                    Image chartImageProfil = new Image(profileCalculator.getChart()).SetRotationAngle(Math.PI / 2);
+                    chartImageProfil.ScaleToFit(pageHeight, pageWidth).SetHorizontalAlignment(iText.Layout.Properties.HorizontalAlignment.CENTER);
+                    document.Add(chartImageProfil);
+                    document.Add(new Paragraph("LOA: " + ofset.LOA));
+                    document.Add(new Paragraph("OF: " + ofset.OF));
+                    document.Add(new Paragraph("OA: " + ofset.OA));
+                    document.Add(new Paragraph("L: " + ofset.L));
+                    document.Add(new Paragraph(""));
+                    document.Add(new Paragraph(""));
+                    document.Add(new Paragraph("Oversigt").SetFontSize(18));
+                    document.Add(new Paragraph(""));
+                    document.Add(new Paragraph("Gmax: " + ofset.GMax));
+                    document.Add(new Paragraph("SGmax: " + ofset.bestGmaxStation.X));
+                    document.Add(new Paragraph("FB: " + ofset.bestGmaxStation.FribordHoejde));
+                    document.Add(new Paragraph(""));
+                    document.Add(new Paragraph("BMax: " + (ofset.bestBMaxStation.BMax * 2)));
+                    document.Add(new Paragraph("SBmax: " + ofset.bestBMaxStation.X));
+                    document.Add(new Paragraph("UDF: " + ofset.bestBMaxStation.Udfald));
+                    document.Add(new Paragraph(""));
+                    document.Add(new Paragraph("LOA: " + ofset.LOA));
+                    document.Add(new Paragraph("OF: " + ofset.OF));
+                    document.Add(new Paragraph("OA: " + ofset.OA));
+                    document.Add(new Paragraph(""));
+                    document.Add(new Paragraph("STF: " + sTFMesTextBox.Text));
+                    document.Add(new Paragraph("AF: " + aFMesTextBox.Text));
                     document.Close();
                 }
             }
 
-            MessageBox.Show("PDF generated successfully!");
+            MessageBox.Show("PDF generated successfully @" + filePath);
         }
     }
 }
