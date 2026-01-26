@@ -123,7 +123,7 @@ namespace orcToDh.Calculators
         public void modifyChartPoint(DataPoint chartPoint, int size = 8)
         {
             chartPoint.MarkerStyle = MarkerStyle.Circle;
-            chartPoint.MarkerSize = size;
+            chartPoint.MarkerSize = size+2;
         }
     }
 }

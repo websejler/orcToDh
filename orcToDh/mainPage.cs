@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+ï»¿using System.Runtime.InteropServices;
 using System.Runtime.Intrinsics.X86;
 using System.Text;
 using iText.Kernel.Pdf;
@@ -28,17 +28,23 @@ namespace orcToDh
             AllocConsole();
 #endif
 #if !DEBUG
-            Task.Run(() =>
-            {
-                if (UpdateDetection.CheckForUpdate())
-                {
-                    MessageBox.Show("Der er en opdatering tilgængelig");
-                }
-            });
+    Task.Run(() =>
+    {
+        if (UpdateDetection.CheckForUpdate())
+        {
+            MessageBox.Show("Der er en opdatering tilgængelig");
+        }
+    });
 #endif
+
+            this.Shown += MainPage_Shown; // Add this line
 
             loadFile();
             calculate();
+        }
+
+        private void MainPage_Shown(object sender, EventArgs e)
+        {
             this.BringToFront();
             this.Activate();
         }
@@ -52,14 +58,14 @@ namespace orcToDh
             int sTFMes;
             int fFM;
             int fAM;
-            int bottomFilter;
+            double bottomFilter;
             try
             {
                 aFMes = aFMesTextBox.Text == "" ? 0 : int.Parse(aFMesTextBox.Text);
                 sTFMes = sTFMesTextBox.Text == "" ? 0 : int.Parse(sTFMesTextBox.Text);
                 fFM = fFMTextBox.Text == "" ? 0 : int.Parse(fFMTextBox.Text);
                 fAM = fAMTextBox.Text == "" ? 0 : int.Parse(fAMTextBox.Text);
-                bottomFilter = bottomFiletTextBox.Text == "" ? 0 : int.Parse(bottomFiletTextBox.Text);
+                bottomFilter = bottomFiletTextBox.Text == "" ? 0 : Double.Parse(bottomFiletTextBox.Text);
             }
             catch (FormatException)
             {
@@ -73,7 +79,7 @@ namespace orcToDh
             bMaxCalculator = new(ofset);
             gMaxCalculator = new(ofset);
             profileCalculator = new(ofset);
-            bowpointLable.Text = "Stævnpunkt: " + ofset.BowPointZ.ToString();
+            bowpointLable.Text = "StÃ¦vnpunkt: " + ofset.BowPointZ.ToString();
             xStationAFLable.Text = "LOA: " + ofset.SternPointX.ToString();
             zStationAFlable.Text = "Z station AF: " + ofset.SternPointZ.ToString();
             xFFMlabel.Text = "X station FFM: " + ofset.XFFM.ToString();
@@ -128,7 +134,7 @@ namespace orcToDh
             {
                 throw new Exception("ofset is null");
             }
-            statusLable.Text = status + "Fil indlæst, klar til beregning";
+            statusLable.Text = status + "Fil indlÃ¦st, klar til beregning";
             bMAXButton.Enabled = true;
             gMaxButton.Enabled = true;
             profileButton.Enabled = true;
@@ -287,7 +293,7 @@ namespace orcToDh
                 {
                     Document document = new Document(pdf);
 
-                    document.Add(new Paragraph("Hello iText 👋"));
+                    document.Add(new Paragraph("Hello iText ð"));
                     document.Add(new Paragraph("This is a test PDF generated on button click."));
                     document.Add(new Paragraph($"Created at: {DateTime.Now}"));
 
