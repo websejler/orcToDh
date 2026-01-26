@@ -53,14 +53,13 @@
             chart.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             chart.Legends.Add(legend1);
-            chart.Location = new Point(17, 20);
-            chart.Margin = new Padding(4, 5, 4, 5);
+            chart.Location = new Point(12, 12);
             chart.Name = "chart";
             series1.ChartArea = "ChartArea1";
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             chart.Series.Add(series1);
-            chart.Size = new Size(904, 486);
+            chart.Size = new Size(633, 292);
             chart.TabIndex = 0;
             chart.Text = "chart1";
             // 
@@ -68,10 +67,9 @@
             // 
             gMaxLengthLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             gMaxLengthLabel.AutoSize = true;
-            gMaxLengthLabel.Location = new Point(13, 511);
-            gMaxLengthLabel.Margin = new Padding(4, 0, 4, 0);
+            gMaxLengthLabel.Location = new Point(9, 307);
             gMaxLengthLabel.Name = "gMaxLengthLabel";
-            gMaxLengthLabel.Size = new Size(148, 25);
+            gMaxLengthLabel.Size = new Size(99, 15);
             gMaxLengthLabel.TabIndex = 1;
             gMaxLengthLabel.Text = "GMax Line length";
             // 
@@ -79,10 +77,9 @@
             // 
             StationInfoLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             StationInfoLabel.AutoSize = true;
-            StationInfoLabel.Location = new Point(13, 536);
-            StationInfoLabel.Margin = new Padding(4, 0, 4, 0);
+            StationInfoLabel.Location = new Point(9, 322);
             StationInfoLabel.Name = "StationInfoLabel";
-            StationInfoLabel.Size = new Size(104, 25);
+            StationInfoLabel.Size = new Size(68, 15);
             StationInfoLabel.TabIndex = 5;
             StationInfoLabel.Text = "Station Info";
             // 
@@ -90,10 +87,9 @@
             // 
             wLZlabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             wLZlabel.AutoSize = true;
-            wLZlabel.Location = new Point(13, 561);
-            wLZlabel.Margin = new Padding(4, 0, 4, 0);
+            wLZlabel.Location = new Point(9, 337);
             wLZlabel.Name = "wLZlabel";
-            wLZlabel.Size = new Size(48, 25);
+            wLZlabel.Size = new Size(31, 15);
             wLZlabel.TabIndex = 6;
             wLZlabel.Text = "WLZ";
             // 
@@ -101,10 +97,9 @@
             // 
             fribordHoejdeLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             fribordHoejdeLabel.AutoSize = true;
-            fribordHoejdeLabel.Location = new Point(443, 511);
-            fribordHoejdeLabel.Margin = new Padding(4, 0, 4, 0);
+            fribordHoejdeLabel.Location = new Point(310, 307);
             fribordHoejdeLabel.Name = "fribordHoejdeLabel";
-            fribordHoejdeLabel.Size = new Size(123, 25);
+            fribordHoejdeLabel.Size = new Size(80, 15);
             fribordHoejdeLabel.TabIndex = 7;
             fribordHoejdeLabel.Text = "Fribord Højde";
             // 
@@ -112,10 +107,9 @@
             // 
             wLBreddelabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             wLBreddelabel.AutoSize = true;
-            wLBreddelabel.Location = new Point(443, 536);
-            wLBreddelabel.Margin = new Padding(4, 0, 4, 0);
+            wLBreddelabel.Location = new Point(310, 337);
             wLBreddelabel.Name = "wLBreddelabel";
-            wLBreddelabel.Size = new Size(98, 25);
+            wLBreddelabel.Size = new Size(64, 15);
             wLBreddelabel.TabIndex = 8;
             wLBreddelabel.Text = "WL Bredde";
             // 
@@ -123,10 +117,9 @@
             // 
             udfaldLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             udfaldLabel.AutoSize = true;
-            udfaldLabel.Location = new Point(443, 561);
-            udfaldLabel.Margin = new Padding(4, 0, 4, 0);
+            udfaldLabel.Location = new Point(310, 322);
             udfaldLabel.Name = "udfaldLabel";
-            udfaldLabel.Size = new Size(65, 25);
+            udfaldLabel.Size = new Size(42, 15);
             udfaldLabel.TabIndex = 9;
             udfaldLabel.Text = "Udfald";
             // 
@@ -134,12 +127,11 @@
             // 
             trackBar1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             trackBar1.LargeChange = 1;
-            trackBar1.Location = new Point(100, 649);
-            trackBar1.Margin = new Padding(4, 5, 4, 5);
+            trackBar1.Location = new Point(70, 389);
             trackBar1.Maximum = 5;
             trackBar1.Minimum = -5;
             trackBar1.Name = "trackBar1";
-            trackBar1.Size = new Size(170, 69);
+            trackBar1.Size = new Size(119, 45);
             trackBar1.TabIndex = 10;
             trackBar1.ValueChanged += trackBar1_ValueChanged;
             // 
@@ -147,10 +139,9 @@
             // 
             trackBarLabel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             trackBarLabel.AutoSize = true;
-            trackBarLabel.Location = new Point(278, 649);
-            trackBarLabel.Margin = new Padding(4, 0, 4, 0);
+            trackBarLabel.Location = new Point(195, 389);
             trackBarLabel.Name = "trackBarLabel";
-            trackBarLabel.Size = new Size(22, 25);
+            trackBarLabel.Size = new Size(13, 15);
             trackBarLabel.TabIndex = 11;
             trackBarLabel.Text = "0";
             // 
@@ -158,29 +149,27 @@
             // 
             label2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label2.AutoSize = true;
-            label2.Location = new Point(7, 649);
-            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Location = new Point(5, 389);
             label2.Name = "label2";
-            label2.Size = new Size(90, 25);
+            label2.Size = new Size(60, 15);
             label2.TabIndex = 12;
-            label2.Text = "station +-";
+            label2.Text = "Station +-";
             // 
             // gLable
             // 
             gLable.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             gLable.AutoSize = true;
-            gLable.Location = new Point(13, 586);
-            gLable.Margin = new Padding(4, 0, 4, 0);
+            gLable.Location = new Point(9, 352);
             gLable.Name = "gLable";
-            gLable.Size = new Size(24, 25);
+            gLable.Size = new Size(15, 15);
             gLable.TabIndex = 13;
             gLable.Text = "G";
             // 
             // GMax
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(938, 732);
+            ClientSize = new Size(657, 439);
             Controls.Add(gLable);
             Controls.Add(label2);
             Controls.Add(trackBarLabel);
@@ -192,7 +181,6 @@
             Controls.Add(StationInfoLabel);
             Controls.Add(gMaxLengthLabel);
             Controls.Add(chart);
-            Margin = new Padding(4, 5, 4, 5);
             Name = "GMax";
             Text = "GMax";
             Load += GMax_Load;

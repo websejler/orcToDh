@@ -30,7 +30,7 @@ namespace orcToDh.Calculators
             }
             i = i + index;
 
-          Station bestBMaxStation = ofsetFile.Stations[i]; ;
+            Station bestBMaxStation = ofsetFile.Stations[i];
             List<OffsetFile.DataPoint> bestBMaxDataPoints = bestBMaxStation.dataPoints;
             double bestBMaxHight = bestBMaxStation.BMaxZ;
             bestBMax = bestBMaxStation.BMax;
@@ -84,10 +84,10 @@ namespace orcToDh.Calculators
             this.bMax = bestBMax * 2;
 
             BMaxLabel.Text = "BMax: " + this.bMax.ToString();
-            PortStationLabel.Text = bestBMaxStation.SID.ToString() + " station: - x: " + bestBMaxStation.X;
+            PortStationLabel.Text = "SBmax: " + bestBMaxStation.X;
             wlZlabel.Text = "WLZ: " + bestBMaxStation.WLZ;
             fribordHoejdeLabel.Text = "Fribord: " + bestBMaxStation.FribordHoejde;
-            wLBreddelabel.Text = "WLBredde: " + bestBMaxStation.WLBredde;
+            wLBreddelabel.Text = "WLBredde (B): " + bestBMaxStation.WLBredde;
             udfaldLabel.Text = "Udfald: " + bestBMaxStation.Udfald;
 
 

@@ -54,6 +54,7 @@
             xFAMlabel = new Label();
             bottomFiletTextBox = new TextBox();
             label6 = new Label();
+            genReport = new Button();
             SuspendLayout();
             // 
             // openFileDialog1
@@ -74,9 +75,9 @@
             bMAXButton.Enabled = false;
             bMAXButton.Location = new Point(12, 71);
             bMAXButton.Name = "bMAXButton";
-            bMAXButton.Size = new Size(108, 23);
+            bMAXButton.Size = new Size(85, 23);
             bMAXButton.TabIndex = 2;
-            bMAXButton.Text = "Cal BMAX";
+            bMAXButton.Text = "Calc Bmax";
             bMAXButton.UseVisualStyleBackColor = true;
             bMAXButton.Click += bMAXButton_Click;
             // 
@@ -85,9 +86,9 @@
             gMaxButton.Enabled = false;
             gMaxButton.Location = new Point(12, 100);
             gMaxButton.Name = "gMaxButton";
-            gMaxButton.Size = new Size(108, 23);
+            gMaxButton.Size = new Size(85, 23);
             gMaxButton.TabIndex = 3;
-            gMaxButton.Text = "Cal GMax";
+            gMaxButton.Text = "Calc Gmax";
             gMaxButton.UseVisualStyleBackColor = true;
             gMaxButton.Click += gMaxButton_Click;
             // 
@@ -104,7 +105,7 @@
             // 
             loadFileButton.Location = new Point(12, 27);
             loadFileButton.Name = "loadFileButton";
-            loadFileButton.Size = new Size(108, 23);
+            loadFileButton.Size = new Size(85, 23);
             loadFileButton.TabIndex = 5;
             loadFileButton.Text = "Load file";
             loadFileButton.UseVisualStyleBackColor = true;
@@ -115,7 +116,7 @@
             profileButton.BackgroundImageLayout = ImageLayout.Stretch;
             profileButton.Location = new Point(12, 129);
             profileButton.Name = "profileButton";
-            profileButton.Size = new Size(108, 23);
+            profileButton.Size = new Size(85, 23);
             profileButton.TabIndex = 6;
             profileButton.Text = "Show profile";
             profileButton.UseVisualStyleBackColor = true;
@@ -126,7 +127,7 @@
             label1.AutoSize = true;
             label1.Location = new Point(445, 51);
             label1.Name = "label1";
-            label1.Size = new Size(25, 15);
+            label1.Size = new Size(26, 15);
             label1.TabIndex = 7;
             label1.Text = "STF";
             // 
@@ -172,7 +173,7 @@
             xStationAFLable.AutoSize = true;
             xStationAFLable.Location = new Point(613, 81);
             xStationAFLable.Name = "xStationAFLable";
-            xStationAFLable.Size = new Size(67, 15);
+            xStationAFLable.Size = new Size(66, 15);
             xStationAFLable.TabIndex = 12;
             xStationAFLable.Text = "xStation AF";
             xStationAFLable.Click += xStationAFLable_Click;
@@ -201,9 +202,9 @@
             label4.AutoSize = true;
             label4.Location = new Point(435, 109);
             label4.Name = "label4";
-            label4.Size = new Size(35, 15);
+            label4.Size = new Size(36, 15);
             label4.TabIndex = 14;
-            label4.Text = "BoG3";
+            label4.Text = "BogG";
             label4.Click += label4_Click;
             // 
             // fAMTextBox
@@ -273,7 +274,7 @@
             xFFMlabel.AutoSize = true;
             xFFMlabel.Location = new Point(613, 161);
             xFFMlabel.Name = "xFFMlabel";
-            xFFMlabel.Size = new Size(76, 15);
+            xFFMlabel.Size = new Size(75, 15);
             xFFMlabel.TabIndex = 24;
             xFFMlabel.Text = "xStation FFM";
             // 
@@ -282,7 +283,7 @@
             xFAMlabel.AutoSize = true;
             xFAMlabel.Location = new Point(613, 190);
             xFAMlabel.Name = "xFAMlabel";
-            xFAMlabel.Size = new Size(77, 15);
+            xFAMlabel.Size = new Size(76, 15);
             xFAMlabel.TabIndex = 25;
             xFAMlabel.Text = "xStation FAM";
             // 
@@ -304,11 +305,22 @@
             label6.TabIndex = 26;
             label6.Text = "Bottom Filter";
             // 
+            // genReport
+            // 
+            genReport.Location = new Point(12, 161);
+            genReport.Name = "genReport";
+            genReport.Size = new Size(122, 23);
+            genReport.TabIndex = 28;
+            genReport.Text = "Generate Report";
+            genReport.UseVisualStyleBackColor = true;
+            genReport.Click += genReport_Click;
+            // 
             // mainPage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(990, 637);
+            ClientSize = new Size(990, 723);
+            Controls.Add(genReport);
             Controls.Add(bottomFiletTextBox);
             Controls.Add(label6);
             Controls.Add(xFAMlabel);
@@ -368,5 +380,6 @@
         private Label xFAMlabel;
         private TextBox bottomFiletTextBox;
         private Label label6;
+        private Button genReport;
     }
 }
